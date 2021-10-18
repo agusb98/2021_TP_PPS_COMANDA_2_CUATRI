@@ -1,0 +1,57 @@
+<ion-content>
+  <ion-img src="assets/images/icon.png"></ion-img>
+  <ion-card>
+    <ion-card-content>
+
+      <form [formGroup]="form" (ngSubmit)="onLogin()">
+        <div class="wrapform">
+          <ion-item>
+            <ion-input type="text" name="email" formControlName="email" placeholder="Email">
+              <ion-icon name="mail-outline"></ion-icon>
+            </ion-input>
+          </ion-item>
+          <div>
+            <ng-container *ngFor="let validation of validationUserMessage.email">
+              <div class="error_message"
+                *ngIf="form.get('email').hasError(validation.type) && (form.get('email').dirty || form.get('email').touched)">
+                {{validation.message}}
+              </div>
+            </ng-container>
+          </div>
+
+          <ion-item>
+            <ion-input type="password" name="password" formControlName="password" placeholder="**************">
+              <ion-icon name="lock-closed"></ion-icon>
+            </ion-input>
+          </ion-item>
+
+          <div>
+            <ng-container *ngFor="let validation of validationUserMessage.password">
+              <div class="error_message"
+                *ngIf="form.get('password').hasError(validation.type) && (form.get('password').dirty || form.get('password').touched)">
+                {{validation.message}}
+              </div>
+            </ng-container>
+          </div>
+
+        </div>
+
+        <ion-button shape="round" type="submit" fill="solid" class="sign-btn" [disabled]="!form.valid">
+          Ingresar</ion-button>
+
+        <ion-item class="divUsuarios" color="none" lines="none">
+          <ion-icon id="icon-user" name="logo-reddit" *ngFor="let user of this.users"
+            (click)="selectUser(user)">
+          </ion-icon>
+        </ion-item>
+
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <p>¿No tienes una cuenta?</p>
+  <ion-button (click)="onRegister()" size="small" shape="round" fill="solid" class="sign-btn">
+    Regístrate</ion-button>
+</ion-footer>
