@@ -1,14 +1,11 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
+  
   <div class="" *ngFor="let user of this.users$ | async as users">
-    <p>{{ user.nombre }}</p>
+    <ion-fab vertical="top" horizontal="start">
+      <ion-fab-button>
+        <img src="{{ user.img }}" alt="">
+      </ion-fab-button>
+    </ion-fab>
   </div>
 </ion-content>
 

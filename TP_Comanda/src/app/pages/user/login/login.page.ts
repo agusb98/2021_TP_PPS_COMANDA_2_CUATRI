@@ -58,11 +58,9 @@ export class LoginPage implements OnInit {
   }
 
   get email() { return this.form.get('email').value; }
-
-  get password() { return this.form.get('password').value; }
-
   set email(str: string) { this.form.controls['email'].setValue(str); }
 
+  get password() { return this.form.get('password').value; }
   set password(str: string) { this.form.controls['password'].setValue(str); }
 
   selectUser(user) {
