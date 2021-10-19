@@ -1,23 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RegisterRoutingModule } from './register-routing.module';
 import { IonicModule } from '@ionic/angular';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { RegisterPageRoutingModule } from './register-routing.module';
-import { RegisterPage } from './register.page';
-
-import { Vibration } from '@ionic-native/vibration/ngx';
-
 @NgModule({
+  declarations: [],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IonicModule,
-    RegisterPageRoutingModule
+    RegisterRoutingModule,
+    IonicModule
   ],
-  declarations: [RegisterPage],
-  providers: [Vibration]
 })
-export class RegisterPageModule { }
+export class RegisterModule { }

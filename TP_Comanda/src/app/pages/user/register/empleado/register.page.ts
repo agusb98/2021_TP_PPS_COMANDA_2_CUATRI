@@ -6,30 +6,21 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-register-empleado',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
 })
 
-export class LoginPage implements OnInit {
+export class RegisterPage implements OnInit {
   form: FormGroup;
-
-  users = [
-    { "email": "duenio@duenio.com", "password": "111111" },
-    { "email": "supervisor@supervisor.com", "password": "222222" },
-    { "email": "metre@metre.com", "password": "333333" },
-    { "email": "mozo@mozo.com", "password": "444444" },
-    { "email": "cocinero@cocinero.com", "password": "555555" },
-    { "email": "bartender@bartender.com", "password": "666666" },
-  ]
 
   validationUserMessage = {
     email: [
-      { type: "required", message: "Por favor, ingrese su correo" },
+      { type: "required", message: "Por favor, ingrese correo" },
       { type: "pattern", message: "El correo ingresado es incorrecto, inténtelo de nuevo!" }
     ],
     password: [
-      { type: "required", message: "Por favor, ingrese su contraseña" },
+      { type: "required", message: "Por favor, ingrese contraseña" },
       { type: "minlength", message: "La contraseña debe tener 6 caractéres o más" }
     ]
   }
@@ -65,27 +56,25 @@ export class LoginPage implements OnInit {
 
   set password(str: string) { this.form.controls['password'].setValue(str); }
 
-  selectUser(user) {
-    this.email = user.email;
-    this.password = user.password;
-  }
-
-  async onLogin() {
-    const user = await this.authService.login(this.email, this.password);
+  async onRegister() {
+    const user = await this.authService.register(this.email, this.password);
     if (user) {
       this.vibration.vibrate([1000, 500, 1000]);
-      this.toastr.success('Ingreso con Exito', 'Iniciar Sesión');
+      this.toastr.success('Bienvenido!', 'Registro de Usuario');
       this.redirectTo('home');
     }
     else {
       this.vibration.vibrate([1000]);
-      this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión');
+      this.toastr.error("Datos ingresados incorrectos", 'Registro de Usuario');
     }
   }
 
   redirectTo(path: string) {
     this.router.navigate([path]);
+    this.ngOnDestroy();
   }
+
+  ngOnDestroy() { this.form = null; }
 
   /* async onLoginGoogle() {
     try {

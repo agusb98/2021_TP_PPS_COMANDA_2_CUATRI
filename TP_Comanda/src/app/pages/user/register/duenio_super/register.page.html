@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-img src="assets/images/icon.png"></ion-img>
+  <ion-img src="assets/img/icon.png"></ion-img>
   <ion-card>
     <ion-card-content>
 
@@ -39,19 +39,13 @@
         <ion-button shape="round" type="submit" fill="solid" class="sign-btn" [disabled]="!form.valid">
           Ingresar</ion-button>
 
-        <ion-item class="divUsuarios" color="none" lines="none">
-          <ion-icon id="icon-user" name="logo-reddit" *ngFor="let user of this.users"
-            (click)="selectUser(user)">
-          </ion-icon>
-        </ion-item>
-
       </form>
     </ion-card-content>
   </ion-card>
 </ion-content>
 
 <ion-footer>
-  <p>¿No tienes una cuenta?</p>
-  <ion-button (click)="redirectTo('user/register/cliente')" size="small" shape="round" fill="solid" class="sign-btn">
-    Regístrate</ion-button>
+  <p>¿Tienes una cuenta?</p>
+  <ion-button (click)="redirectTo('user/login')" size="small" shape="round" type="submit" fill="solid" class="sign-btn">
+    Inicia Sesíon</ion-button>
 </ion-footer>

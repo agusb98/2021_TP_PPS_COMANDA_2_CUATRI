@@ -1,17 +1,28 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { RegisterPage } from './register.page';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from 'src/app/guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    component: RegisterPage
+    path: 'cliente',
+    loadChildren: () => import('./cliente/register.module').then(m => m.RegisterPageModule),
+  },
+  {
+    path: 'anonimo',
+    loadChildren: () => import('./anonimo/register.module').then(m => m.RegisterPageModule),
+  },
+  {
+    path: 'duenio',
+    loadChildren: () => import('./duenio_super/register.module').then(m => m.RegisterPageModule),
+  },
+  {
+    path: 'empleado',
+    loadChildren: () => import('./empleado/register.module').then(m => m.RegisterPageModule),
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class RegisterPageRoutingModule { }
+export class RegisterRoutingModule { }

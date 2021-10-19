@@ -45,8 +45,7 @@
 </ion-content>
 
 <ion-footer>
-  <p>¿No tienes una cuenta?</p>
-  <ion-button (click)="onRegister()" size="small" shape="round" type="submit" fill="solid" class="sign-btn"
-    [disabled]="!form.valid">
-    Regístrate</ion-button>
+  <p>¿Tienes una cuenta?</p>
+  <ion-button (click)="redirectTo('user/login')" size="small" shape="round" type="submit" fill="solid" class="sign-btn">
+    Inicia Sesíon</ion-button>
 </ion-footer>
