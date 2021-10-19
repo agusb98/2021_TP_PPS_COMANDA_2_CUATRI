@@ -8,7 +8,13 @@
 
   <ion-card id="card-img">
     <ion-card-content>
-      <img src="{{ this.pic }}" alt="">
+
+      <img *ngIf="this.img; else no_img" src="{{ this.img }}" alt="">
+
+      <ng-template #no_img>
+        <img src="assets/images/default.jpg" alt="">
+      </ng-template>
+
     </ion-card-content>
   </ion-card>
 
@@ -18,13 +24,13 @@
       <form [formGroup]="form" (ngSubmit)="onRegister()">
         <ion-fab (click)="scannQR()" vertical="top" horizontal="end" slot="fixed">
           <ion-fab-button>
-            <ion-icon name="qr"></ion-icon>
+            <ion-icon name="barcode"></ion-icon>
           </ion-fab-button>
         </ion-fab>
 
         <ion-item>
           <ion-input type="text" name="name" formControlName="name" placeholder="Nombre">
-            <ion-icon name="mail-outline"></ion-icon>
+            <ion-icon name="logo-reddit"></ion-icon>
           </ion-input>
         </ion-item>
 
@@ -37,7 +43,7 @@
 
         <ion-item>
           <ion-input type="text" name="surname" formControlName="surname" placeholder="Apellido">
-            <ion-icon name="mail-outline"></ion-icon>
+            <ion-icon name="logo-reddit"></ion-icon>
           </ion-input>
         </ion-item>
 
@@ -50,7 +56,7 @@
 
         <ion-item>
           <ion-input type="number" name="dni" formControlName="dni" placeholder="DNI">
-            <ion-icon name="mail-outline"></ion-icon>
+            <ion-icon name="logo-reddit"></ion-icon>
           </ion-input>
         </ion-item>
 
@@ -63,7 +69,7 @@
 
         <ion-item>
           <ion-input type="number" name="cuil" formControlName="cuil" placeholder="CUIL">
-            <ion-icon name="mail-outline"></ion-icon>
+            <ion-icon name="logo-reddit"></ion-icon>
           </ion-input>
         </ion-item>
 
@@ -75,9 +81,11 @@
         </ng-container>
 
         <ion-item>
-          <ion-label>Perfil</ion-label>
+          <ion-label>
+            <ion-icon name="logo-reddit"></ion-icon>
+          </ion-label>
 
-          <ion-select name="profile" formControlName="profile" okText="Confirmar" cancelText="Cancelar">
+          <ion-select placeholder="Perfil" name="profile" formControlName="profile" okText="Confirmar" cancelText="Cancelar">
             <ion-select-option *ngFor="let e of this.listEmployees">{{ e.kynd }}</ion-select-option>
           </ion-select>
         </ion-item>
