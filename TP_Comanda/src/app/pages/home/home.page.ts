@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+
+// Models
 import { Duenio } from 'src/app/models/duenio';
-import { User } from 'src/app/models/user';
+
+// Services
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 

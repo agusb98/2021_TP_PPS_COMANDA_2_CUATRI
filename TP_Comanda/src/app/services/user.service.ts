@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { map } from 'rxjs/operators';
-import { Anonimo } from '../models/anotimo';
+import { Anonimo } from '../models/anonimo';
 import { Cliente } from '../models/cliente';
 import { Duenio } from '../models/duenio';
 import { Empleado } from '../models/empleado';
