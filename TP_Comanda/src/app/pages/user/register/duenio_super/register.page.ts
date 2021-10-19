@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 @Component({
   selector: 'app-register-duenio_super',
@@ -60,7 +61,8 @@ export class RegisterPage implements OnInit {
     private authService: AuthService,
     private router: Router,
     private vibration: Vibration,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private barcodeScanner: BarcodeScanner,
   ) { }
 
   ngOnInit() { this.validateForm(); }
@@ -102,10 +104,25 @@ export class RegisterPage implements OnInit {
   get password() { return this.form.get('password').value; }
   set password(str: string) { this.form.controls['password'].setValue(str); }
 
+  scannQR() {
+    const options = { prompt: 'Escaneá el DNI', formats: 'PDF_417' };
 
+    try {
+      this.barcodeScanner.scan(options).then(barcodeData => {
+        const data = barcodeData.text.split('@');
+
+        this.name = data[2];
+        this.dni = + data[4]; //needs to be number
+        this.surname = data[1];
+        this.cuil = + ('20' + this.dni + '7');  //generate cuil auto
+      });
+    }
+    catch (error) { }
+  }
 
 
   async onRegister() {
+    console.log(this.dni);
     // const user = await this.authService.register(this.email, this.password);
     // if (user) {
     //   this.vibration.vibrate([1000, 500, 1000]);

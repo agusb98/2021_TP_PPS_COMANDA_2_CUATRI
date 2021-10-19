@@ -16,6 +16,12 @@
     <ion-card-content>
 
       <form [formGroup]="form" (ngSubmit)="onRegister()">
+        <ion-fab (click)="scannQR()" vertical="top" horizontal="end" slot="fixed">
+          <ion-fab-button>
+            <ion-icon name="qr"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+
         <ion-item>
           <ion-input type="text" name="name" formControlName="name" placeholder="Nombre">
             <ion-icon name="mail-outline"></ion-icon>
