@@ -13,6 +13,12 @@ import { AuthService } from 'src/app/services/auth.service';
 
 export class RegisterPage implements OnInit {
   form: FormGroup;
+  pic: string = 'assets/images/default.jpg';
+
+  listEmployees = [
+    { kynd: 'DUENIO' },
+    { kynd: 'SUPERVISOR' },
+  ]
 
   validationUserMessage = {
     name: [
@@ -100,16 +106,16 @@ export class RegisterPage implements OnInit {
 
 
   async onRegister() {
-    const user = await this.authService.register(this.email, this.password);
-    if (user) {
-      this.vibration.vibrate([1000, 500, 1000]);
-      this.toastr.success('Bienvenido!', 'Registro de Usuario');
-      this.redirectTo('home');
-    }
-    else {
-      this.vibration.vibrate([1000]);
-      this.toastr.error("Datos ingresados incorrectos", 'Registro de Usuario');
-    }
+    // const user = await this.authService.register(this.email, this.password);
+    // if (user) {
+    //   this.vibration.vibrate([1000, 500, 1000]);
+    //   this.toastr.success('Bienvenido!', 'Registro de Usuario');
+    //   this.redirectTo('home');
+    // }
+    // else {
+    //   this.vibration.vibrate([1000]);
+    //   this.toastr.error("Datos ingresados incorrectos", 'Registro de Usuario');
+    // }
   }
 
   redirectTo(path: string) {
