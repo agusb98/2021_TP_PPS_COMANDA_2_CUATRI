@@ -1,5 +1,6 @@
-import { Duenio } from "./duenio";
+import { User } from "./user";
 
-export class Supervisor extends Duenio { 
-    perfil = 'SUPERVISOR';
+export class Supervisor extends User {
+    perfil: 'SUPERVISOR' = 'SUPERVISOR';
+    cuil: number;
 }

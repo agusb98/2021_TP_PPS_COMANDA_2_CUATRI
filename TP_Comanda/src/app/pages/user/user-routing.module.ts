@@ -8,10 +8,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('../../pages/user/login/login.module').then(m => m.LoginPageModule),
   },
-  {
-    path: 'register',
-    loadChildren: () => import('../../pages/user/register/register.module').then(m => m.RegisterPageModule),
-  },
+  { path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterModule) },
   {
     path: 'logout',
     loadChildren: () => import('../../pages/user/logout/logout.module').then(m => m.LogoutPageModule), canActivate: [AuthGuard]

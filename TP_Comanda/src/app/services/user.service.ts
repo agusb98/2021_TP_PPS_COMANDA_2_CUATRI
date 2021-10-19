@@ -6,7 +6,7 @@ import { Cliente } from '../models/cliente';
 import { Duenio } from '../models/duenio';
 import { Empleado } from '../models/empleado';
 import { Supervisor } from '../models/supervisor';
-import { User } from '../models/user';
+import { combineLatest, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,41 +19,53 @@ export class UserService {
 
   constructor(private bd: AngularFirestore) {
     this.referenceToCollection =
-      this.bd.collection<Anonimo | Cliente | Duenio | Empleado | Supervisor>
+      this.bd.collection<Duenio | Supervisor | Cliente | Empleado | Anonimo>
         (this.pathOfCollection, ref => ref.orderBy('fecha_creacion', 'asc'));
   }
 
-  public async createOne(model: User) {
+  public async createOne(model: Duenio | Supervisor | Cliente | Empleado | Anonimo) {
     try {
-      const result = await this.referenceToCollection.add({ ...model });  //  llaves es objeto, 3 puntitos es dinamico
+      model.id = this.bd.createId();
+      const result = this.referenceToCollection.doc(model.id).set({ ...model });  //  llaves es objeto, 3 puntitos es dinamico
       return result;
     }
     catch (error) { }
     return;
   }
 
-  public checkMessage(message: Message): boolean {
-    if (message.message.length < 1 || message.message.length > 22) {
-      return false;
+  getDuenios() {
+    return this.getByPerfil('DUENIO') as Observable<Duenio[]>;
+  }
+
+  getSupervisores() {
+    return this.getByPerfil('SUPERVISOR') as Observable<Supervisor[]>;
+  }
+
+  getClientes() {
+    return this.getByPerfil('CLIENTE') as Observable<Cliente[]>;
+  }
+
+  getEmpleados() {
+    return this.getByPerfil('EMPLEADO') as Observable<Empleado[]>;
+  }
+
+  getAnonimos() {
+    return this.getByPerfil('ANONIMO') as Observable<Anonimo[]>;
+  }
+
+  private getByPerfil(perfil: string) {
+    try {
+      return this.getAll().pipe(
+        map(users => users.filter(u => u.perfil.includes(perfil))));
     }
-    return true;
+    catch (error) { }
   }
 
   getAll() {
     try {
       return this.referenceToCollection.snapshotChanges().pipe(
-        map(actions => actions.map(a => a.payload.doc.data() as Message))
+        map(users => users.map(a => a.payload.doc.data()))
       );
-    }
-    catch (error) { }
-  }
-
-  getAllByClass(className: string) {
-    try {
-      return this.getAll().pipe(
-        map(messages => messages.
-          filter(m => m.class.
-            includes(className))));
     }
     catch (error) { }
   }

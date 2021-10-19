@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-register-anonimo',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
@@ -16,11 +16,11 @@ export class RegisterPage implements OnInit {
 
   validationUserMessage = {
     email: [
-      { type: "required", message: "Por favor, ingrese su correo" },
+      { type: "required", message: "Por favor, ingrese correo" },
       { type: "pattern", message: "El correo ingresado es incorrecto, inténtelo de nuevo!" }
     ],
     password: [
-      { type: "required", message: "Por favor, ingrese su contraseña" },
+      { type: "required", message: "Por favor, ingrese contraseña" },
       { type: "minlength", message: "La contraseña debe tener 6 caractéres o más" }
     ]
   }
@@ -56,42 +56,25 @@ export class RegisterPage implements OnInit {
 
   set password(str: string) { this.form.controls['password'].setValue(str); }
 
-  seleccionarUsuario(user) {
-    this.email = user.email;
-    this.password = user.password;
-  }
-
-  async onLogin() {
-    try {
-      const user = await this.authService.login(this.email, this.password);
-      if (user) {
-        localStorage.setItem('email', this.email); //Save user data in the local storage
-        this.vibration.vibrate([1000, 500, 1000]);
-        this.toastr.success('Ingreso con Exito', 'Iniciar Sesión');
-        this.router.navigate(['room']);
-      }
-    }
-    catch (error) {
-      this.vibration.vibrate([1000]);
-      this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión');
-    }
-  }
-
   async onRegister() {
-    try {
-      const user = await this.authService.register(this.email, this.password);
-      if (user) {
-        localStorage.setItem('email', this.email); //Save user data in the local storage
-        this.vibration.vibrate([1000, 500, 1000]);
-        this.toastr.success('Bienvenido!', 'Registro de Usuario');
-        this.router.navigate(['room']);
-      }
+    const user = await this.authService.register(this.email, this.password);
+    if (user) {
+      this.vibration.vibrate([1000, 500, 1000]);
+      this.toastr.success('Bienvenido!', 'Registro de Usuario');
+      this.redirectTo('home');
     }
-    catch (error) {
+    else {
       this.vibration.vibrate([1000]);
-      this.toastr.error(error.message, 'Registro de Usuario');
+      this.toastr.error("Datos ingresados incorrectos", 'Registro de Usuario');
     }
   }
+
+  redirectTo(path: string) {
+    this.router.navigate([path]);
+    this.ngOnDestroy();
+  }
+
+  ngOnDestroy() { this.form = null; }
 
   /* async onLoginGoogle() {
     try {
