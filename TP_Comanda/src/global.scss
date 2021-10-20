@@ -25,10 +25,10 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-// @font-face {
-//     font-family: "PermanentMarker";
-//     src: url("./assets/fonts/PermanentMarker-Regular.ttf");
-// }
+@font-face {
+    font-family: "RampartOne";
+    src: url("./assets/fonts/RampartOne-Regular.ttf");
+}
 
 body {
   --ion-background-color: linear-gradient(135deg, rgb(124 124 124) 25%, transparent 25%) -50px 0, linear-gradient(225deg, rgb(108 108 108) 25%, transparent 25%) -50px 0, linear-gradient(315deg, rgb(110, 110, 110) 25%, transparent 25%), linear-gradient(45deg, rgb(100 97 97) 25%, transparent 25%);
@@ -48,12 +48,12 @@ ion-card-subtitle,
 ion-card-title,
 .alert-title,
 .alert-radio-label {
-  font-family: "PermanentMarker" !important;
+  font-family: "RampartOne" !important;
   color: #251e93 !important;
 }
 
 .alert-button-inner{
-  font-family: "PermanentMarker" !important;
+  font-family: "RampartOne" !important;
 }
 
 ion-content,
