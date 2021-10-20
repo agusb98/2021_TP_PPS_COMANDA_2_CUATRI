@@ -1,0 +1,27 @@
+img {
+  animation-name: animacionLogo;
+  animation-duration: 7s;
+  width: 60%;
+}
+
+.trian{
+  top: 38%;
+  left: 21.5%;
+}
+
+p {
+  font-size: 2rem;
+  animation-duration: 4s;
+  animation-name: fadeIn;
+}
+
+ion-footer{
+  text-align: center;
+}
+
+.slide-in-fwd-center{-webkit-animation:slide-in-fwd-center 3s ease-out 3s both;animation:slide-in-fwd-center 3s ease-out 3s both}
+@-webkit-keyframes slide-in-fwd-center{0%{-webkit-transform:translateZ(-1400px);transform:translateZ(-1400px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}@keyframes slide-in-fwd-center{0%{-webkit-transform:translateZ(-1400px);transform:translateZ(-1400px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}
+
+.heartbeat{-webkit-animation:heartbeat 1s linear 2s 2 both;animation:heartbeat 1s linear 2s 2 both}
+@-webkit-keyframes heartbeat{from{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:center center;transform-origin:center center;-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}10%{-webkit-transform:scale(.91);transform:scale(.91);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}17%{-webkit-transform:scale(.98);transform:scale(.98);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}33%{-webkit-transform:scale(.87);transform:scale(.87);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}45%{-webkit-transform:scale(1);transform:scale(1);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}}@keyframes heartbeat{from{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:center center;transform-origin:center center;-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}10%{-webkit-transform:scale(.91);transform:scale(.91);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}17%{-webkit-transform:scale(.98);transform:scale(.98);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}33%{-webkit-transform:scale(.87);transform:scale(.87);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}45%{-webkit-transform:scale(1);transform:scale(1);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}}
+
