@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { Duenio } from 'src/app/models/duenio';
 
 // Services
-import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -20,7 +19,6 @@ export class HomePage implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
     private userService: UserService
   ) { }
 
@@ -28,8 +26,7 @@ export class HomePage implements OnInit {
     this.users$ = this.userService.getDuenios();
   }
 
-  onLogout() {
-    this.authService.logout();
-    this.router.navigate(['user/login']);
+  redirectTo(path: string) {
+    this.router.navigate([path]);
   }
 }

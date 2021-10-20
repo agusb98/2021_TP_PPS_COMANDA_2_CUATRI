@@ -71,10 +71,8 @@ export class RegisterPage implements OnInit {
 
   redirectTo(path: string) {
     this.router.navigate([path]);
-    this.ngOnDestroy();
   }
 
-  ngOnDestroy() { this.form = null; }
 
   /* async onLoginGoogle() {
     try {

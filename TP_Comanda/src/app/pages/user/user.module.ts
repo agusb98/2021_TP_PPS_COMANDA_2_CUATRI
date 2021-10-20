@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { UserRoutingModule } from './user-routing.module';
 import { IonicModule } from '@ionic/angular';
+import { Vibration } from '@ionic-native/vibration/ngx';
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
+    IonicModule,
     UserRoutingModule,
-    IonicModule
   ],
+  providers: [Vibration]
 })
 export class UserModule { }
