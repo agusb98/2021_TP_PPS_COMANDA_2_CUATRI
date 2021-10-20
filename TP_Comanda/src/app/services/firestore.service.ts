@@ -6,9 +6,6 @@ import { finalize } from 'rxjs/operators';
   providedIn: 'root'
 })
 
-/* 
-Servicio no está siendo utilizado
- */
 export class FirestorageService {
 
   constructor(private storage: AngularFireStorage) { }

@@ -123,7 +123,7 @@
           </div>
         </ng-container>
 
-        <ion-button shape="round" type="submit" fill="solid" class="sign-btn">
+        <ion-button shape="round" type="submit" fill="solid" class="sign-btn" [disabled]="!form.valid">
           Registrar</ion-button>
 
       </form>

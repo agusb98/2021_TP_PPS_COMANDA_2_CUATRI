@@ -8,6 +8,8 @@ import { Supervisor } from 'src/app/models/supervisor';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { QrService } from 'src/app/services/qr.service';
+import { FirestorageService } from 'src/app/services/firestore.service';
 
 @Component({
   selector: 'app-register-duenio_super',
@@ -65,6 +67,7 @@ export class RegisterPage implements OnInit {
   }
 
   constructor(
+    private qr: QrService,
     private camera: Camera,
     private router: Router,
     private vibration: Vibration,
@@ -72,6 +75,7 @@ export class RegisterPage implements OnInit {
     private formbuider: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
+    private storage: FirestorageService
   ) { }
 
   ngOnInit() { this.validateForm(); }
@@ -82,7 +86,7 @@ export class RegisterPage implements OnInit {
       surname: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
       dni: new FormControl('', Validators.compose([Validators.required, Validators.min(11111111), Validators.max(99999999)])),
       cuil: new FormControl('', Validators.compose([Validators.required, Validators.min(11111111111), Validators.max(99999999999)])),
-      img: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ]+$')])),
+      img: new FormControl('', Validators.compose([Validators.required])),
       profile: new FormControl('', Validators.compose([Validators.required])),
       email: new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'), Validators.maxLength(35)])),
       password: new FormControl('', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(15)])),
@@ -90,46 +94,40 @@ export class RegisterPage implements OnInit {
   }
 
   get name() { return this.form.get('name').value; }
-  set name(str: string) { this.form.controls['name'].setValue(str); }
+  set name(data: string) { this.form.controls['name'].setValue(data); }
 
   get surname() { return this.form.get('surname').value; }
-  set surname(str: string) { this.form.controls['surname'].setValue(str); }
+  set surname(data: string) { this.form.controls['surname'].setValue(data); }
 
   get dni() { return this.form.get('dni').value; }
-  set dni(str: number) { this.form.controls['dni'].setValue(str); }
+  set dni(data: number) { this.form.controls['dni'].setValue(data); }
 
   get cuil() { return this.form.get('cuil').value; }
-  set cuil(str: number) { this.form.controls['cuil'].setValue(str); }
+  set cuil(data: number) { this.form.controls['cuil'].setValue(data); }
 
   get img() { return this.form.get('img').value; }
-  set img(str: string) { this.form.controls['img'].setValue(str); }
+  set img(data: string) { this.form.controls['img'].setValue(data); }
 
   get profile() { return this.form.get('profile').value; }
-  set profile(str: string) { this.form.controls['profile'].setValue(str); }
+  set profile(data: string) { this.form.controls['profile'].setValue(data); }
 
   get email() { return this.form.get('email').value; }
-  set email(str: string) { this.form.controls['email'].setValue(str); }
+  set email(data: string) { this.form.controls['email'].setValue(data); }
 
   get password() { return this.form.get('password').value; }
-  set password(str: string) { this.form.controls['password'].setValue(str); }
+  set password(data: string) { this.form.controls['password'].setValue(data); }
 
   scannQR() {
-    /* const options = { prompt: 'Escaneá el DNI', formats: 'PDF_417' };
-
-    try {
-      this.barcodeScanner.scan(options).then(barcodeData => {
-        const data = barcodeData.text.split('@');
-
-        this.name = data[2];
-        this.dni = + data[4]; //needs to be number
-        this.surname = data[1];
-        this.cuil = + ('20' + this.dni + '7');  //generate cuil auto
-      });
-    }
-    catch (error) { } */
+    this.qr.getDNI().then((json) => {
+      this.name = json['name'];
+      this.surname = json['surname'];
+      this.dni = json['dni'];
+      this.cuil = json['cuil'];
+    });
   }
 
   takePic() {
+    //this.img = 'https://avatars.githubusercontent.com/u/61479841?v=4';
     let options: CameraOptions = {
       destinationType: this.camera.DestinationType.DATA_URL,
       targetWidth: 500,
@@ -145,6 +143,7 @@ export class RegisterPage implements OnInit {
   async onRegister() {
     const auth = this.authService.register(this.email, this.password);
     if (auth) {
+      //this.img = await this.storage.saveFile(this.img, 'users', new Date().getTime() + '.png');
       const user = this.getDataUser();
 
       if (this.userService.createOne(user)) {

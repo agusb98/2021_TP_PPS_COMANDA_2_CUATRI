@@ -1,22 +1,22 @@
 .error_message {
-    font-size: 100%;
     color: red;
+    font-size: 100%;
 }
 
 #card-img{
-    width: 70%;
     left: 15%;
+    width: 70%;
 }
 
 ion-item {
     ion-icon {
-        padding-right: 2%;
         font-size: 18px;    //TODO set in global
+        padding-right: 2%;
     }
 }
 
 ion-label{
-    -webkit-flex: none!important; 
     flex: none!important; 
+    -webkit-flex: none!important; 
 }
 

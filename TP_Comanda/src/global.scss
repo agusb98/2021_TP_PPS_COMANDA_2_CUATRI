@@ -26,14 +26,16 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 @font-face {
-    font-family: "RampartOne";
-    src: url("./assets/fonts/RampartOne-Regular.ttf");
+  font-family: "RampartOne";
+  src: url("./assets/fonts/RampartOne-Regular.ttf");
 }
 
-body {
-  --ion-background-color: linear-gradient(135deg, rgb(124 124 124) 25%, transparent 25%) -50px 0, linear-gradient(225deg, rgb(108 108 108) 25%, transparent 25%) -50px 0, linear-gradient(315deg, rgb(110, 110, 110) 25%, transparent 25%), linear-gradient(45deg, rgb(100 97 97) 25%, transparent 25%);
-  background-size: 8rem 8rem;
-  background-color: #746565;
+body,
+.alert-wrapper {
+  --ion-background-color: none;
+
+  // https://cssgradient.io/
+  background: linear-gradient(55deg, rgba(173, 251, 194, 1) 25%, rgba(249, 255, 238, 1) 50%, rgba(255, 239, 167, 1) 75%) !important;
 }
 
 p,
@@ -52,7 +54,7 @@ ion-card-title,
   color: #251e93 !important;
 }
 
-.alert-button-inner{
+.alert-button-inner {
   font-family: "RampartOne" !important;
 }
 
@@ -63,10 +65,10 @@ ion-footer {
 }
 
 ion-card,
-ion-item,
-ion-footer,
-.alert-wrapper {
-  --background: papayawhip;
+ion-footer {
+  --background: none;
+  background: rgb(179, 173, 251);
+  background: linear-gradient(135deg, rgba(179, 173, 251, 1) 25%, rgba(249, 255, 238, 1) 50%, rgba(255, 167, 237, 1) 75%);
 }
 
 ion-fab-button:hover,
