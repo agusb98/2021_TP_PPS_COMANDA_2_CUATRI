@@ -32,7 +32,11 @@ export class DuenioGuard implements CanActivate {
                     return;
                 })
             }
-            return false;
+            else {
+                this.router.navigate(['/user/login']);
+                res(false);
+                return;
+            }
         });
     }
 }
