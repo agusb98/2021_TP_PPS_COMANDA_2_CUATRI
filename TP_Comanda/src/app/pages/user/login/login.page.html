@@ -1,5 +1,9 @@
 <ion-content>
-  <ion-img src="assets/images/icon.png"></ion-img>
+
+  <div class="container-img">
+    <ion-img src="assets/icon/favicon.png"></ion-img>
+  </div>
+  
   <ion-card>
     <ion-card-content>
 
@@ -40,8 +44,7 @@
           Ingresar</ion-button>
 
         <ion-item class="divUsuarios" color="none" lines="none">
-          <ion-icon id="icon-user" name="logo-reddit" *ngFor="let user of this.users"
-            (click)="selectUser(user)">
+          <ion-icon id="icon-user" name="logo-reddit" *ngFor="let user of this.users" (click)="selectUser(user)">
           </ion-icon>
         </ion-item>
 
