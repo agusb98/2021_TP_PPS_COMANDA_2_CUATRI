@@ -25,11 +25,15 @@ export class LogoutPage {
       localStorage.setItem('user', ''); //Save user data in the local storage
       this.vibration.vibrate([1000, 500, 1000]);
       this.toastr.success('Sesión Cerrada con Exito', 'Salir');
-      this.router.navigate(['user/login']);
+      this.redirectTo('user/login');
     }
     catch (error) {
       this.vibration.vibrate([1000]);
       this.toastr.error(error.message, 'Cerrar Sesión');
     }
+  }
+
+  redirectTo(path: string) {
+    this.router.navigate([path]);
   }
 }
