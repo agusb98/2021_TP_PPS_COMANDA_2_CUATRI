@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DuenioGuard } from 'src/app/guards/duenio.guard';
 
 const routes: Routes = [
   {
@@ -12,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'duenio',
-    loadChildren: () => import('./duenio_super/register.module').then(m => m.RegisterPageModule),
+    loadChildren: () => import('./duenio_super/register.module').then(m => m.RegisterPageModule), canActivate: [DuenioGuard]
   },
   {
     path: 'empleado',
