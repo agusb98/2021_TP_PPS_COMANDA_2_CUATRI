@@ -4,7 +4,7 @@
 
 
 <p align="center">
-<img src="(./2021_TP_PPS_Comanda_2_cuatri/TP_Comanda/src/assets/images/icono.png)" width="400" height="400">
+<img src="(./TP_Comanda/src/assets/images/icono.png)" width="400" height="400">
 </p>
 
 <br>
