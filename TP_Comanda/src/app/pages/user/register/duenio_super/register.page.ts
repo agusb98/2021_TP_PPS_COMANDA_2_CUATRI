@@ -111,7 +111,7 @@ export class RegisterPage implements OnInit {
   get profile() { return this.form.get('profile').value; }
   set profile(data: string) { this.form.controls['profile'].setValue(data); }
 
-  get email() { return this.form.get('email').value; }
+  get email() { return this.form.get('email').value.toLowerCase(); }
   set email(data: string) { this.form.controls['email'].setValue(data); }
 
   get password() { return this.form.get('password').value; }

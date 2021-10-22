@@ -1,8 +1,8 @@
-<ion-content [fullscreen]="true" *ngIf="this.user$">
+<ion-content [fullscreen]="true" *ngIf="this.user">
 
   <ion-fab vertical="top" horizontal="start">
     <ion-fab-button>
-      <img src="{{ user$.img }}" alt="">
+      <img src="{{ user.img }}" alt="">
     </ion-fab-button>
   </ion-fab>
 

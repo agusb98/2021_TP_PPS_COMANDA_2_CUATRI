@@ -9,12 +9,20 @@ import { Observable } from 'rxjs';
 })
 export class HomePage implements OnInit, OnDestroy {
 
-  user$;
+  user;
+
+  // estaría piola hacer un listado de cards en que el usuario al 
+  //  hacer click redirija
+  //  y que cada card tenga profile: 'DUENIO'
+  //  por ejemplo, para poder filtrar dependiendo el usuario 
+  //  que se loggee
+
+  links = [{}];
 
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.user$ = JSON.parse(localStorage.getItem('user'));
+    this.user = JSON.parse(localStorage.getItem('user'));
   }
 
   delay(ms: number) {
@@ -26,6 +34,6 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.user$ = null;
+    this.user = null;
   }
 }
