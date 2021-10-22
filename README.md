@@ -3,8 +3,9 @@
 <h1 align="center"> LA COMANDA </h1> 
 
 
+(./TP_Comanda/src/assets/images/icono.png)
 <p align="center">
-<img src="(./TP_Comanda/src/assets/images/icono.png)" width="400" height="400">
+<img src="./TP_Comanda/src/assets/images/icono.png" width="400" height="400">
 </p>
 
 <br>
