@@ -1,5 +1,3 @@
-<h1>2021 - 2 cuatrimestre - PPS - 4°B- La Comanda</h1>
-
 <h1 align="center"> :computer: 2021 - 2 cuatrimestre - PPS - 4°B- La Comanda </h1> 
 
 <h1 align="center"> LA COMANDA </h1> 
