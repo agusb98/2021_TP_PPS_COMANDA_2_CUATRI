@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,23 +8,28 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 export class AuthService {
 
-  constructor(public afAuth: AngularFireAuth) { }
+  constructor(
+    private afAuth: AngularFireAuth,
+    private userService: UserService
+  ) { }
 
-  async login(email: string, password: string) {
-    try {
-      const user = await this.afAuth.signInWithEmailAndPassword(email, password);
-      localStorage.setItem('user', email);
-      return user;
-    }
-    catch (error) { }
+  login(email: string, password: string) {
+    return new Promise(res => {
+      const user = this.afAuth.signInWithEmailAndPassword(email, password);
+      if (user) {
+        // Guarda los datos en localstorage de un usuario loggeado para laburar más rápido
+        // Lo malo es que carece de seguridad..
+        this.userService.getByEmail(email).subscribe(data => {
+          localStorage.setItem('user', JSON.stringify(data));
+          res(user);
+        });
+      }
+      return;
+    });
   }
 
   async register(email: string, password: string) {
-    try {
-      const user = await this.afAuth.createUserWithEmailAndPassword(email, password);
-      localStorage.setItem('user', email);
-      return user;
-    }
+    try { return await this.afAuth.createUserWithEmailAndPassword(email, password); }
     catch (error) { }
   }
 
@@ -33,6 +39,5 @@ export class AuthService {
       localStorage.setItem('user', '');
     }
     catch (error) { }
-    return;
   }
 }

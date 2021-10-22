@@ -1,13 +1,11 @@
-<ion-content [fullscreen]="true">
-  
-  <div class="" *ngFor="let user of this.users$ | async as users">
-    <ion-fab vertical="top" horizontal="start">
-      <ion-fab-button>
-        <img src="{{ user.img }}" alt="">
-      </ion-fab-button>
-    </ion-fab>
-  </div>
-  
+<ion-content [fullscreen]="true" *ngIf="this.user$">
+
+  <ion-fab vertical="top" horizontal="start">
+    <ion-fab-button>
+      <img src="{{ user$.img }}" alt="">
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
 
 <ion-fab (click)="redirectTo('user/logout')" vertical="bottom" horizontal="end" slot="fixed">

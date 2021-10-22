@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Duenio } from '../models/duenio';
+import { Cliente } from '../models/cliente';
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class DuenioGuard implements CanActivate {
+export class ClienteGuard implements CanActivate {
 
-    constructor(private router: Router) { }
+    constructor( private router: Router ) { }
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot):
         Observable<boolean> | Promise<boolean> | boolean {
@@ -17,10 +17,10 @@ export class DuenioGuard implements CanActivate {
         let model = null;
         return new Promise(res => {
             if (localStorage.getItem('user')) {
-                model = JSON.parse(localStorage.getItem('user')) as Duenio;
+                model = JSON.parse(localStorage.getItem('user')) as Cliente;
             }
 
-            if (model && model.perfil == 'DUENIO') { res(true); }
+            if (model && model.perfil == 'CLIENTE') { res(true); }
             else {
                 this.router.navigate(['/home']);
                 res(false);

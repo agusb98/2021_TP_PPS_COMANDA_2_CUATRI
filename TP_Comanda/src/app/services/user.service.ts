@@ -73,7 +73,7 @@ export class UserService {
   getByEmail(email: string) {
     try {
       return this.getAll().pipe(
-        map(users => users.filter(u => u.correo.includes(email))));
+        map(users => users.find(u => u.correo == email)));
     }
     catch (error) { }
   }

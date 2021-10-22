@@ -35,11 +35,11 @@ export class LoginPage implements OnInit {
   }
 
   constructor(
-    private formbuider: FormBuilder,
-    private authService: AuthService,
     private router: Router,
     private vibration: Vibration,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private formbuider: FormBuilder,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() { this.validateForm(); }
@@ -69,16 +69,17 @@ export class LoginPage implements OnInit {
   }
 
   async onLogin() {
-    const user = await this.authService.login(this.email, this.password);
-    if (user) {
-      this.vibration.vibrate([1000, 500, 1000]);
-      this.toastr.success('Ingreso con Exito', 'Iniciar Sesión');
-      this.redirectTo('home');
-    }
-    else {
-      this.vibration.vibrate([1000]);
-      this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión');
-    }
+    this.authService.login(this.email, this.password).then((user) => {
+      if (user) {
+        this.vibration.vibrate([1000, 500, 1000]);
+        this.toastr.success('Ingreso con Exito', 'Iniciar Sesión');
+        this.redirectTo('/home');
+      }
+      else {
+        this.vibration.vibrate([1000]);
+        this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión');
+      }
+    })
   }
 
   redirectTo(path: string) {
