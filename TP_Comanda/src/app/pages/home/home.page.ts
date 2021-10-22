@@ -17,7 +17,9 @@ export class HomePage implements OnInit, OnDestroy {
   //  por ejemplo, para poder filtrar dependiendo el usuario 
   //  que se loggee
 
-  links = [{}];
+  links = [
+    { url: 'user/register/duenio', user: 'DUENIO' }
+  ];
 
   constructor(private router: Router) { }
 

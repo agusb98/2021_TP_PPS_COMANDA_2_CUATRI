@@ -1,6 +1,6 @@
 <ion-content [fullscreen]="true" *ngIf="this.user">
 
-  <ion-fab vertical="top" horizontal="start">
+  <ion-fab vertical="top" horizontal="start" (click)="redirectTo('user/register/duenio')">
     <ion-fab-button>
       <img src="{{ user.img }}" alt="">
     </ion-fab-button>
