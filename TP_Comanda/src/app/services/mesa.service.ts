@@ -7,7 +7,7 @@ import { Mesa } from '../models/mesa';
 })
 export class MesaService {
 
-  public mesasRef: AngularFirestoreCollection<any>; 
+  public mesasRef: AngularFirestoreCollection<Mesa>; 
   constructor(public afStore: AngularFirestore) {
     this.mesasRef = this.afStore.collection("mesas");
    }

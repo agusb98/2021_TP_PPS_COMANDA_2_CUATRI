@@ -8,10 +8,12 @@ import { AltaProductoPageRoutingModule } from './alta-producto-routing.module';
 
 import { AltaProductoPage } from './alta-producto.page';
 
+import {  ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
     AltaProductoPageRoutingModule
   ],

@@ -11,17 +11,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AngularFireModule } from '@angular/fire/compat';
-import { environment } from 'src/environments/environment'; 
+import { environment } from 'src/environments/environment';
 
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    BrowserModule, 
+    AngularFireStorageModule,
+    BrowserModule,
     BrowserAnimationsModule,
-    IonicModule.forRoot(), 
+    IonicModule.forRoot(),
     AppRoutingModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-center',
@@ -32,4 +34,4 @@ import { environment } from 'src/environments/environment';
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
