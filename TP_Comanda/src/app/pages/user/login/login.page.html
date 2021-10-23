@@ -1,12 +1,16 @@
 <ion-content>
-  <ion-img src="assets/images/icon.png"></ion-img>
+
+  <div class="container-img">
+    <ion-img src="assets/icon/favicon.png"></ion-img>
+  </div>
+  
   <ion-card>
     <ion-card-content>
 
       <form [formGroup]="form" (ngSubmit)="onLogin()">
         <div class="wrapform">
           <ion-item>
-            <ion-input type="text" name="email" formControlName="email" placeholder="Email">
+            <ion-input type="text" name="email" formControlName="email" placeholder="Correo">
               <ion-icon name="mail-outline"></ion-icon>
             </ion-input>
           </ion-item>
@@ -21,7 +25,7 @@
 
           <ion-item>
             <ion-input type="password" name="password" formControlName="password" placeholder="**************">
-              <ion-icon name="lock-closed"></ion-icon>
+              <ion-icon name="lock-closed-outline"></ion-icon>
             </ion-input>
           </ion-item>
 
@@ -40,8 +44,7 @@
           Ingresar</ion-button>
 
         <ion-item class="divUsuarios" color="none" lines="none">
-          <ion-icon id="icon-user" name="logo-reddit" *ngFor="let user of this.users"
-            (click)="selectUser(user)">
+          <ion-icon id="icon-user" name="logo-reddit" *ngFor="let user of this.users" (click)="selectUser(user)">
           </ion-icon>
         </ion-item>
 

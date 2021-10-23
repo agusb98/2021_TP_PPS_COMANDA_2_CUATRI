@@ -1,18 +1,14 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" *ngIf="this.user">
 
-<ion-content [fullscreen]="true">
-  <div class="" *ngFor="let user of this.users$ | async as users">
-    <p>{{ user.nombre }}</p>
-  </div>
+  <ion-fab vertical="top" horizontal="start" (click)="redirectTo('user/register/duenio')">
+    <ion-fab-button>
+      <img src="{{ user.img }}" alt="">
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
 
-<ion-fab (click)="onLogout()" vertical="bottom" horizontal="end" slot="fixed">
+<ion-fab (click)="redirectTo('user/logout')" vertical="bottom" horizontal="end" slot="fixed">
   <ion-fab-button>
     <ion-icon name="log-out"></ion-icon>
   </ion-fab-button>

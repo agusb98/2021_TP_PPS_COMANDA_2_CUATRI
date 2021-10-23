@@ -1,23 +1,22 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
-
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { Camera } from '@ionic-native/camera/ngx';
+import { IonicModule } from '@ionic/angular';
 
 import { RegisterPageRoutingModule } from './register-routing.module';
 import { RegisterPage } from './register.page';
 
-import { Vibration } from '@ionic-native/vibration/ngx';
-
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     IonicModule,
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
     RegisterPageRoutingModule
   ],
   declarations: [RegisterPage],
-  providers: [Vibration]
+  providers: [Camera]
 })
 export class RegisterPageModule { }

@@ -3,16 +3,13 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'splash', pathMatch: 'full' },
+  { path: 'splash', loadChildren: () => import('./pages/splash/splash.module').then(m => m.SplashPageModule) },
+  { path: 'user', loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule) },
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule), canActivate: [AuthGuard]
   },
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  { path: 'user', loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule) },
 ];
 
 @NgModule({

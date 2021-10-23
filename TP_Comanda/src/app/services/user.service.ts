@@ -69,4 +69,12 @@ export class UserService {
     }
     catch (error) { }
   }
+
+  getByEmail(email: string) {
+    try {
+      return this.getAll().pipe(
+        map(users => users.find(u => u.correo == email)));
+    }
+    catch (error) { }
+  }
 }
