@@ -11,7 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AngularFireModule } from '@angular/fire/compat';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment'; 
 
 
 @NgModule({
