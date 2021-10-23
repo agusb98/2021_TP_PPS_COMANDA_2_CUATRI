@@ -5,7 +5,7 @@
 
 
 <p align="center">
-<img src="./TP_Comanda/src/assets/images/icon.png" border-radius="100%" width="400" height="400">
+<img src="./TP_Comanda/src/assets/icon/favicon.png" border-radius="100%" width="400" height="400">
 </p>
 
 <br>
