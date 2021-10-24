@@ -8,11 +8,10 @@
 
   <ion-card id="card-img">
     <ion-card-content>
-
-      <img *ngIf="this.img; else no_img" src="{{ this.img }}" alt="">
+      <ion-img *ngIf="this.img; else no_img" [src]="this.img.webPath"></ion-img>
 
       <ng-template #no_img>
-        <img src="assets/images/default.jpg" alt="">
+        <ion-img src="assets/images/default.jpg"></ion-img>
       </ng-template>
 
     </ion-card-content>
@@ -85,7 +84,8 @@
             <ion-icon name="logo-reddit"></ion-icon>
           </ion-label>
 
-          <ion-select placeholder="Perfil" name="profile" formControlName="profile" okText="Confirmar" cancelText="Cancelar">
+          <ion-select placeholder="Perfil" name="profile" formControlName="profile" okText="Confirmar"
+            cancelText="Cancelar">
             <ion-select-option *ngFor="let e of this.listEmployees">{{ e.kynd }}</ion-select-option>
           </ion-select>
         </ion-item>

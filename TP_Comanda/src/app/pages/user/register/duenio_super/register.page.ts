@@ -7,9 +7,9 @@ import { Duenio } from 'src/app/models/duenio';
 import { Supervisor } from 'src/app/models/supervisor';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { QrService } from 'src/app/services/qr.service';
 import { FirestorageService } from 'src/app/services/firestore.service';
+import { CameraService } from 'src/app/services/camera.service';
 
 @Component({
   selector: 'app-register-duenio_super',
@@ -68,14 +68,14 @@ export class RegisterPage implements OnInit {
 
   constructor(
     private qr: QrService,
-    private camera: Camera,
     private router: Router,
     private vibration: Vibration,
     private toastr: ToastrService,
     private formbuider: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
-    private storage: FirestorageService
+    private storage: FirestorageService,
+    private cameraService: CameraService
   ) { }
 
   ngOnInit() { this.validateForm(); }
@@ -106,7 +106,7 @@ export class RegisterPage implements OnInit {
   set cuil(data: number) { this.form.controls['cuil'].setValue(data); }
 
   get img() { return this.form.get('img').value; }
-  set img(data: string) { this.form.controls['img'].setValue(data); }
+  set img(data: any) { this.form.controls['img'].setValue(data); }
 
   get profile() { return this.form.get('profile').value; }
   set profile(data: string) { this.form.controls['profile'].setValue(data); }
@@ -126,31 +126,26 @@ export class RegisterPage implements OnInit {
     });
   }
 
-  takePic() {
-    //this.img = 'https://avatars.githubusercontent.com/u/61479841?v=4';
-    let options: CameraOptions = {
-      destinationType: this.camera.DestinationType.DATA_URL,
-      targetWidth: 500,
-      targetHeight: 500,
-      quality: 30
-    }
-    this.camera.getPicture(options)
-      .then(data => {
-        this.img = `data:image/jpeg;base64,${data}`;
-      });
+  async takePic() {
+    const image = await this.cameraService.addNewToGallery();
+    if (image) { this.img = image; }
+    console.log(image);
+    
   }
 
-  async onRegister() {
+  onRegister() {
     const auth = this.authService.register(this.email, this.password);
     if (auth) {
-      //this.img = await this.storage.saveFile(this.img, 'users', new Date().getTime() + '.png');
       const user = this.getDataUser();
+      this.storage.saveImage(this.img, 'users', new Date().getTime() + '')
+        .then(async url => {
+          user.img = url;
 
-      if (this.userService.createOne(user)) {
-        this.vibration.vibrate([1000, 500, 1000]);
-        this.toastr.success('Bienvenido!', 'Registro de Usuario');
-        this.redirectTo('home');
-      }
+          await this.userService.createOne(user);
+          this.vibration.vibrate([1000, 500, 1000]);
+          this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
+          this.resetInputs();
+        });
     }
     else {
       this.vibration.vibrate([1000]);
@@ -196,4 +191,5 @@ export class RegisterPage implements OnInit {
     this.router.navigate([path]);
   }
 
+  resetInputs() { this.ngOnInit(); }
 }

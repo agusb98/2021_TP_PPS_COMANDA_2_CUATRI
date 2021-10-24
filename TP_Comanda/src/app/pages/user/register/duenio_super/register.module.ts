@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { Camera } from '@ionic-native/camera/ngx';
 import { IonicModule } from '@ionic/angular';
 
 import { RegisterPageRoutingModule } from './register-routing.module';
@@ -14,9 +15,10 @@ import { RegisterPage } from './register.page';
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
-    RegisterPageRoutingModule
+    RegisterPageRoutingModule,
+    HttpClientModule
   ],
   declarations: [RegisterPage],
-  providers: [Camera]
+  providers: []
 })
 export class RegisterPageModule { }

@@ -29,8 +29,7 @@ export class UserService {
       const result = this.referenceToCollection.doc(model.id).set({ ...model });  //  llaves es objeto, 3 puntitos es dinamico
       return result;
     }
-    catch (error) { }
-    return;
+    catch (err) { console.log(err); }
   }
 
   getDuenios() {

@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { Photo } from '@capacitor/camera';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import { Platform } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 
 @Injectable({
@@ -10,20 +13,19 @@ export class FirestorageService {
 
   constructor(private storage: AngularFireStorage) { }
 
-  saveFile(file: any, path: string, name: string): Promise<string> {
-    return new Promise(res => {
+  async saveImage(img: Photo, path: string, name: string) {
+    try {
+      const response = await fetch(img.webPath!);
+      const blob = await response.blob();
       const filePath = path + '/' + name;
-      const fileRef = this.storage.ref(filePath);
-      const task = fileRef.put(file);
+      const uploadTask = this.saveFile(blob, filePath);
 
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe(res => {
-            res(res);
-            return;
-          });
-        })
-      ).subscribe();
-    });
+      return (await uploadTask).ref.getDownloadURL();
+    }
+    catch (error) { }
+  }
+
+  saveFile(file: Blob, filePath: string) {
+    return this.storage.upload(filePath, file);
   }
 }
