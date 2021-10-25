@@ -6,31 +6,17 @@
     </ion-fab-button>
   </ion-fab>
 
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Comanda ARM
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Comanda ARM</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <div id="container">
 
     <a href="alta-mesa">Crear Mesa</a>
     <br>
     <a href="alta-producto">Crear producto</a>
   </div>
-</ion-content>
 
-<ion-fab (click)="redirectTo('user/logout')" vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button>
-    <ion-icon name="log-out"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
+  <ion-fab (click)="redirectTo('user/logout')" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="log-out"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

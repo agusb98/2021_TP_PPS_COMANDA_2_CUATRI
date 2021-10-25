@@ -5,6 +5,7 @@ import { CamaraService } from 'src/app/services/camara.service';
 import { ProductoService } from 'src/app/services/producto.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { Photo } from '@capacitor/camera';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-alta-producto',
   templateUrl: './alta-producto.page.html',
@@ -12,51 +13,47 @@ import { Photo } from '@capacitor/camera';
 })
 export class AltaProductoPage implements OnInit {
 
-  form: FormGroup;  
-  resultadoError:boolean=null;
-  nuevoProducto:Producto;
-  i_NroImagen:number=0;
-  errorImagen:boolean;
-  constructor( private formbuider: FormBuilder, 
-    private prodSrv:ProductoService,
+  form: FormGroup;
+  resultadoError: boolean = null;
+  nuevoProducto: Producto;
+  i_NroImagen: number = 0;
+  errorImagen: boolean;
+
+  constructor(
+    private router: Router,
+    private formbuider: FormBuilder,
+    private prodSrv: ProductoService,
     private cameraService: CamaraService,
-    private storageService:StorageService) {  
-      
-    this.nuevoProducto= new Producto();
+    private storageService: StorageService
+  ) { }
+
+  ngOnInit() {
+    this.nuevoProducto = new Producto();
     this.nuevoProducto.img_src = new Array();
     this.form = this.formbuider.group({
       nombreProducto: ['', [Validators.required]],
       descripcionProducto: ['', [Validators.required]],
-      tiempo:['', [Validators.required]],
-      precio:['', [Validators.required]]
+      tiempo: ['', [Validators.required]],
+      precio: ['', [Validators.required]]
     });
   }
 
-  ngOnInit() {
+  crearProducto() {
+    this.nuevoProducto.nombreProducto = this.form.get('nombreProducto').value;
+    this.nuevoProducto.descripcion = this.form.get('descripcionProducto').value;
+    this.nuevoProducto.tiempo = this.form.get('tiempo').value;
+    this.nuevoProducto.precio = this.form.get('precio').value;
 
-  }
-
-  crearProducto(){ 
-    this.nuevoProducto.nombreProducto= this.form.get('nombreProducto').value;
-    this.nuevoProducto.descripcion=this.form.get('descripcionProducto').value;
-    this.nuevoProducto.tiempo= this.form.get('tiempo').value;
-    this.nuevoProducto.precio= this.form.get('precio').value;
-
-
-    this.prodSrv.guardarNuevoProducto(this.nuevoProducto).then((res)=>{
+    this.prodSrv.guardarNuevoProducto(this.nuevoProducto).then((res) => {
       console.log(res);
-      this.resultadoError= false;
-    }).catch((err)=>{
-      this.resultadoError=true;
+      this.resultadoError = false;
+    }).catch((err) => {
+      this.resultadoError = true;
     });
   }
-
-
-
-
 
   tomarFotoProducto() {
-    if (this.i_NroImagen < 3 ) {
+    if (this.i_NroImagen < 3) {
       this.addPhotoToGallery();
     }
   }
@@ -95,7 +92,6 @@ export class AltaProductoPage implements OnInit {
       });
   }
 
-
   getFilePath() {
     return new Date().getTime() + '-test';
   }
@@ -105,4 +101,7 @@ export class AltaProductoPage implements OnInit {
     return this.errorImagen;
   }
 
+  redirectTo(path: string) {
+    this.router.navigate([path]);
+  }
 }

@@ -17,12 +17,12 @@ const routes: Routes = [
   {
     path: 'alta-producto',
     loadChildren: () => import('./pages/productos/alta-producto/alta-producto.module').then(m => m.AltaProductoPageModule),
-    canActivate: [AuthGuard, CocineroGuard, BartenderGuard]
+    canActivate: [CocineroGuard, BartenderGuard]
   },
   {
     path: 'alta-mesa',
     loadChildren: () => import('./pages/mesas/alta-mesa/alta-mesa.module').then(m => m.AltaMesaPageModule),
-    canActivate: [AuthGuard, DueñoGuard, SupervisorGuard]
+    canActivate: [DueñoGuard, SupervisorGuard]
   }
 ];
 
