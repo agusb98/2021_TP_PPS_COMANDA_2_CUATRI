@@ -1,0 +1,32 @@
+<ion-content>
+
+  <div class="container-img" style="background-image: url('{{ this.user.img }}');"></div>
+
+  <ion-card>
+    <ion-card-content>
+      <div><p>Nombre: {{ this.user.nombre }}</p></div>
+      <div *ngIf="this.user.perfil != 'ANONIMO'"><p>Apellido: {{ this.user.apellido }}</p></div>
+      <div *ngIf="this.user.perfil != 'ANONIMO'"><p>DNI: {{ this.user.dni }}</p></div>
+
+      <div *ngIf="this.user.perfil == 'SUPERVISOR' || this.user.perfil == 'DUENIO'">
+        <p>CUIL: {{ this.user.cuil }}</p>
+      </div>
+
+      <div *ngIf="this.user.perfil != 'ANONIMO'"><p>Correo: {{ this.user.correo }}</p></div><br>
+      <div><p>Estado: {{ this.user.estado }}</p></div>
+      <div><p>Usuario: {{ this.user.perfil }}</p></div>
+
+      <div *ngIf="this.user.perfil == 'EMPLEADO'">
+        <p>ROL: {{ this.user.rol }}</p>
+      </div>
+
+      <div><p>Miembro desde: {{ this.user.fecha_creacion | date:'short' }}</p></div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab (click)="redirectTo('home')" vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="home"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
