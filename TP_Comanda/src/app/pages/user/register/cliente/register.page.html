@@ -1,30 +1,76 @@
-<!-- <ion-content>
-  <ion-img src="assets/img/icon.png"></ion-img>
+<ion-content>
+  <ion-img src=""></ion-img>
   <ion-card>
     <ion-card-content>
 
-      <form [formGroup]="form" (ngSubmit)="onLogin()">
+      <!-- <form [formGroup]="form" (ngSubmit)="onLogin()"> -->
+      <form [formGroup]="form" >
         <div class="wrapform">
+          <ion-item>
+            <ion-input type="text" name="nombre" formControlName="nombre" placeholder="Nombre">
+              <ion-icon name="nombre-outline"></ion-icon>
+            </ion-input>
+          </ion-item>
+          <!-- <div>
+            <ng-container *ngFor="let validation of validationUserMessage.nombre">
+              
+              <div class="error_message"
+                *ngIf="form.get('nombre').hasError(validation.type) && (form.get('nombre').dirty || form.get('nombre').touched)">
+                {{validation.message}}
+              </div>
+            </ng-container>
+          </div> -->
+
+          <ion-item>
+            <ion-input type="text" name="apellido" formControlName="apellido" placeholder="Apellido">
+              <ion-icon name="apellido-outline"></ion-icon>
+            </ion-input>
+          </ion-item>
+          <!-- <div>
+            <ng-container *ngFor="let validation of validationUserMessage.apellido">
+              <div class="error_message"
+                *ngIf="form.get('apellido').hasError(validation.type) && (form.get('apellido').dirty || form.get('apellido').touched)">
+                {{validation.message}}
+              </div>
+            </ng-container>
+          </div> -->
+
+          <ion-item>
+            <ion-input type="number" name="dni" formControlName="dni" placeholder="DNI">
+              <ion-icon name="dni-outline"></ion-icon>
+            </ion-input>
+          </ion-item>
+          <!-- <div>
+            <ng-container *ngFor="let validation of validationUserMessage.dni">
+              <div class="error_message"
+                *ngIf="form.get('dni').hasError(validation.type) && (form.get('dni').dirty || form.get('dni').touched)">
+                {{validation.message}}
+              </div>
+            </ng-container>
+          </div> -->
+
+          
+            
+        
           <ion-item>
             <ion-input type="text" name="email" formControlName="email" placeholder="Email">
               <ion-icon name="mail-outline"></ion-icon>
             </ion-input>
           </ion-item>
-          <div>
+          <!-- <div>
             <ng-container *ngFor="let validation of validationUserMessage.email">
               <div class="error_message"
                 *ngIf="form.get('email').hasError(validation.type) && (form.get('email').dirty || form.get('email').touched)">
                 {{validation.message}}
               </div>
             </ng-container>
-          </div>
+          </div> -->
 
           <ion-item>
             <ion-input type="password" name="password" formControlName="password" placeholder="**************">
               <ion-icon name="lock-closed"></ion-icon>
             </ion-input>
           </ion-item>
-
           <div>
             <ng-container *ngFor="let validation of validationUserMessage.password">
               <div class="error_message"
