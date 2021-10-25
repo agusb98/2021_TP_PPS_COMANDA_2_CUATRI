@@ -13,18 +13,18 @@ export class AuthService {
     private userService: UserService
   ) { }
 
-  login(email: string, password: string) {
-    return new Promise(res => {
+  async login(email: string, password: string) {
+    return new Promise((res, rej) => {
       const user = this.afAuth.signInWithEmailAndPassword(email, password);
-      if (user) {
-        // Guarda los datos en localstorage de un usuario loggeado para laburar más rápido
-        // Lo malo es que carece de seguridad..
-        this.userService.getByEmail(email).subscribe(data => {
+      const dataUser = this.userService.getByEmail(email);
+
+      if (user && dataUser) {
+        dataUser.subscribe(data => {
           localStorage.setItem('user', JSON.stringify(data));
           res(user);
         });
       }
-      return;
+      //TODO:: show notification error..
     });
   }
 

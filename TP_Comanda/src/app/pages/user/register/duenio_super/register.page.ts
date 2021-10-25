@@ -82,8 +82,8 @@ export class RegisterPage implements OnInit {
 
   validateForm() {
     this.form = this.formbuider.group({
-      name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
-      surname: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
+      name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
+      surname: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
       dni: new FormControl('', Validators.compose([Validators.required, Validators.min(11111111), Validators.max(99999999)])),
       cuil: new FormControl('', Validators.compose([Validators.required, Validators.min(11111111111), Validators.max(99999999999)])),
       img: new FormControl('', Validators.compose([Validators.required])),
@@ -129,8 +129,6 @@ export class RegisterPage implements OnInit {
   async takePic() {
     const image = await this.cameraService.addNewToGallery();
     if (image) { this.img = image; }
-    console.log(image);
-    
   }
 
   onRegister() {
@@ -144,7 +142,7 @@ export class RegisterPage implements OnInit {
           await this.userService.createOne(user);
           this.vibration.vibrate([1000, 500, 1000]);
           this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
-          this.resetInputs();
+          this.resetForm();
         });
     }
     else {
@@ -191,5 +189,5 @@ export class RegisterPage implements OnInit {
     this.router.navigate([path]);
   }
 
-  resetInputs() { this.ngOnInit(); }
+  resetForm() { this.ngOnInit(); }
 }

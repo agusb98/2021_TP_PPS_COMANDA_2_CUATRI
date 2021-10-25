@@ -15,9 +15,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 
-//debe declararse acá porque es utilizado en un service(creo)
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -33,10 +30,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
     }),
     AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
-  providers: [
-    BarcodeScanner,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-  ],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 

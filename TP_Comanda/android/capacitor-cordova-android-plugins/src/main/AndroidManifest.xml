@@ -1,11 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <manifest package="capacitor.android.plugins"
 xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:amazon="http://schemas.amazon.com/apk/res/android">
-<application  >
+xmlns:amazon="http://schemas.amazon.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools">
 
+<application  
+android:hardwareAccelerated="true">
 </application>
-    <uses-permission android:name="android.permission.INTERNET"/>    
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERMAL_STORAGE"/>
+
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
 </manifest>

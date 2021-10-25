@@ -69,11 +69,12 @@ export class LoginPage implements OnInit {
   }
 
   async onLogin() {
-    this.authService.login(this.email, this.password).then((user) => {
+    await this.authService.login(this.email, this.password).then((user) => {
       if (user) {
         this.vibration.vibrate([1000, 500, 1000]);
         this.toastr.success('Ingreso con Exito', 'Iniciar Sesión');
         this.redirectTo('/home');
+        
       }
       else {
         this.vibration.vibrate([1000]);
