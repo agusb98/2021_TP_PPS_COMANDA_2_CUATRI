@@ -11,9 +11,9 @@ export class HomePage implements OnInit {
   user;
 
   public links = [
-    { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Registrar Dueño/Supervisor' },
-    { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'SUPERVISOR', title: 'Registrar Mesa' },
-    { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Registrar Producto' },
+    { img: 'assets/images/duenio-super.png', url: 'user/register/duenio', profile: 'DUENIO', title: 'Registrar Dueño/Supervisor' },
+    { img: 'assets/images/empleados.png', url: 'user/register/duenio', profile: 'SUPERVISOR', title: 'Registrar Mesa' },
+    { img: 'assets/images/empleados.png', url: 'user/register/duenio', profile: 'DUENIO', title: 'Registrar Producto' },
     { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Registrar Cliente' },
     { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Registrar Empleado' },
     { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Listar Dueño/Supervisor' },
