@@ -1,24 +1,26 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit, OnDestroy {
+export class HomePage implements OnInit {
 
   user;
 
-  // estaría piola hacer un listado de cards en que el usuario al 
-  //  hacer click redirija
-  //  y que cada card tenga profile: 'DUENIO'
-  //  por ejemplo, para poder filtrar dependiendo el usuario 
-  //  que se loggee
-
-  links = [
-    { url: 'user/register/duenio', user: 'DUENIO' }
+  public links = [
+    { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Registrar Dueño/Supervisor' },
+    { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'SUPERVISOR', title: 'Registrar Mesa' },
+    { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Registrar Producto' },
+    { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Registrar Cliente' },
+    { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Registrar Empleado' },
+    { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Listar Dueño/Supervisor' },
+    { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Listar Mesas' },
+    { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Listar Productos' },
+    { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Listar Clientes' },
+    { img: 'assets/images/default.jpg', url: 'user/register/duenio', profile: 'DUENIO', title: 'Listar Empleados' }
   ];
 
   constructor(private router: Router) { }
@@ -27,15 +29,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.user = JSON.parse(localStorage.getItem('user'));
   }
 
-  delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
   redirectTo(path: string) {
     this.router.navigate([path]);
-  }
-
-  ngOnDestroy() {
-    this.user = null;
   }
 }

@@ -1,16 +1,20 @@
-<ion-content [fullscreen]="true" *ngIf="this.user">
+<ion-content *ngIf="this.user">
 
   <ion-fab vertical="top" horizontal="start" (click)="redirectTo('user/profile')">
     <ion-fab-button>
-      <img id="img-user" src="{{ user.img }}" alt="">
+      <img src="{{ user.img }}" alt="">
     </ion-fab-button>
   </ion-fab>
 
-  <div id="container">
+  <div class="container-cards">
+    <div style="all:unset;" *ngFor="let link of this.links">
+      <ion-card *ngIf="this.user.perfil == link.profile" class="card-shadow" (click)="redirectTo(link.url)">
 
-    <a href="alta-mesa">Crear Mesa</a>
-    <br>
-    <a href="alta-producto">Crear producto</a>
+        <p>{{ link.title }}</p>
+        <img src="{{ link.img }}" />
+
+      </ion-card>
+    </div>
   </div>
 
   <ion-fab (click)="redirectTo('user/logout')" vertical="bottom" horizontal="end" slot="fixed">

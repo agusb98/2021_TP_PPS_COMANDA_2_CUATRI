@@ -1,32 +1,24 @@
-#container {
-  text-align: center;
+.container-cards {
+  margin-top: 10%;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
+  ion-card {
+    display: -webkit-inline-box;
+    width: 40%;
+    height: 20%;
+    margin: 2%;
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
+    p {
+      left: 0%;
+      right: 0%;
+      top: 73%;
+      position: fixed;
+      font-size: 72.57%;
+    }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
-}
-
-#img-user {
-  height: 100%;
-  width: 100%;
+    img {
+      padding: 2.4%;
+      width: max-content;
+      height: max-content;
+    }
+  }
 }
