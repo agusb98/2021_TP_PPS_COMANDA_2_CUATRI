@@ -21,8 +21,6 @@
 * **Rocio Burgos** -- *Beta* -- **GITHUB:** [Rocio](https://github.com/rocioburgos)
 * **Matías Mauro Rueda** -- *Gamma* -- **GITHUB:** [Matías](https://github.com/matirue)
 
-<br>
-<br>
 
 ## :bulb: Semana del 16/10 al 23/10
 
@@ -51,14 +49,14 @@
 
 ### Alpha - Agustín
 
-- Alta dueño/supervisores. :question:
+- Alta dueño/supervisores. :white_check_mark:
 - Confirmación de cliente. :question:
 
 
 ### Beta - Rocio 
 
-- Alta de Mesa. :question: 
-- Alta Productos :question:
+- Alta de Mesa. :white_check_mark:
+- Alta Productos :white_check_mark:
 
 
 ### Gamma - Matías
