@@ -44,8 +44,9 @@
           Ingresar</ion-button>
 
         <ion-item class="divUsuarios" color="none" lines="none">
-          <ion-icon id="icon-user" name="logo-reddit" *ngFor="let user of this.users" (click)="selectUser(user)">
-          </ion-icon>
+          <p id="icon-user" *ngFor="let user of this.users" (click)="selectUser(user)">
+            {{ user.icon }}
+          </p>
         </ion-item>
 
       </form>

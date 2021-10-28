@@ -26,8 +26,8 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 @font-face {
-  font-family: "RampartOne";
-  src: url("./assets/fonts/RampartOne-Regular.ttf");
+  font-family: "Righteous-Regular";
+  src: url("./assets/fonts/Righteous-Regular.ttf");
 }
 
 body,
@@ -51,12 +51,12 @@ ion-card-subtitle,
 ion-card-title,
 .alert-title,
 .alert-radio-label {
-  font-family: "RampartOne" !important;
+  font-family: "Righteous-Regular" !important;
   color: #251e93 !important;
 }
 
 .alert-button-inner {
-  font-family: "RampartOne" !important;
+  font-family: "Righteous-Regular" !important;
 }
 
 ion-content,

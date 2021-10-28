@@ -24,10 +24,12 @@ export class HomePage implements OnInit {
     { img: 'assets/images/default.jpg', url: 'none', profile: 'SUPERVISOR', title: 'Crear Encuesta' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'SUPERVISOR', title: 'Confirmar Reserva' },
 
-    //  Cocinero/Bartender
+    //  Cocinero
     { img: 'assets/images/product.png', url: 'producto/alta', profile: 'COCINERO', title: 'Agregar Plato/Bebida' },
-    { img: 'assets/images/product.png', url: 'producto/alta', profile: 'BARTENDER', title: 'Agregar Plato/Bebida' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'COCINERO', title: 'Tomar Pedido' },
+    
+    //  Bartender
+    { img: 'assets/images/product.png', url: 'producto/alta', profile: 'BARTENDER', title: 'Agregar Plato/Bebida' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'BARTENDER', title: 'Tomar Pedido' },
 
     //  Repartidor

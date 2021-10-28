@@ -15,12 +15,12 @@ export class LoginPage implements OnInit {
   form: FormGroup;
 
   users = [
-    { "email": "duenio@duenio.com", "password": "111111" },
-    { "email": "supervisor@supervisor.com", "password": "222222" },
-    { "email": "metre@metre.com", "password": "333333" },
-    { "email": "mozo@mozo.com", "password": "444444" },
-    { "email": "cocinero@cocinero.com", "password": "555555" },
-    { "email": "bartender@bartender.com", "password": "666666" },
+    { email: "duenio@duenio.com", password: "111111", icon: "👨‍✈️" },
+    { email: "supervisor@supervisor.com", password: "222222", icon: "🕵️" },
+    { email: "metre@metre.com", password: "333333", icon: "💂" },
+    { email: "mozo@mozo.com", password: "444444", icon: "🤵" },
+    { email: "cocinero@cocinero.com", password: "555555", icon: "👨‍🍳" },
+    { email: "bartender@bartender.com", password: "666666", icon: "🍻" },
   ]
 
   validationUserMessage = {
@@ -74,7 +74,7 @@ export class LoginPage implements OnInit {
         this.vibration.vibrate([1000, 500, 1000]);
         this.toastr.success('Ingreso con Exito', 'Iniciar Sesión');
         this.redirectTo('/home');
-        
+
       }
       else {
         this.vibration.vibrate([1000]);
