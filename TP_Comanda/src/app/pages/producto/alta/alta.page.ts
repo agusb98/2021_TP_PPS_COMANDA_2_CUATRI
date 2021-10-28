@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Producto } from 'src/app/models/producto';
-import { CamaraService } from 'src/app/services/camara.service';
+import { CameraService } from 'src/app/services/camera.service';
 import { ProductoService } from 'src/app/services/producto.service';
-import { StorageService } from 'src/app/services/storage.service';
+import { FirestorageService } from 'src/app/services/firestore.service';
 import { Photo } from '@capacitor/camera';
 import { Router } from '@angular/router';
 
@@ -25,8 +25,8 @@ export class AltaPage implements OnInit {
     private router: Router,
     private formbuider: FormBuilder,
     private prodSrv: ProductoService,
-    private cameraService: CamaraService,
-    private storageService: StorageService
+    private cameraService: CameraService,
+    private fs: FirestorageService
   ) { }
 
   ngOnInit() {
@@ -72,7 +72,7 @@ export class AltaPage implements OnInit {
     const blob = await response.blob();
     const filePath = this.getFilePath();
 
-    const uploadTask = this.storageService.saveFile(blob, filePath);
+    const uploadTask = this.fs.saveFile(blob, filePath);
 
     console.log("nro actual de fotos cargadas: " + this.i_NroImagen);
     uploadTask.then(async res => {
@@ -95,7 +95,7 @@ export class AltaPage implements OnInit {
   }
 
   getFilePath() {
-    return new Date().getTime() + '-test';
+    return 'products/' + new Date().getTime();
   }
 
   private validarCantidadFotos(): boolean {

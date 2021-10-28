@@ -74,7 +74,7 @@ export class RegisterPage implements OnInit {
     private formbuider: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
-    private storage: FirestorageService,
+    private fs: FirestorageService,
     private cameraService: CameraService
   ) { }
 
@@ -135,18 +135,18 @@ export class RegisterPage implements OnInit {
     const auth = this.authService.register(this.email, this.password);
     if (auth) {
       const user = this.getDataUser();
-      this.storage.saveImage(this.img, 'users', new Date().getTime() + '')
+      this.fs.saveImage(this.img, 'users', new Date().getTime() + '')
         .then(async url => {
           user.img = url;
 
           await this.userService.createOne(user);
-          this.vibration.vibrate([1000, 500, 1000]);
+          this.vibration.vibrate([500]);
           this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
           this.resetForm();
         });
     }
     else {
-      this.vibration.vibrate([1000]);
+      this.vibration.vibrate([500, 500, 500]);
       this.toastr.error("Datos ingresados incorrectos", 'Registro de Usuario');
     }
   }

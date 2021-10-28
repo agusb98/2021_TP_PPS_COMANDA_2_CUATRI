@@ -1,26 +1,24 @@
 .error_message {
-    color: red;
-    font-size: 100%;
+  color: red;
+  font-size: 100%;
 }
 
-#card-img{
-    left: 15%;
-    width: 70%;
+#card-img {
+  left: 15%;
+  width: 70%;
 }
 
 ion-item {
-    ion-icon {
-        font-size: 18px;    //TODO set in global
-        padding-right: 2%;
-    }
+  ion-icon {
+    padding-right: 2%;
+  }
 }
 
-ion-label{
-    flex: none!important; 
-    -webkit-flex: none!important; 
+ion-label {
+  flex: none !important;
+  -webkit-flex: none !important;
 }
 
-.item-select{
-    width: 115%;
+.item-select {
+  width: 115%;
 }
-
