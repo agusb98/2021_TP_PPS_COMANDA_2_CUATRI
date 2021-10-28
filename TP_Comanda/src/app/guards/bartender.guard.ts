@@ -1,24 +1,31 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Empleado } from '../models/empleado';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
+
 export class BartenderGuard implements CanActivate {
-  
-  constructor(private router: Router) { }
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot):
-  Observable<boolean> | Promise<boolean> | boolean {
+    constructor(private router: Router) { }
 
-    let user= localStorage.getItem('user');
-    //que el perfil sea bartender
-  if (user) { return true; }
-  else {
-      this.router.navigate(['user/login']);
-      return false;
-  }
-}
-  
+    canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot):
+        Observable<boolean> | Promise<boolean> | boolean {
+
+        let model = null;
+        return new Promise(res => {
+            if (localStorage.getItem('user')) {
+                model = JSON.parse(localStorage.getItem('user')) as Empleado;
+            }
+
+            if (model && model.rol == 'BARTENDER') { res(true); }
+            else {
+                this.router.navigate(['/home']);
+                res(false);
+            }
+            return;
+        });
+    }
 }

@@ -1,28 +1,18 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
-import { BartenderGuard } from './guards/bartender.guard';
-import { CocineroGuard } from './guards/cocinero.guard';
-import { DueñoGuard } from './guards/dueño.guard';
+import { DuenioGuard } from './guards/duenio.guard';
 import { SupervisorGuard } from './guards/supervisor.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'splash', pathMatch: 'full' },
   { path: 'splash', loadChildren: () => import('./pages/splash/splash.module').then(m => m.SplashPageModule) },
   { path: 'user', loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule) },
+  { path: 'producto', loadChildren: () => import('./pages/producto/producto.module').then(m => m.ProductoModule) },
+  { path: 'mesa', loadChildren: () => import('./pages/mesa/mesa.module').then(m => m.MesaModule) },
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule), canActivate: [AuthGuard]
-  },
-  {
-    path: 'alta-producto',
-    loadChildren: () => import('./pages/productos/alta-producto/alta-producto.module').then(m => m.AltaProductoPageModule),
-    canActivate: [CocineroGuard, BartenderGuard]
-  },
-  {
-    path: 'alta-mesa',
-    loadChildren: () => import('./pages/mesas/alta-mesa/alta-mesa.module').then(m => m.AltaMesaPageModule),
-    canActivate: [DueñoGuard, SupervisorGuard]
   }
 ];
 
@@ -32,4 +22,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

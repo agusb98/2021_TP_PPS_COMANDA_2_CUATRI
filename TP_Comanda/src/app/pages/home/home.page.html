@@ -8,7 +8,8 @@
 
   <div class="container-cards">
     <div style="all:unset;" *ngFor="let link of this.links">
-      <ion-card *ngIf="this.user.perfil == link.profile" class="card-shadow" (click)="redirectTo(link.url)">
+      <ion-card *ngIf="this.user.perfil == link.profile || this.user?.rol == link.profile" class="card-shadow"
+        (click)="redirectTo(link.url)">
 
         <p>{{ link.title }}</p>
         <img src="{{ link.img }}" />
