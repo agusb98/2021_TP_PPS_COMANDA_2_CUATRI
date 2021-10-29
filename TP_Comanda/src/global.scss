@@ -25,15 +25,17 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-// @font-face {
-//     font-family: "PermanentMarker";
-//     src: url("./assets/fonts/PermanentMarker-Regular.ttf");
-// }
+@font-face {
+  font-family: "Righteous-Regular";
+  src: url("./assets/fonts/Righteous-Regular.ttf");
+}
 
-body {
-    --ion-background-color: linear-gradient(135deg, rgb(124 124 124) 25%, transparent 25%) -50px 0, linear-gradient(225deg, rgb(108 108 108) 25%, transparent 25%) -50px 0, linear-gradient(315deg, rgb(110, 110, 110) 25%, transparent 25%), linear-gradient(45deg, rgb(100 97 97) 25%, transparent 25%);
-    background-size: 8rem 8rem;
-    background-color: #746565;
+body,
+.alert-wrapper {
+  --ion-background-color: none;
+
+  // https://cssgradient.io/
+  background: linear-gradient(55deg, rgba(173, 251, 194, 1) 25%, rgba(249, 255, 238, 1) 50%, rgba(255, 239, 167, 1) 75%) !important;
 }
 
 p,
@@ -44,60 +46,74 @@ ion-item,
 ion-toolbar,
 ion-input,
 ion-icon,
+ion-select,
 ion-card-subtitle,
-ion-card-title {
-    font-family: "PermanentMarker" !important;
-    color: #251e93;
+ion-card-title,
+.alert-title,
+.alert-radio-label {
+  font-family: "Righteous-Regular" !important;
+  color: #251e93 !important;
+}
+
+.alert-button-inner {
+  font-family: "Righteous-Regular" !important;
 }
 
 ion-content,
 ion-header,
 ion-footer {
-    text-align: center;
+  text-align: center;
 }
 
-ion-card, ion-item, ion-footer {
-    --background: papayawhip;
+ion-card,
+ion-footer {
+  --background: none;
+  background: rgb(179, 173, 251);
+  background: linear-gradient(135deg, rgba(179, 173, 251, 1) 25%, rgba(249, 255, 238, 1) 50%, rgba(255, 167, 237, 1) 75%);
 }
 
+ion-fab-button:hover,
 ion-button:hover {
-    animation-name: rotate;
-    animation-duration: 1s;
+  animation-name: rotate;
+  animation-duration: 1s;
 }
 
 ion-footer {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 
-    p,
-    ion-button {
-        margin: 0.25rem;
-    }
+  p,
+  ion-button {
+    margin: 0.25rem;
+  }
 }
 
 @keyframes rotate {
-    from {
-        transform: rotateZ(0deg);
-    }
-    50% {
-        transform: rotateY(180deg) translate(0px, 0px); //skew(-3deg, 20deg);
-    }
+  from {
+    transform: rotateZ(0deg);
+  }
+
+  50% {
+    transform: rotateY(180deg) translate(0px, 0px); //skew(-3deg, 20deg);
+  }
 }
 
 @keyframes rightIn {
-    from {
-        margin-left: 80%;
-    }
-    to {
-        margin-left: 0%;
-    }
+  from {
+    margin-left: 80%;
+  }
+
+  to {
+    margin-left: 0%;
+  }
 }
 
 @keyframes leftIn {
-    from {
-        margin-right: 80%;
-    }
-    to {
-        margin-right: 0%;
-    }
+  from {
+    margin-right: 80%;
+  }
+
+  to {
+    margin-right: 0%;
+  }
 }

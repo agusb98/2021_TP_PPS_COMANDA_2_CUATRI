@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Vibration } from '@ionic-native/vibration/ngx';
-import { Toast, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './logout.page.html',
   styleUrls: ['./logout.page.scss'],
 })
+
 export class LogoutPage {
 
   constructor(
@@ -21,14 +22,18 @@ export class LogoutPage {
   async onLogout() {
     try {
       await this.authService.logout();
-      localStorage.setItem('email', ''); //Save user data in the local storage
-      this.vibration.vibrate([1000, 500, 1000]);
+      localStorage.setItem('user', ''); //Save user data in the local storage
+      this.vibration.vibrate([500]);
       this.toastr.success('Sesión Cerrada con Exito', 'Salir');
-      this.router.navigate(['']);
+      this.redirectTo('user/login');
     }
     catch (error) {
-      this.vibration.vibrate([1000]);
+      this.vibration.vibrate([500, 500, 500]);
       this.toastr.error(error.message, 'Cerrar Sesión');
     }
+  }
+
+  redirectTo(path: string) {
+    this.router.navigate([path]);
   }
 }

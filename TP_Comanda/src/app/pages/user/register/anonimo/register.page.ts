@@ -59,22 +59,20 @@ export class RegisterPage implements OnInit {
   async onRegister() {
     const user = await this.authService.register(this.email, this.password);
     if (user) {
-      this.vibration.vibrate([1000, 500, 1000]);
+      this.vibration.vibrate([500]);
       this.toastr.success('Bienvenido!', 'Registro de Usuario');
       this.redirectTo('home');
     }
     else {
-      this.vibration.vibrate([1000]);
+      this.vibration.vibrate([500, 500, 500]);
       this.toastr.error("Datos ingresados incorrectos", 'Registro de Usuario');
     }
   }
 
   redirectTo(path: string) {
     this.router.navigate([path]);
-    this.ngOnDestroy();
   }
 
-  ngOnDestroy() { this.form = null; }
 
   /* async onLoginGoogle() {
     try {

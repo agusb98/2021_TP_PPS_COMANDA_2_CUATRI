@@ -29,8 +29,7 @@ export class UserService {
       const result = this.referenceToCollection.doc(model.id).set({ ...model });  //  llaves es objeto, 3 puntitos es dinamico
       return result;
     }
-    catch (error) { }
-    return;
+    catch (err) { console.log(err); }
   }
 
   getDuenios() {
@@ -66,6 +65,14 @@ export class UserService {
       return this.referenceToCollection.snapshotChanges().pipe(
         map(users => users.map(a => a.payload.doc.data()))
       );
+    }
+    catch (error) { }
+  }
+
+  getByEmail(email: string) {
+    try {
+      return this.getAll().pipe(
+        map(users => users.find(u => u.correo == email)));
     }
     catch (error) { }
   }

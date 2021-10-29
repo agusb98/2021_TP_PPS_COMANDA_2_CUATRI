@@ -3,20 +3,24 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'user/login' },
   {
     path: 'login',
-    loadChildren: () => import('../../pages/user/login/login.module').then(m => m.LoginPageModule),
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),
   },
   { path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterModule) },
   {
     path: 'logout',
-    loadChildren: () => import('../../pages/user/logout/logout.module').then(m => m.LogoutPageModule), canActivate: [AuthGuard]
+    loadChildren: () => import('./logout/logout.module').then(m => m.LogoutPageModule), canActivate: [AuthGuard]
+  },  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
+
 export class UserRoutingModule { }

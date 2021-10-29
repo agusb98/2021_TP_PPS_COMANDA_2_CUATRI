@@ -15,12 +15,12 @@ export class LoginPage implements OnInit {
   form: FormGroup;
 
   users = [
-    { "email": "duenio@duenio.com", "password": "111111" },
-    { "email": "supervisor@supervisor.com", "password": "222222" },
-    { "email": "metre@metre.com", "password": "333333" },
-    { "email": "mozo@mozo.com", "password": "444444" },
-    { "email": "cocinero@cocinero.com", "password": "555555" },
-    { "email": "bartender@bartender.com", "password": "666666" },
+    { email: "duenio@duenio.com", password: "111111", icon: "👨‍✈️" },
+    { email: "supervisor@supervisor.com", password: "222222", icon: "🕵️" },
+    { email: "metre@metre.com", password: "333333", icon: "💂" },
+    { email: "mozo@mozo.com", password: "444444", icon: "🤵" },
+    { email: "cocinero@cocinero.com", password: "555555", icon: "👨‍🍳" },
+    { email: "bartender@bartender.com", password: "666666", icon: "🍻" },
   ]
 
   validationUserMessage = {
@@ -35,11 +35,11 @@ export class LoginPage implements OnInit {
   }
 
   constructor(
-    private formbuider: FormBuilder,
-    private authService: AuthService,
     private router: Router,
     private vibration: Vibration,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private formbuider: FormBuilder,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() { this.validateForm(); }
@@ -58,11 +58,9 @@ export class LoginPage implements OnInit {
   }
 
   get email() { return this.form.get('email').value; }
-
-  get password() { return this.form.get('password').value; }
-
   set email(str: string) { this.form.controls['email'].setValue(str); }
 
+  get password() { return this.form.get('password').value; }
   set password(str: string) { this.form.controls['password'].setValue(str); }
 
   selectUser(user) {
@@ -71,14 +69,14 @@ export class LoginPage implements OnInit {
   }
 
   async onLogin() {
-    const user = await this.authService.login(this.email, this.password);
-    if (user) {
-      this.vibration.vibrate([1000, 500, 1000]);
+    try {
+      await this.authService.login(this.email, this.password);
+      this.vibration.vibrate([500]);
       this.toastr.success('Ingreso con Exito', 'Iniciar Sesión');
-      this.redirectTo('home');
+      this.redirectTo('/home');
     }
-    else {
-      this.vibration.vibrate([1000]);
+    catch (error) {
+      this.vibration.vibrate([500, 500, 500]);
       this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión');
     }
   }

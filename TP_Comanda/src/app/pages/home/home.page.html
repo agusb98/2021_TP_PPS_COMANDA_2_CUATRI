@@ -1,19 +1,26 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content *ngIf="this.user">
 
-<ion-content [fullscreen]="true">
-  <div class="" *ngFor="let user of this.users$ | async as users">
-    <p>{{ user.nombre }}</p>
+  <ion-fab vertical="top" horizontal="start" (click)="redirectTo('user/profile')">
+    <ion-fab-button>
+      <img src="{{ user.img }}" alt="">
+    </ion-fab-button>
+  </ion-fab>
+
+  <div class="container-cards">
+    <div style="all:unset;" *ngFor="let link of this.links">
+      <ion-card *ngIf="this.user.perfil == link.profile || this.user?.rol == link.profile" class="card-shadow"
+        (click)="redirectTo(link.url)">
+
+        <img src="{{ link.img }}" />
+
+      </ion-card>
+    </div>
   </div>
-</ion-content>
 
-<ion-fab (click)="onLogout()" vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button>
-    <ion-icon name="log-out"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
+  <ion-fab (click)="redirectTo('user/logout')" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="log-out"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
