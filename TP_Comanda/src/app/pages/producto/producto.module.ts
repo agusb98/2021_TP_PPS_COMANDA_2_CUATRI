@@ -7,4 +7,5 @@ import { Vibration } from '@ionic-native/vibration/ngx';
   imports: [ProductoRoutingModule],
   providers: [Vibration]
 })
+
 export class ProductoModule { }
