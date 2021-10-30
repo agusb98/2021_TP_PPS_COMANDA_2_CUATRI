@@ -17,7 +17,10 @@
     </ion-card-content>
   </ion-card>
 
+  
+
   <ion-card>
+
     <ion-card-content>
 
       <form [formGroup]="form" (ngSubmit)="onRegister()">
@@ -28,7 +31,7 @@
         </ion-fab>
 
         <ion-item>
-          <ion-input type="text" name="name" formControlName="name" placeholder="Nombre..">
+          <ion-input type="text" name="name" formControlName="name" value=' ' placeholder="Nombre..">
             <ion-icon name="logo-reddit"></ion-icon>
           </ion-input>
         </ion-item>
@@ -104,6 +107,8 @@
   </ion-fab>
 
 </ion-content>
+
+
 
 <ion-footer>
   <p>¿Tienes una cuenta?</p>
