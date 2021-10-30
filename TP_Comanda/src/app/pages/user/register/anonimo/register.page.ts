@@ -3,7 +3,12 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { ToastrService } from 'ngx-toastr';
+import { Anonimo } from 'src/app/models/anonimo';
 import { AuthService } from 'src/app/services/auth.service';
+import { CameraService } from 'src/app/services/camera.service';
+import { FirestorageService } from 'src/app/services/firestore.service';
+import { UserService } from 'src/app/services/user.service';
+
 
 @Component({
   selector: 'app-register-anonimo',
@@ -14,85 +19,109 @@ import { AuthService } from 'src/app/services/auth.service';
 export class RegisterPage implements OnInit {
   form: FormGroup;
 
+  
   validationUserMessage = {
-    email: [
-      { type: "required", message: "Por favor, ingrese correo" },
-      { type: "pattern", message: "El correo ingresado es incorrecto, inténtelo de nuevo!" }
+    name: [
+      { type: "required", message: "Por favor, ingrese nombre" },
+      { type: "minlength", message: "El nombre debe tener 2 caractéres o más" },
+      { type: "maxlength", message: "El nombre no puede tener más de 30 caractéres" },
+      { type: "pattern", message: "El nombre ingresado es incorrecto, inténtelo de nuevo!" },
     ],
-    password: [
-      { type: "required", message: "Por favor, ingrese contraseña" },
-      { type: "minlength", message: "La contraseña debe tener 6 caractéres o más" }
+    img: [
+      { type: "required", message: "Por favor, ingrese foto de perfil" },
     ]
   }
+
 
   constructor(
     private formbuider: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private vibration: Vibration,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private fs: FirestorageService,
+    private userService: UserService,
+    private cameraService: CameraService
   ) { }
 
   ngOnInit() { this.validateForm(); }
 
   validateForm() {
     this.form = this.formbuider.group({
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-      ])),
-      password: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.minLength(6)
-      ]))
+      name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
+      img: new FormControl('', Validators.compose([Validators.required])),    
+      profile: new FormControl('ANONIMO'),  
     })
   }
 
-  get email() { return this.form.get('email').value; }
+  get name() { return this.form.get('name').value; }
+  set name(data: string) { this.form.controls['name'].setValue(data); }
 
-  get password() { return this.form.get('password').value; }
+  get img() { return this.form.get('img').value; }
+  set img(data: any) { this.form.controls['img'].setValue(data); }
 
-  set email(str: string) { this.form.controls['email'].setValue(str); }
+  
+  
+  profile:string = '';
+  email: string = '';
+  password: string = "123456";
 
-  set password(str: string) { this.form.controls['password'].setValue(str); }
+  async takePic() {
+    const image = await this.cameraService.addNewToGallery();
+    if (image) { 
+      this.img = image; 
+      console.log('en takepic>>>' + this.img);
+    }
+  }  
 
-  async onRegister() {
-    const user = await this.authService.register(this.email, this.password);
+  onRegister() {
+    this.email = this.name + '@anonimo.com';
+    //console.log("email>>>" + this.email);
+    const user = this.authService.register(this.email, this.password);
     if (user) {
-      this.vibration.vibrate([1000, 500, 1000]);
-      this.toastr.success('Bienvenido!', 'Registro de Usuario');
-      this.redirectTo('home');
+      const userAux = this.getDataUser();
+      console.log("userAux>>>>>" + userAux);
+      this.fs.saveImage(this.img, 'users', new Date().getTime() + '')
+        .then(async url => {
+          userAux.img = url;
+
+          await this.userService.createOne(userAux);
+          this.vibration.vibrate([500]);
+          this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
+          this.resetForm();
+        });
     }
     else {
-      this.vibration.vibrate([1000]);
+      this.vibration.vibrate([500, 500, 500]);
       this.toastr.error("Datos ingresados incorrectos", 'Registro de Usuario');
     }
+  }
+
+  getDataUser() {
+    let user: Anonimo = null;
+    console.log("dento del getDateUser");
+
+    
+      user = {
+        id: '',
+        nombre: this.name,
+        apellido: '',
+        dni: '',
+        img: this.img,
+        estado: 'PENDIENTE',
+        correo: this.email,
+        perfil: 'ANONIMO',
+        fecha_creacion: new Date().getTime()
+      };
+    
+    return user;
   }
 
   redirectTo(path: string) {
     this.router.navigate([path]);
   }
 
+  resetForm() { this.ngOnInit(); }
 
-  /* async onLoginGoogle() {
-    try {
-      const user = await this.authService.loginGoogle();
-      if (user) {
-        const isVerified = this.authService.isEmailVerified(user);
-        this.redirectUser(isVerified, 'home', 'verify-email');
-      }
-    }
-    catch (error) { }
-  }
-
-  async onLoginFacebook() {
-    try {
-      const user = await this.authService.loginFacebook();
-      if (user) {
-        const isVerified = this.authService.isEmailVerified(user);
-        this.redirectUser(isVerified, 'home', 'verify-email');
-      }
-    }
-    catch (error) { }
-  } */
+  
 }

@@ -23,12 +23,12 @@ export class LogoutPage {
     try {
       await this.authService.logout();
       localStorage.setItem('user', ''); //Save user data in the local storage
-      this.vibration.vibrate([1000, 500, 1000]);
+      this.vibration.vibrate([500]);
       this.toastr.success('Sesión Cerrada con Exito', 'Salir');
       this.redirectTo('user/login');
     }
     catch (error) {
-      this.vibration.vibrate([1000]);
+      this.vibration.vibrate([500, 500, 500]);
       this.toastr.error(error.message, 'Cerrar Sesión');
     }
   }

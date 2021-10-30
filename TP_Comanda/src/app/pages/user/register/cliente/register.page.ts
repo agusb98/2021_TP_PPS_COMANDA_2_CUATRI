@@ -3,7 +3,16 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { ToastrService } from 'ngx-toastr';
+import { Cliente } from 'src/app/models/cliente';
 import { AuthService } from 'src/app/services/auth.service';
+import { FirestorageService } from 'src/app/services/firestore.service';
+import { QrService } from 'src/app/services/qr.service';
+import { UserService } from 'src/app/services/user.service';
+import { CameraService } from 'src/app/services/camera.service';
+
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+
+declare let window: any;
 
 @Component({
   selector: 'app-register-cliente',
@@ -35,9 +44,6 @@ export class RegisterPage implements OnInit {
     img: [
       { type: "required", message: "Por favor, ingrese foto de perfil" },
     ],
-    profile: [
-      { type: "required", message: "Por favor, seleccione el tipo de empleado" },
-    ],
     email: [
       { type: "required", message: "Por favor, ingrese correo" },
       { type: "maxlength", message: "El correo no puede tener más de 30 caractéres" },
@@ -55,14 +61,66 @@ export class RegisterPage implements OnInit {
     private authService: AuthService,
     private router: Router,
     private vibration: Vibration,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private fs: FirestorageService,
+    private userService: UserService,
+    private qr: QrService,
+    private cameraService: CameraService,
+
+    private qrDni: BarcodeScanner
   ) { }
 
   ngOnInit() { this.validateForm(); }
 
+  scannQR() {
+    // ver 1 no funca
+    // this.qr.getDNI().then((json) => {
+    //   this.name = json['name'];
+    //   this.surname = json['surname'];
+    //   this.dni = json['dni'];
+    // })
+
+    /** ver2 no funca
+    console.log("entre al scannqr");
+    window.cordova.plugins.barcodeScanner.scan(
+      (result) => {
+        var dniData = result.text.split('@');
+        this.form.patchValue({
+          name: dniData[2],
+          surname: dniData[1],      
+          dni: dniData[4],
+        });
+      },
+      (err) => {
+        console.log(err);
+        this.toastr.error("Error al escanear el DNI");
+      },
+      {
+        showTorchButton: true,
+        prompt: 'Scan your code',
+        formats: 'PDF_417',
+        resultDisplayDuration: 2,
+      }
+    ); */
+
+
+    // ver 3
+    const options = { prompt: "Escaneá el DNI", format: 'PDF_417'};
+
+    this.qrDni.scan(options).then( barcodeData => {
+      const datos = barcodeData.text.split('@');
+
+      this.surname = datos[1];
+      this.name = datos[2];
+      this.dni = parseInt(datos[4]);
+      
+    }).catch(err => { console.log(err); });
+  }
+
   validateForm() {
     this.form = this.formbuider.group({
-      name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
+      name: new FormControl('',   
+      Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
       surname: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
       dni: new FormControl('', Validators.compose([Validators.required, Validators.min(11111111), Validators.max(99999999)])),
       img: new FormControl('', Validators.compose([Validators.required])),
@@ -93,23 +151,58 @@ export class RegisterPage implements OnInit {
   get password() { return this.form.get('password').value; }
   set password(data: string) { this.form.controls['password'].setValue(data); }
 
-  async onRegister() {
-    const user = await this.authService.register(this.email, this.password);
+  async takePic() {
+    const image = await this.cameraService.addNewToGallery();
+    if (image) { this.img = image; }
+  }
+  
+  onRegister() {
+    const user = this.authService.register(this.email, this.password);
     if (user) {
-      this.vibration.vibrate([1000, 500, 1000]);
-      this.toastr.success('Bienvenido!', 'Registro de Usuario');
-      this.redirectTo('home');
+      const userAux = this.getDataUser();
+      this.fs.saveImage(this.img, 'users', new Date().getTime() + '')
+        .then(async url => {
+          userAux.img = url;
+
+          await this.userService.createOne(userAux);
+          this.vibration.vibrate([500]);
+          this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
+          this.resetForm();
+        });
     }
     else {
-      this.vibration.vibrate([1000]);
+      this.vibration.vibrate([500, 500, 500]);
       this.toastr.error("Datos ingresados incorrectos", 'Registro de Usuario');
     }
   }
+
+  getDataUser() {
+    let user: Cliente = null;
+
+    if (this.profile == 'CLIENTE') {
+      user = {
+        id: '',
+        nombre: this.name,
+        apellido: this.surname,
+        dni: this.dni,
+        img: this.img,
+        estado: 'PENDIENTE',
+        correo: this.email,
+        perfil: 'CLIENTE',
+        fecha_creacion: new Date().getTime()
+      };
+    }
+    
+    return user;
+  }
+
+ 
 
   redirectTo(path: string) {
     this.router.navigate([path]);
   }
 
+  resetForm() { this.ngOnInit(); }
 
   /* async onLoginGoogle() {
     try {

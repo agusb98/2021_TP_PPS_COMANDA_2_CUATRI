@@ -11,6 +11,8 @@ import { QrService } from 'src/app/services/qr.service';
 import { FirestorageService } from 'src/app/services/firestore.service';
 import { CameraService } from 'src/app/services/camera.service';
 
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+
 @Component({
   selector: 'app-register-duenio_super',
   templateUrl: './register.page.html',
@@ -74,8 +76,10 @@ export class RegisterPage implements OnInit {
     private formbuider: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
-    private storage: FirestorageService,
-    private cameraService: CameraService
+    private fs: FirestorageService,
+    private cameraService: CameraService,
+
+    private qrDni: BarcodeScanner
   ) { }
 
   ngOnInit() { this.validateForm(); }
@@ -118,12 +122,17 @@ export class RegisterPage implements OnInit {
   set password(data: string) { this.form.controls['password'].setValue(data); }
 
   scannQR() {
-    this.qr.getDNI().then((json) => {
-      this.name = json['name'];
-      this.surname = json['surname'];
-      this.dni = json['dni'];
-      this.cuil = json['cuil'];
-    });
+    // ver 3
+    const options = { prompt: "Escaneá el DNI", format: 'PDF_417'};
+
+    this.qrDni.scan(options).then( barcodeData => {
+      const datos = barcodeData.text.split('@');
+
+      this.surname = datos[1];
+      this.name = datos[2];
+      this.dni = parseInt(datos[4]);
+      
+    }).catch(err => { console.log(err); });
   }
 
   async takePic() {
@@ -135,18 +144,18 @@ export class RegisterPage implements OnInit {
     const auth = this.authService.register(this.email, this.password);
     if (auth) {
       const user = this.getDataUser();
-      this.storage.saveImage(this.img, 'users', new Date().getTime() + '')
+      this.fs.saveImage(this.img, 'users', new Date().getTime() + '')
         .then(async url => {
           user.img = url;
 
           await this.userService.createOne(user);
-          this.vibration.vibrate([1000, 500, 1000]);
+          this.vibration.vibrate([500]);
           this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
           this.resetForm();
         });
     }
     else {
-      this.vibration.vibrate([1000]);
+      this.vibration.vibrate([500, 500, 500]);
       this.toastr.error("Datos ingresados incorrectos", 'Registro de Usuario');
     }
   }

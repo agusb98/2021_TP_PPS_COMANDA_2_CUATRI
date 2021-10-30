@@ -69,18 +69,16 @@ export class LoginPage implements OnInit {
   }
 
   async onLogin() {
-    await this.authService.login(this.email, this.password).then((user) => {
-      if (user) {
-        this.vibration.vibrate([1000, 500, 1000]);
-        this.toastr.success('Ingreso con Exito', 'Iniciar Sesión');
-        this.redirectTo('/home');
-
-      }
-      else {
-        this.vibration.vibrate([1000]);
-        this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión');
-      }
-    })
+    try {
+      await this.authService.login(this.email, this.password);
+      this.vibration.vibrate([500]);
+      this.toastr.success('Ingreso con Exito', 'Iniciar Sesión');
+      this.redirectTo('/home');
+    }
+    catch (error) {
+      this.vibration.vibrate([500, 500, 500]);
+      this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión');
+    }
   }
 
   redirectTo(path: string) {
