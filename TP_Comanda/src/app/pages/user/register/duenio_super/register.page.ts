@@ -11,6 +11,8 @@ import { QrService } from 'src/app/services/qr.service';
 import { FirestorageService } from 'src/app/services/firestore.service';
 import { CameraService } from 'src/app/services/camera.service';
 
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+
 @Component({
   selector: 'app-register-duenio_super',
   templateUrl: './register.page.html',
@@ -75,7 +77,9 @@ export class RegisterPage implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private fs: FirestorageService,
-    private cameraService: CameraService
+    private cameraService: CameraService,
+
+    private qrDni: BarcodeScanner
   ) { }
 
   ngOnInit() { this.validateForm(); }
@@ -118,12 +122,17 @@ export class RegisterPage implements OnInit {
   set password(data: string) { this.form.controls['password'].setValue(data); }
 
   scannQR() {
-    this.qr.getDNI().then((json) => {
-      this.name = json['name'];
-      this.surname = json['surname'];
-      this.dni = json['dni'];
-      this.cuil = json['cuil'];
-    });
+    // ver 3
+    const options = { prompt: "Escaneá el DNI", format: 'PDF_417'};
+
+    this.qrDni.scan(options).then( barcodeData => {
+      const datos = barcodeData.text.split('@');
+
+      this.surname = datos[1];
+      this.name = datos[2];
+      this.dni = parseInt(datos[4]);
+      
+    }).catch(err => { console.log(err); });
   }
 
   async takePic() {

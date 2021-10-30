@@ -50,7 +50,7 @@
 ### Alpha - Agustín
 
 - Alta dueño/supervisores. :white_check_mark:
-- Confirmación de cliente. :question:
+- Ajustes estilos y animaciones. :white_check_mark:
 
 
 ### Beta - Rocio 
@@ -61,8 +61,8 @@
 
 ### Gamma - Matías
 
-- Alta cliente-Anonimo. :question:
-- Alta empleados. :question:
+- Alta cliente-Anonimo. :white_check_mark:
+- Alta empleados. :white_check_mark:
 
 <h4></h4>
 
@@ -71,6 +71,7 @@
 
 ### Alpha - Agustín
 
+- Confirmación de cliente :question: 
 - Lectura Codio QR's de ingreso al local. :question: 
 - Lectura Codio QR's de la mesa. :question: 
 
