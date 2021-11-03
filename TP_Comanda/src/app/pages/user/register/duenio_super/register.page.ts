@@ -7,7 +7,7 @@ import { Duenio } from 'src/app/models/duenio';
 import { Supervisor } from 'src/app/models/supervisor';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
-import { QrService } from 'src/app/services/qr.service';
+// import { QrService } from 'src/app/services/qr.service';
 import { FirestorageService } from 'src/app/services/firestore.service';
 import { CameraService } from 'src/app/services/camera.service';
 
@@ -69,10 +69,10 @@ export class RegisterPage implements OnInit {
   }
 
   constructor(
-    private qr: QrService,
+    // private qr: QrService,
     private router: Router,
     private vibration: Vibration,
-    private toastr: ToastrService,
+    public toastr: ToastrService,
     private formbuider: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
@@ -123,17 +123,31 @@ export class RegisterPage implements OnInit {
 
   scannQR() {
     // ver 3
-    const options = { prompt: "Escaneá el DNI", format: 'PDF_417'};
+    const options = { 
+        prompt: "Escaneá el DNI", 
+        formats: 'PDF_417, QR_CODE', 
+        showTorchButton: true, 
+        resultDisplayDuration: 2,};
 
     this.qrDni.scan(options).then( barcodeData => {
       const datos = barcodeData.text.split('@');
 
-      this.surname = datos[1];
-      this.name = datos[2];
-      this.dni = parseInt(datos[4]);
+      this.inputSetQr.surname = datos[1];
+      this.inputSetQr.name = datos[2];
+      this.inputSetQr.dni = datos[4];
       
-    }).catch(err => { console.log(err); });
+    }).catch(err => { 
+      console.log(err); 
+      this.toastr.error("Error al escanear el DNI");
+    });
+
   }
+
+  inputSetQr =  {
+    name : '',
+    surname : '',
+    dni: '',
+  };
 
   async takePic() {
     const image = await this.cameraService.addNewToGallery();
