@@ -3,5 +3,6 @@ export class Mesa{
     numeroMesa:number;
     cantidadComensales:number;
     tipo_mesa:eTipoMesa;
+    img:string;
     //Status: 'DISPONIBLE' | 'RESERVADO' ...
 }

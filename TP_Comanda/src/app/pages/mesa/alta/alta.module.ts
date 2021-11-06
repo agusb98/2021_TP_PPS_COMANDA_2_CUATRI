@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AltaPageRoutingModule } from './alta-routing.module';
 
 import { AltaPage } from './alta.page';
+import { Vibration } from '@ionic-native/vibration/ngx';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { AltaPage } from './alta.page';
     ReactiveFormsModule,
     AltaPageRoutingModule
   ],
-  declarations: [AltaPage]
+  declarations: [AltaPage],
+  providers: [Vibration]
 })
 export class AltaPageModule {}
