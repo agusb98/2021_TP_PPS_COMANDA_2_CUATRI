@@ -1,11 +1,8 @@
 <h1 align="center"> :computer: 2021 - 2 cuatrimestre - PPS - 4°B- La Comanda </h1> 
-
 <h1 align="center"> LA COMANDA </h1> 
 
-
-
 <p align="center">
-<img src="./TP_Comanda/src/assets/images/icono.png" border-radius="100%" width="400" height="400">
+    <img src="./TP_Comanda/src/assets/images/icono.png" border-radius="100%" width="400" height="400">
 </p>
 
 <br>
@@ -41,7 +38,45 @@
 </table>
 
 <br>
+
+<strong>REGISTROS</strong>
+<table>
+  <thead>
+    <th>Duenio/Supervisor</th>
+    <th>Empleado</th>
+    <th>Cliente</th>
+    <th>Mesa</th>
+    <th>Anonimo</th>
+  </thead>
+  <tbody>
+    <tr>
+        <td>
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_adm.png">
+            <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_adm.png" alt="" width="150"></a>
+        </td>
+        <td>
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_emp.png">
+            <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_emp.png" alt="" width="150"></a>
+        </td>
+        <td>
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_cli.png">
+            <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_cli.png" alt="" width="150"></a>
+        </td>
+        <td>
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_add_table.png">
+            <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_add_table.png" alt="" width="150"></a>
+        </td>
+        <td>
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_ano.png">
+            <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_ano.png" alt="" width="150"></a>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
 <br>
+<br>
+
 <h1 align="center"> INTEGRANTES </h1> 
 
 * **Agustín Báez Nuñez** -- *Alpha* -- **GITHUB:** [Agustin](https://github.com/agusb98)
