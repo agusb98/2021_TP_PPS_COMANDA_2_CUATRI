@@ -13,6 +13,33 @@
 
 <h1 align="center"> Grupo: ARM - Group </h1> 
 
+<table>
+  <thead>
+    <th>Splash</th>
+    <th>Spinner (en proceso)</th>
+    <th>Icono</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <a target="_blank" rel="noopener noreferrer" href="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/default.jpg">
+	        <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/gifs/splash.mp4" alt="" width="200">
+        </a>
+      </td>
+      <td>
+        <a target="_blank" rel="noopener noreferrer" href="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/default.jpg">
+	        <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/default.jpg" alt="" width="200">
+        </a>
+      </td>
+      <td>
+        <a target="_blank" rel="noopener noreferrer" href="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/icono.png">
+	        <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/icono.png" alt="" width="200">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 <br>
 <br>
 <h1 align="center"> INTEGRANTES </h1> 
