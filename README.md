@@ -52,23 +52,28 @@
     <tr>
         <td>
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_adm.png">
-            <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_adm.png" alt="" width="150"></a>
+                <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_adm.png" alt="" width="150">
+            </a>
         </td>
         <td>
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_emp.png">
-            <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_emp.png" alt="" width="150"></a>
+                <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_emp.png" alt="" width="150">
+            </a>
         </td>
         <td>
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_cli.png">
-            <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_cli.png" alt="" width="150"></a>
+                <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_cli.png" alt="" width="150">
+            </a>
         </td>
         <td>
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_add_table.png">
-            <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_add_table.png" alt="" width="150"></a>
+                <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_add_table.png" alt="" width="150">
+            </a>
         </td>
         <td>
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_ano.png">
-            <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_ano.png" alt="" width="150"></a>
+                <img src="https://github.com/agusb98/2021_TP_PPS_Comanda_2_cuatri/blob/main/TP_Comanda/src/assets/images/screenshots/screenshot_register_ano.png" alt="" width="150">
+            </a>
         </td>
     </tr>
   </tbody>
