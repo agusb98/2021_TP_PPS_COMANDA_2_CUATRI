@@ -21,14 +21,21 @@ export class ClientePage implements OnInit {
     private toastr: ToastrService,
     ) { }
 
+  user;
+
   ngOnInit() {
-    console.log( localStorage.getItem('users'));
+    this.user = JSON.parse(localStorage.getItem('user'));
+    console.log( this.user.id);
     
     this.yaEnvioEncuesta = false;
   }
   redirectTo(path: string) {
     this.router.navigate([path]);
   }
+
+  //falta meter la funcion al boton de escaneo qr que me lleve a los graficos
+  
+
 
   enviarEncuesta(){
     var rangoSatisfecho = (<HTMLIonRangeElement>document.getElementById("rango")).value;
@@ -38,9 +45,11 @@ export class ClientePage implements OnInit {
     var mesaConEscarbadientes = (<HTMLIonCheckboxElement>document.getElementById("chkEscarbadientes")).checked;
     var mesaConServilletas = (<HTMLIonCheckboxElement>document.getElementById("chkServilletas")).checked;
     var mesaConAderezos = (<HTMLIonCheckboxElement>document.getElementById("chkAderezos")).checked;
-    var clienteNombre = localStorage.getItem('user')["nombre"];
+    var clienteNombre = this.user.nombre;
+    var id_cliente = this.user.id;
 
     var json = {
+      "id_cliente": id_cliente,
       "cliente": clienteNombre,
       "rangoSatisfecho": rangoSatisfecho,
       "protocoloCovid": protocoloCovid,
@@ -55,6 +64,7 @@ export class ClientePage implements OnInit {
     this.toastr.success('Muchas gracias por tu opinion!!', 'Encuesta enviada');
     setTimeout(() => {
       this.yaEnvioEncuesta = true;
+      this.router.navigate(["/home"]);
     }, 2000);
   }
 
