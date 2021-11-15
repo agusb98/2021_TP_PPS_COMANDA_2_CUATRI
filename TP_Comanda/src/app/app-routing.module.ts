@@ -17,6 +17,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/encuestas/cliente/cliente.module').then( m => m.ClientePageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'encuesta/empleado',
+    loadChildren: () => import('./pages/encuestas/empleado/empleado.module').then( m => m.EmpleadoPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'encuesta/supervisor',
+    loadChildren: () => import('./pages/encuestas/supervisor/supervisor.module').then( m => m.SupervisorPageModule),
+    canActivate: [AuthGuard]
+  },
+
 
 ];
 
