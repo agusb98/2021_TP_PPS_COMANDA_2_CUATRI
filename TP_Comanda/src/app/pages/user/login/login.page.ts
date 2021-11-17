@@ -77,7 +77,9 @@ export class LoginPage implements OnInit {
     }
     catch (error) {
       this.vibration.vibrate([500, 500, 500]);
-      this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión');
+
+      if (error == 911) { this.toastr.error('Aún no fue aceptado por Administración, sea paciente', 'Iniciar Sesión'); }
+      else { this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión'); }
     }
   }
 

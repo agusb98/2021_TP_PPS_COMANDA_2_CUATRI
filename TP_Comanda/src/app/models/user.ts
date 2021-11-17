@@ -4,7 +4,7 @@ export abstract class User {
     apellido: string;
     dni: number;
     img: string;
-    estado: 'ACTIVO' | 'INACTIVO' | 'PENDIENTE' | 'INACTIVO';
+    estado: 'ACEPTADO' | 'PENDIENTE' | 'RECHAZADO';
     correo: string;
     fecha_creacion: number; //datetime in miliseconds
 }

@@ -17,6 +17,7 @@ export class HomePage implements OnInit {
     { img: 'assets/images/duenio-super.png', url: 'user/register/duenio', profile: 'DUENIO', title: 'Agregar Dueño/Supervisor' },
     { img: 'assets/images/table.png', url: 'mesa/alta', profile: 'DUENIO', title: 'Alta Mesa' },
     { img: 'assets/images/empleados.png', url: 'user/register/empleado', profile: 'DUENIO', title: 'Agregar Empleado' },
+    { img: 'assets/images/empleados.png', url: 'user/list', profile: 'DUENIO', title: 'Listado Clientes' },
 
     //  Supervisor
     { img: 'assets/images/empleados.png', url: 'user/register/duenio', profile: 'SUPERVISOR', title: 'Agregar Empleado' },

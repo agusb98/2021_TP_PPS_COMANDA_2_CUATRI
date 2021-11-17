@@ -20,11 +20,16 @@ export class AuthService {
 
       if (user && dataUser) {
         dataUser.subscribe(data => {
-          localStorage.setItem('user', JSON.stringify(data));
-          res(user);
+          if (data.estado != 'ACEPTADO') {
+            rej(911);
+          }
+          else {
+            localStorage.setItem('user', JSON.stringify(data));
+            res(user);
+
+          }
         });
       }
-      //TODO:: show notification error..
     });
   }
 
