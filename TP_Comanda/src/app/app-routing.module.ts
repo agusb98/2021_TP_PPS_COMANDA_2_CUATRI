@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
-import { DuenioGuard } from './guards/duenio.guard';
-import { SupervisorGuard } from './guards/supervisor.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'splash', pathMatch: 'full' },
