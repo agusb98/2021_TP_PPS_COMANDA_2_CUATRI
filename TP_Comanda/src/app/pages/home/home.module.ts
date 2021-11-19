@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
+import { Vibration } from '@ionic-native/vibration/ngx';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { HomePageRoutingModule } from './home-routing.module';
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage]
+  declarations: [HomePage],
+  providers: [Vibration]
 })
-export class HomePageModule {}
+export class HomePageModule { }

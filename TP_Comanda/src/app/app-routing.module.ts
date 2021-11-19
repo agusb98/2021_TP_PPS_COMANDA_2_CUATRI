@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'user', loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule) },
   { path: 'producto', loadChildren: () => import('./pages/producto/producto.module').then(m => m.ProductoModule) },
   { path: 'mesa', loadChildren: () => import('./pages/mesa/mesa.module').then(m => m.MesaModule) },
+  { path: 'wait', loadChildren: () => import('./pages/wait/wait.module').then(m => m.WaitModule) },
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule), canActivate: [AuthGuard]

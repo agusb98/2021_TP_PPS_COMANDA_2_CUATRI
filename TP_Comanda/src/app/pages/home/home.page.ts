@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Vibration } from '@ionic-native/vibration/ngx';
+import { ToastrService } from 'ngx-toastr';
+import { WaitListService } from 'src/app/services/wait.service';
+import { WaitList } from '../../models/waitList';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +13,7 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit {
 
   user;
+  waitList;
 
   //  El orden de los links coincide con casosdeuso.jpg
   public links = [
@@ -29,7 +34,7 @@ export class HomePage implements OnInit {
     //  Cocinero
     { img: 'assets/images/product.png', url: 'producto/alta', profile: 'COCINERO', title: 'Agregar Plato/Bebida' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'COCINERO', title: 'Tomar Pedido' },
-    
+
     //  Bartender
     { img: 'assets/images/product.png', url: 'producto/alta', profile: 'BARTENDER', title: 'Agregar Plato/Bebida' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'BARTENDER', title: 'Tomar Pedido' },
@@ -44,6 +49,7 @@ export class HomePage implements OnInit {
 
     //  Metre
     { img: 'assets/images/default.jpg', url: 'user/register/cliente', profile: 'METRE', title: 'Agregar Cliente' },
+    { img: 'assets/images/default.jpg', url: 'await/list', profile: 'METRE', title: 'Listado en Espera' },
 
     //  Cliente
     { img: 'assets/images/default.jpg', url: 'mesa/request', profile: 'CLIENTE', title: 'Solicitar Mesa' },
@@ -54,19 +60,51 @@ export class HomePage implements OnInit {
     { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Pagar' },
   ];
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private vibration: Vibration,
+    private toastr: ToastrService,
+    private waitService: WaitListService,
+  ) { }
 
   ngOnInit() {
     this.user = null;
     this.getUser();
   }
 
-  getUser(){
+  getUser() {
     this.user = JSON.parse(localStorage.getItem('user'));
   }
 
-  addToWaitList(){
-    
+  addToWaitList() {
+    this.waitService.getByUser(this.user.correo).subscribe(data => {
+      if (data) {
+        this.toastr.error('Aún no se le designó una mesa, por favor aguarde', 'Lista de espera')
+      }
+      else { this.saveWaitList(); }
+    });
+  }
+
+  private saveWaitList() {
+    const m = this.createModelWait();
+
+    try {
+      this.waitService.createOne(m);
+      this.vibration.vibrate([500]);
+      this.toastr.success('Aguarde un instante, en breves se le asignará una mesa!', 'Lista de Espera');
+    }
+    catch (error) { this.toastr.error('Error al momento de ingresarlo en lista de espera', 'Lista de espera') }
+  }
+
+  private createModelWait() {
+    let m: WaitList = {
+      id: '',
+      estado: 'PENDIENTE',
+      correo: this.user.correo,
+      date_created: new Date().getTime()
+    }
+
+    return m;
   }
 
   redirectTo(path: string) {

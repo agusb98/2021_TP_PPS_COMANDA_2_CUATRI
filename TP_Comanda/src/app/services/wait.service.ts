@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { WaitList } from '../models/wait_list';
+import { WaitList } from '../models/waitList';
 
 @Injectable({
   providedIn: 'root'
@@ -32,19 +32,19 @@ export class WaitListService {
     catch (err) { console.log(err); }
   }
 
-  getActivos() {
-    return this.getByKynd('ACTIVO') as Observable<WaitList[]>;
+  getPendientes() {
+    return this.getByStatus('PENDIENTE') as Observable<WaitList[]>;
   }
 
   getInactivos() {
-    return this.getByKynd('INACTIVO') as Observable<WaitList[]>;
+    return this.getByStatus('INACTIVO') as Observable<WaitList[]>;
   }
 
   getUsados() {
-    return this.getByKynd('EN USO') as Observable<WaitList[]>;
+    return this.getByStatus('EN USO') as Observable<WaitList[]>;
   }
 
-  private getByKynd(estado: string) {
+  private getByStatus(estado: string) {
     try {
       return this.getAll().pipe(
         map(waits => waits.filter(u => u.estado.includes(estado))));
@@ -65,14 +65,6 @@ export class WaitListService {
     try {
       return this.getAll().pipe(
         map(tables => tables.find(u => u.id == id)));
-    }
-    catch (error) { }
-  }
-
-  getByNumber(numero: number) {
-    try {
-      return this.getAll().pipe(
-        map(tables => tables.find(u => u.numero == numero)));
     }
     catch (error) { }
   }

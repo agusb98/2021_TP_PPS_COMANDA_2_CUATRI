@@ -164,7 +164,7 @@ export class RegisterPage implements OnInit {
         dni: this.dni,
         cuil: this.cuil,
         img: this.img,
-        estado: 'PENDIENTE',
+        estado: 'ACEPTADO',
         correo: this.email,
         perfil: 'DUENIO',
         fecha_creacion: new Date().getTime()
