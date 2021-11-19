@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FirestorageService } from 'src/app/services/firestore.service';
 import { ToastrService } from 'ngx-toastr';
 
+
+
 @Component({
   selector: 'app-cliente',
   templateUrl: './cliente.page.html',

@@ -27,6 +27,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/encuestas/supervisor/supervisor.module').then( m => m.SupervisorPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'encuesta/cliente/grafico',
+    loadChildren: () => import('./pages/encuestas/grafico-cliente/grafico-cliente.module').then( m => m.GraficoClientePageModule),
+    canActivate: [AuthGuard]
+  },
+
 
 
 ];
