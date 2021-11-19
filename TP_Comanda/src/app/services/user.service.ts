@@ -32,6 +32,12 @@ export class UserService {
     catch (err) { console.log(err); }
   }
 
+  public async setOne(model: Duenio | Supervisor | Cliente | Empleado | Anonimo) {
+    try { 
+      return this.referenceToCollection.doc(model.id).set({ ...model }); }
+    catch (err) { console.log(err); }
+  }
+
   getDuenios() {
     return this.getByPerfil('DUENIO') as Observable<Duenio[]>;
   }

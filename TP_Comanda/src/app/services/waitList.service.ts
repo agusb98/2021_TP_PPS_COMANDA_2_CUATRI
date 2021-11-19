@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { map } from 'rxjs/operators';
-import { Mesa } from '../models/mesa';
 import { Observable } from 'rxjs';
+import { WaitList } from '../models/wait_list';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class MesaService {
+export class WaitListService {
 
-  pathOfCollection = 'mesas';
+  pathOfCollection = 'wait_list';
   referenceToCollection: AngularFirestoreCollection;
 
   constructor(private bd: AngularFirestore) {
     this.referenceToCollection =
-      this.bd.collection<Mesa>
-        (this.pathOfCollection, ref => ref.orderBy('numero', 'asc'));
+      this.bd.collection<WaitList>
+        (this.pathOfCollection, ref => ref.orderBy('date_created', 'asc'));
   }
 
-  public async createOne(model: Mesa) {
+  public async createOne(model: WaitList) {
     try {
       model.id = this.bd.createId();
       return await this.referenceToCollection.doc(model.id).set({ ...model });  //  llaves es objeto, 3 puntitos es dinamico
@@ -27,27 +27,27 @@ export class MesaService {
     catch (err) { console.log(err); }
   }
 
-  public async setOne(model: Mesa) {
+  public async setOne(model: WaitList) {
     try { return this.referenceToCollection.doc(model.id).set({ ...model }); }
     catch (err) { console.log(err); }
   }
 
-  getComunes() {
-    return this.getByKynd('COMUN') as Observable<Mesa[]>;
+  getActivos() {
+    return this.getByKynd('ACTIVO') as Observable<WaitList[]>;
   }
 
-  getDiscapacitados() {
-    return this.getByKynd('DISCAPACITADOS') as Observable<Mesa[]>;
+  getInactivos() {
+    return this.getByKynd('INACTIVO') as Observable<WaitList[]>;
   }
 
-  getVips() {
-    return this.getByKynd('VIP') as Observable<Mesa[]>;
+  getUsados() {
+    return this.getByKynd('EN USO') as Observable<WaitList[]>;
   }
 
-  private getByKynd(tipo: string) {
+  private getByKynd(estado: string) {
     try {
       return this.getAll().pipe(
-        map(tables => tables.filter(u => u.tipo.includes(tipo))));
+        map(waits => waits.filter(u => u.estado.includes(estado))));
     }
     catch (error) { }
   }
@@ -55,7 +55,7 @@ export class MesaService {
   getAll() {
     try {
       return this.referenceToCollection.snapshotChanges().pipe(
-        map(tables => tables.map(a => a.payload.doc.data()))
+        map(waits => waits.map(a => a.payload.doc.data()))
       );
     }
     catch (error) { }

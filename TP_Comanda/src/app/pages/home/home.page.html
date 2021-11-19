@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <ion-content *ngIf="this.user">
 
   <ion-fab vertical="bottom" horizontal="start" slot="fixed" (click)="redirectTo('user/profile')">
@@ -5,6 +6,9 @@
       <img src="{{ user.img }}" alt="">
     </ion-fab-button>
   </ion-fab>
+=======
+<ion-content>
+>>>>>>> main
 
   <div class="container-cards">
     <div style="all:unset;" *ngFor="let link of this.links">
@@ -16,6 +20,18 @@
       </ion-card>
     </div>
   </div>
+
+  <ion-fab (click)="redirectTo('user/profile')" vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button>
+      <img src="{{ user.img }}" alt="">
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab (click)="addToWaitList()" *ngIf="this.user.perfil == 'CLIENTE' || this.user.perfil == 'ANONIMO'" vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
   <ion-fab (click)="redirectTo('user/logout')" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
