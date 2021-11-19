@@ -17,7 +17,7 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab *ngIf="this.user.perfil == 'CLIENTE' || this.user.perfil == 'ANONIMO'" vertical="bottom" horizontal="center" slot="fixed">
+  <ion-fab (click)="addToWaitList()" *ngIf="this.user.perfil == 'CLIENTE' || this.user.perfil == 'ANONIMO'" vertical="bottom" horizontal="center" slot="fixed">
     <ion-fab-button>
       <ion-icon name="camera"></ion-icon>
     </ion-fab-button>

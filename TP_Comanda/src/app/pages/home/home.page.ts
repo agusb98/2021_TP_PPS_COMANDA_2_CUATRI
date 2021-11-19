@@ -65,6 +65,10 @@ export class HomePage implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
   }
 
+  addToWaitList(){
+    
+  }
+
   redirectTo(path: string) {
     this.router.navigate([path]);
   }
