@@ -46,7 +46,7 @@ export class HomePage implements OnInit {
     //  Cliente
     { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Ocupar Mesa' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Entrar al Local' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Realizar Pedido' },
+    { img: 'assets/images/174295.png', url: 'pedidos/ordenar', profile: 'CLIENTE', title: 'Realizar Pedido' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Juegos' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Pagar' },
   ];
