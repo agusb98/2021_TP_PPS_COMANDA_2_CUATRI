@@ -6,12 +6,11 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
 import { UserService } from 'src/app/services/user.service';
-// import { QrService } from 'src/app/services/qr.service';
 import { FirestorageService } from 'src/app/services/firestore.service';
 import { CameraService } from 'src/app/services/camera.service';
 
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Empleado } from 'src/app/models/empleado';
+import { QrService } from 'src/app/services/qr.service';
 
 @Component({
   selector: 'app-register-empleado',
@@ -79,8 +78,7 @@ export class RegisterPage implements OnInit {
     private userService: UserService,
     private fs: FirestorageService,
     private cameraService: CameraService,
-
-    private qrDni: BarcodeScanner
+    private qrService: QrService
   ) { }
 
   ngOnInit() { this.validateForm(); }
@@ -124,39 +122,16 @@ export class RegisterPage implements OnInit {
 
   public flag: boolean = false;
 
-  scannQR() {   
-    // ver 3
-    const options = { 
-        prompt: "Escaneá el DNI", 
-        formats: 'PDF_417, QR_CODE', 
-        showTorchButton: true, 
-        resultDisplayDuration: 2,};
+  async scannQR() {
+    let data = await this.qrService.scannDNI();
 
-    this.qrDni.scan(options).then( barcodeData => {
-      const datos = barcodeData.text.split('@');
-
-      this.inputSetQr.surname = datos[1];
-      this.inputSetQr.name = datos[2];
-      this.inputSetQr.dni = datos[4];
-      
-    }).catch(err => { 
-      console.log(err); 
-      this.toastr.error("Error al escanear el DNI");
-    });
-
+    if (data) {
+      this.surname = data.name;
+      this.name = data.surname;
+      this.dni = data.dni;
+    }
+    else { this.toastr.error("Error al escanear el DNI", "QR"); }
   }
-
-  inputSetQr =  {
-    name : '',
-    surname : '',
-    dni: '',
-  };
-
-  // public cargarDatos(apellido: string, nombre: string, miDni: number){
-  //   this.surname(apellido);
-  //   this.name(nombre);
-  //   this.dni(miDni);
-  // }
 
   async takePic() {
     const image = await this.cameraService.addNewToGallery();
@@ -254,27 +229,4 @@ export class RegisterPage implements OnInit {
   }
 
   resetForm() { this.ngOnInit(); }
-
-
-  /* async onLoginGoogle() {
-    try {
-      const user = await this.authService.loginGoogle();
-      if (user) {
-        const isVerified = this.authService.isEmailVerified(user);
-        this.redirectUser(isVerified, 'home', 'verify-email');
-      }
-    }
-    catch (error) { }
-  }
-
-  async onLoginFacebook() {
-    try {
-      const user = await this.authService.loginFacebook();
-      if (user) {
-        const isVerified = this.authService.isEmailVerified(user);
-        this.redirectUser(isVerified, 'home', 'verify-email');
-      }
-    }
-    catch (error) { }
-  } */
 }
