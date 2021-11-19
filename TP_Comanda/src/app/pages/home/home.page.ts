@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as $ from "jquery";
 
 @Component({
   selector: 'app-home',
@@ -61,7 +62,12 @@ export class HomePage implements OnInit {
     { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'CLIENTE', title: 'Grafico' },
   ];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) { 
+    $("#loadingContainer").attr("hidden", false);
+    setTimeout(() => {
+      $("#loadingContainer").attr("hidden", true);
+    }, 2000);
+  }
 
   ngOnInit() {
     this.user = null;
@@ -76,7 +82,15 @@ export class HomePage implements OnInit {
     
   }
 
+  
+
   redirectTo(path: string) {
-    this.router.navigate([path]);
+    //this.router.navigate([path]);
+
+    $("#loadingContainer").attr("hidden", false);
+    setTimeout(() => {
+      $("#loadingContainer").attr("hidden", true);
+      this.router.navigate([path]);
+    }, 3000);
   }
 }
