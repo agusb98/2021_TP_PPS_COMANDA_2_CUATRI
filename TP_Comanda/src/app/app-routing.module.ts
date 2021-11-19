@@ -12,7 +12,30 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule), canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'encuesta/cliente',
+    loadChildren: () => import('./pages/encuestas/cliente/cliente.module').then( m => m.ClientePageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'encuesta/empleado',
+    loadChildren: () => import('./pages/encuestas/empleado/empleado.module').then( m => m.EmpleadoPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'encuesta/supervisor',
+    loadChildren: () => import('./pages/encuestas/supervisor/supervisor.module').then( m => m.SupervisorPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'encuesta/cliente/grafico',
+    loadChildren: () => import('./pages/encuestas/grafico-cliente/grafico-cliente.module').then( m => m.GraficoClientePageModule),
+    canActivate: [AuthGuard]
+  },
+
+
+
 ];
 
 @NgModule({

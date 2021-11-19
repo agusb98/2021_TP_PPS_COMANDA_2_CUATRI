@@ -4,6 +4,7 @@ import { Vibration } from '@ionic-native/vibration/ngx';
 import { ToastrService } from 'ngx-toastr';
 import { WaitListService } from 'src/app/services/wait.service';
 import { WaitList } from '../../models/waitList';
+import * as $ from "jquery";
 
 @Component({
   selector: 'app-home',
@@ -34,22 +35,26 @@ export class HomePage implements OnInit {
     //  Cocinero
     { img: 'assets/images/product.png', url: 'producto/alta', profile: 'COCINERO', title: 'Agregar Plato/Bebida' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'COCINERO', title: 'Tomar Pedido' },
+    { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'COCINERO', title: 'Encuesta' },
 
     //  Bartender
     { img: 'assets/images/product.png', url: 'producto/alta', profile: 'BARTENDER', title: 'Agregar Plato/Bebida' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'BARTENDER', title: 'Tomar Pedido' },
+    { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'BARTENDER', title: 'Encuesta' },
 
     //  Repartidor
     { img: 'assets/images/default.jpg', url: 'none', profile: 'REPARTIDOR', title: 'Mapa Ruta' },
+    { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'REPARTIDOR', title: 'Encuesta' },
 
     //  Mozo
     { img: 'assets/images/default.jpg', url: 'user/register/cliente', profile: 'MOZO', title: 'Agregar Cliente' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'MOZO', title: 'Ocupar Mesa' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'MOZO', title: 'Realizar Pedido' },
+    { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'MOZO', title: 'Encuesta' },
 
     //  Metre
     { img: 'assets/images/default.jpg', url: 'user/register/cliente', profile: 'METRE', title: 'Agregar Cliente' },
-    { img: 'assets/images/default.jpg', url: 'await/list', profile: 'METRE', title: 'Listado en Espera' },
+    { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'METRE', title: 'Encuesta' },
 
     //  Cliente
     { img: 'assets/images/default.jpg', url: 'mesa/request', profile: 'CLIENTE', title: 'Solicitar Mesa' },
@@ -58,6 +63,8 @@ export class HomePage implements OnInit {
     { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Realizar Pedido' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Juegos' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Pagar' },
+    { img: 'assets/images/encuesta.png', url: 'encuesta/cliente', profile: 'CLIENTE', title: 'Encuesta' },
+    { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'CLIENTE', title: 'Grafico' },
   ];
 
   constructor(
@@ -65,7 +72,12 @@ export class HomePage implements OnInit {
     private vibration: Vibration,
     private toastr: ToastrService,
     private waitService: WaitListService,
-  ) { }
+  ) {
+    $("#loadingContainer").attr("hidden", false);
+    setTimeout(() => {
+      $("#loadingContainer").attr("hidden", true);
+    }, 2000);
+  }
 
   ngOnInit() {
     this.user = null;
@@ -107,7 +119,15 @@ export class HomePage implements OnInit {
     return m;
   }
 
+
+
   redirectTo(path: string) {
-    this.router.navigate([path]);
+    //this.router.navigate([path]);
+
+    $("#loadingContainer").attr("hidden", false);
+    setTimeout(() => {
+      $("#loadingContainer").attr("hidden", true);
+      this.router.navigate([path]);
+    }, 3000);
   }
 }
