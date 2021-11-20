@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalController, NavController } from '@ionic/angular';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { ModalController, NavController, NavParams } from '@ionic/angular';
+import { ModalPedidoPage } from '../modal-pedido/modal-pedido.page';  
 import { ToastrService } from 'ngx-toastr';
 import { eEstadoMesaCliente } from 'src/app/enums/eEstadoMesaCliente';
 import { eEstadoProducto } from 'src/app/enums/eEstadoProducto';
@@ -29,10 +31,12 @@ export class PedidosPage implements OnInit {
   public showCarta:boolean = true;
   public showOK: boolean = false;
   public backbuttonHref: string;
-  public saveProdIndex: any
+  public saveProdIndex: any;
+
   constructor(public prodSrv: ProductoService, public mesaSrv: MesaService, public pedidosSrv: PedidosService,
      public route: ActivatedRoute, public router: Router, public navCtrl: NavController,
-      public modalController: ModalController, public toastSrv: ToastrService ) { }
+      public modalController: ModalController, public toastSrv: ToastrService,
+      private qrProducto: BarcodeScanner ) { }
 
   navigateBack(){
     this.navCtrl.back();
@@ -45,6 +49,7 @@ export class PedidosPage implements OnInit {
       console.log(data)
       this.productos = data;
       this.productos.forEach( x => {
+        x.doc_id = x.doc_id;
         x.cantidad = 0;
         x.selected = false;
         x.listoParaServir = false;
@@ -62,14 +67,25 @@ export class PedidosPage implements OnInit {
   }
 
   async openModal(producto) {
-     
+ 
+    const modal = await this.modalController.create({
+      component: ModalPedidoPage,
+      cssClass: 'my-modal-class',
+      componentProps: { producto: producto }
+      }); 
+      modal.onDidDismiss().then(data=>{ 
+        this.productos[this.saveProdIndex] = data.data;
+        this.CalcularDemora();
+        this.CalcularTotal();
+      });
+      return await modal.present();
   }
 
   CalcularTotal(){
     this.total = 0;
     this.productos.forEach(x =>{
       this.total +=  x.selected ? x.precio * x.cantidad : 0
-    })
+    });
   }
   
 
@@ -90,9 +106,20 @@ export class PedidosPage implements OnInit {
      }
   }
 
-  ScanQr() {
-   
-  }
+  ScanQr() { 
+    const options = { 
+      prompt: "Escaneá el producto", 
+      formats: 'QR_CODE',
+      showTorchButton: true, 
+      resultDisplayDuration: 2,};
+
+    this.qrProducto.scan(options).then(data =>{
+      this.AgregarConQr(data.text);
+    }).catch(err => { 
+      console.log(err); 
+    });  
+ }
+
 
   CalcularDemora(){
     let prodSelected = 0;
@@ -103,7 +130,7 @@ export class PedidosPage implements OnInit {
   }
 
   AgregarConQr(textqr:string){
-    console.log("entro")
+    
     let obj = this.productos.findIndex( x => x.doc_id == textqr);
     if (obj !== -1) {
       console.log(obj)
@@ -111,7 +138,7 @@ export class PedidosPage implements OnInit {
       console.log(this.saveProdIndex)
       this.openModal(this.productos[obj])
     } else {
-     // this.toastSrv.presentToast("No se encontro el producto buscado..", 2000,'warning');
+      this.toastSrv.error("No se encontro el producto buscado..",'Pedir producto');
      alert("No se encontro el producto buscado..");
     }
   }
@@ -128,25 +155,15 @@ export class PedidosPage implements OnInit {
     
      
       // this.pushSrv.sendNotification("Nuevo pedido pendiente de aprobacion","La mesa nro " + this.currentMesaClient.nro_mesa + " hizo un pedido.",'mozo')
-      this.ShowSpinner();
+     
+ 
     }
     else{
     //  this.toastSrv.presentToast("Debe agregar productos antes de confirmar...", 2000,'warning');
-
-    alert('"Debe agregar productos antes de confirmar..."');
+ 
+      alert('"Debe agregar productos antes de confirmar..."');
     }
   }
-
-  ShowSpinner(){
-    /*this.spinner.show()
-    setTimeout(() => {
-      this.showCarta = false;
-      this.spinner.hide();
-      this.showOK = true;
-      setTimeout(() => {
-        this.navigateBack();
-      }, 4000);
-    }, 2000);*/
-  }
+ 
 
 }

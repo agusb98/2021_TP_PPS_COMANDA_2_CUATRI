@@ -14,6 +14,10 @@ const routes: Routes = [
   },  {
     path: 'pedidos',
     loadChildren: () => import('./pages/pedidos/pedidos.module').then( m => m.PedidosPageModule)
+  },
+  {
+    path: 'modal-pedido',
+    loadChildren: () => import('./pages/modal-pedido/modal-pedido.module').then( m => m.ModalPedidoPageModule)
   }
 
 ];
