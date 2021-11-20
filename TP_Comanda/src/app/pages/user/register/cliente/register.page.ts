@@ -19,6 +19,8 @@ import { CameraService } from 'src/app/services/camera.service';
 export class RegisterPage implements OnInit {
   form: FormGroup;
 
+  user;
+
   validationUserMessage = {
     name: [
       { type: "required", message: "Por favor, ingrese nombre" },
@@ -64,7 +66,15 @@ export class RegisterPage implements OnInit {
     private cameraService: CameraService,
   ) { }
 
-  ngOnInit() { this.validateForm(); }
+  ngOnInit() {
+    this.validateForm();
+    this.checkUser();
+  }
+
+  checkUser() {
+    let a = localStorage.getItem('user');
+    if (a) { this.user = a; }
+  }
 
   scannQR() {
     let data = this.qrService.scannDNI();
