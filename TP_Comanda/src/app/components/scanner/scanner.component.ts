@@ -64,10 +64,16 @@ export class ScannerComponent implements OnInit {
 
   scannQR() {
 
-    //obtener valor qr
+    //obtener valor qr: puede ser para ingresar en lista de espera
+    //o leer una mesa
 
-    if (this.hasWait) {
-
+    if (this.hasWait && this.hasRequest) {
+      console.log("tiene pedido");
+      
+    }
+    else if (this.hasWait) {
+      console.log('en espera..');
+      
     }
     else { this.addToWaitList(); }
   }
