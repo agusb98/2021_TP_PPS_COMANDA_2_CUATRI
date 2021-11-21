@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="medium">
     <ion-back-button (click)="navigateBack()" slot="start"></ion-back-button>
-    <ion-title>Carta</ion-title>
+    <ion-title>Pedidos</ion-title>
     <ion-icon slot="end" name="qr-code-outline" (click)="ScanQr()" style="font-size: 2em; margin-right: 0.5em;"></ion-icon>
   </ion-toolbar>
 </ion-header>
@@ -41,7 +41,7 @@
   <div *ngIf="showOK" class="ok">
     <p class="title">¡Recibimos tu pedido!</p>
     <img src="../../../assets/images/okay.svg" alt="">
-    <p class="sub">Mientras esperas podes obtener un decuento ingresando a "Juegos"</p>
+    <p class="sub">Gane un 10% de descuento jugando!</p>
   </div>
 </ion-content>
 

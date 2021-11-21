@@ -37,6 +37,7 @@ export class PedidosPage implements OnInit {
      public route: ActivatedRoute, public router: Router, public navCtrl: NavController,
       public modalController: ModalController, public toastSrv: ToastrService,
       private qrProducto: BarcodeScanner ) { }
+      
 
   navigateBack(){
     this.navCtrl.back();
@@ -164,6 +165,6 @@ export class PedidosPage implements OnInit {
       alert('"Debe agregar productos antes de confirmar..."');
     }
   }
- 
+  
 
 }
