@@ -9,10 +9,7 @@ import { FirestorageService } from 'src/app/services/firestore.service';
 import { QrService } from 'src/app/services/qr.service';
 import { UserService } from 'src/app/services/user.service';
 import { CameraService } from 'src/app/services/camera.service';
-
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
-
-declare let window: any;
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register-cliente',
@@ -64,82 +61,33 @@ export class RegisterPage implements OnInit {
     private toastr: ToastrService,
     private fs: FirestorageService,
     private userService: UserService,
-    private qr: QrService,
+    private qrService: QrService,
     private cameraService: CameraService,
-
-    private qrDni: BarcodeScanner
+    public navCtrl: NavController 
   ) { }
-
+ 
+ 
+  navigateBack(){
+    this.navCtrl.back();
+  }
+  
   ngOnInit() { this.validateForm(); }
 
   scannQR() {
-    // ver 1 no funca
-    // this.qr.getDNI().then((json) => {
-    //   this.name = json['name'];
-    //   this.surname = json['surname'];
-    //   this.dni = json['dni'];
-    // })
+    let data = this.qrService.scannDNI();
 
-    //ver2 no funca
-    // window.cordova.plugins.barcodeScanner.scan(
-    //   (result) => {
-    //     var dniData = result.text.split('@');
-    //     this.form.patchValue({
-    //       name: dniData[2],
-    //       surname: dniData[1],      
-    //       dni: dniData[4],
-    //     });
-    //   },
-    //   (err) => {
-    //     console.log(err);
-    //     this.toast.error("Error al escanear el DNI", 'Escanear DNI');
-    //   },
-    //   {
-    //     showTorchButton: true,
-    //     prompt: 'Scan your code',
-    //     formats: 'PDF_417',
-    //     resultDisplayDuration: 2,
-    //   }
-    // );
-
-
-    // ver 3
-    const options = { 
-        prompt: "Escaneá el DNI", 
-        formats: 'PDF_417, QR_CODE', 
-        showTorchButton: true, 
-        resultDisplayDuration: 2,};
-
-    this.qrDni.scan(options).then( barcodeData => {
-      const datos = barcodeData.text.split('@');
-
-      this.inputSetQr.surname = datos[1];
-      this.inputSetQr.name = datos[2];
-      this.inputSetQr.dni = datos[4];
-      
-    }).catch(err => { 
-      console.log(err); 
-      this.toastr.error("Error al escanear el DNI");
-    });
-
+    if (data) {
+      this.surname = data.name;
+      this.name = data.surname;
+      this.dni = data.dni;
+    }
+    else { this.toastr.error("Error al escanear el DNI", "QR"); }
   }
-
-  inputSetQr =  {
-    name : '',
-    surname : '',
-    dni: '',
-  };
-
-  // public cargarDatos(apellido: string, nombre: string, miDni: number){
-  //   this.surname(apellido);
-  //   this.name(nombre);
-  //   this.dni(miDni);
-  // }
 
   validateForm() {
     this.form = this.formbuider.group({
-      name: new FormControl('',   
-      Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
+      name: new FormControl('',
+        Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
       surname: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
       dni: new FormControl('', Validators.compose([Validators.required, Validators.min(11111111), Validators.max(99999999)])),
       img: new FormControl('', Validators.compose([Validators.required])),
@@ -174,7 +122,7 @@ export class RegisterPage implements OnInit {
     const image = await this.cameraService.addNewToGallery();
     if (image) { this.img = image; }
   }
-  
+
   onRegister() {
     const user = this.authService.register(this.email, this.password);
     if (user) {
@@ -211,37 +159,12 @@ export class RegisterPage implements OnInit {
         fecha_creacion: new Date().getTime()
       };
     }
-    
     return user;
   }
-
- 
 
   redirectTo(path: string) {
     this.router.navigate([path]);
   }
 
   resetForm() { this.ngOnInit(); }
-
-  /* async onLoginGoogle() {
-    try {
-      const user = await this.authService.loginGoogle();
-      if (user) {
-        const isVerified = this.authService.isEmailVerified(user);
-        this.redirectUser(isVerified, 'home', 'verify-email');
-      }
-    }
-    catch (error) { }
-  }
-
-  async onLoginFacebook() {
-    try {
-      const user = await this.authService.loginFacebook();
-      if (user) {
-        const isVerified = this.authService.isEmailVerified(user);
-        this.redirectUser(isVerified, 'home', 'verify-email');
-      }
-    }
-    catch (error) { }
-  } */
 }

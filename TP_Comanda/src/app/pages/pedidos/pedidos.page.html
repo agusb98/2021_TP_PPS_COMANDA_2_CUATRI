@@ -1,10 +1,14 @@
+
 <ion-header>
-  <ion-toolbar color="medium">
+  <ion-toolbar>
     <ion-back-button (click)="navigateBack()" slot="start"></ion-back-button>
     <ion-title>Pedidos</ion-title>
     <ion-icon slot="end" name="qr-code-outline" (click)="ScanQr()" style="font-size: 2em; margin-right: 0.5em;"></ion-icon>
   </ion-toolbar>
 </ion-header>
+
+
+ 
 
 <ion-content>
   <div *ngIf="showCarta">

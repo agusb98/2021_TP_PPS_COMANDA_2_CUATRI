@@ -34,9 +34,9 @@ export class PedidosPage implements OnInit {
   public saveProdIndex: any;
 
   constructor(public prodSrv: ProductoService, public mesaSrv: MesaService, public pedidosSrv: PedidosService,
-     public route: ActivatedRoute, public router: Router, public navCtrl: NavController,
+     public route: ActivatedRoute, public router: Router,
       public modalController: ModalController, public toastSrv: ToastrService,
-      private qrProducto: BarcodeScanner ) { }
+      private qrProducto: BarcodeScanner, public navCtrl: NavController ) { }
       
 
   navigateBack(){

@@ -1,5 +1,10 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button (click)="navigateBack()" slot="start"></ion-back-button>
+    <ion-title>Registrar cliente</ion-title> 
+  </ion-toolbar>
+ </ion-header>
 <ion-content>
-
   <ion-fab  vertical="top" horizontal="end">
     <ion-fab-button (click)="takePic()">
       <ion-icon name="camera"></ion-icon>
@@ -31,7 +36,7 @@
         </ion-fab>
 
         <ion-item>
-          <ion-input type="inputText" name="name" formControlName="name" [(ngModel)]="inputSetQr.name"   placeholder="Nombre..">
+          <ion-input type="inputText" name="name" formControlName="name"  placeholder="Nombre..">
             <ion-icon name="logo-reddit"></ion-icon>
           </ion-input>
         </ion-item>
@@ -44,7 +49,7 @@
         </ng-container>
 
         <ion-item>
-          <ion-input type="inputText" name="surname" formControlName="surname" [(ngModel)]="inputSetQr.surname" placeholder="Apellido..">
+          <ion-input type="inputText" name="surname" formControlName="surname" placeholder="Apellido..">
             <ion-icon name="logo-reddit"></ion-icon>
           </ion-input>
         </ion-item>
@@ -57,7 +62,7 @@
         </ng-container>
 
         <ion-item>
-          <ion-input type="number" name="dni" formControlName="dni" [(ngModel)]="inputSetQr.dni"      placeholder="DNI..">
+          <ion-input type="number" name="dni" formControlName="dni" placeholder="DNI..">
             <ion-icon name="logo-reddit"></ion-icon>
           </ion-input>
         </ion-item>

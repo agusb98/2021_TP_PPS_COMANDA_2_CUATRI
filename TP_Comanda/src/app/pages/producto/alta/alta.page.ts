@@ -8,6 +8,7 @@ import { Photo } from '@capacitor/camera';
 import { Router } from '@angular/router';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { ToastrService } from 'ngx-toastr';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-alta',
@@ -31,8 +32,14 @@ export class AltaPage implements OnInit {
     private fs: FirestorageService,
     private vibration: Vibration,
     private toastr: ToastrService,
-  ) { }
+    public navCtrl: NavController
+  ) { } 
+      
 
+  navigateBack(){
+    this.navCtrl.back();
+  }
+  
   ngOnInit() {
     this.nuevoProducto = new Producto();
     this.nuevoProducto.img_src = new Array();

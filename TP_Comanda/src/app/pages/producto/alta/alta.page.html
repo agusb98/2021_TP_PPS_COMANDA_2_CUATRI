@@ -1,12 +1,15 @@
-<ion-content>
 
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button (click)="navigateBack()" slot="start"></ion-back-button>
+    <ion-title>Alta producto</ion-title> 
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
   <ion-card>
     <ion-card-content>
-
-
       <form [formGroup]="form" (ngSubmit)="crearProducto()">
-
-
         <ion-item>
           <ion-input type="text" name="nombreProducto" formControlName="nombreProducto"
             placeholder="Nombre del Producto">

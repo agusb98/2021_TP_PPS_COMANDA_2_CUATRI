@@ -1,8 +1,10 @@
-import { eTipoMesa } from "../enums/eTipoMesa";
-export class Mesa{
-    numeroMesa:number;
-    cantidadComensales:number;
-    tipo_mesa:eTipoMesa;
-    img:string;
-    //Status: 'DISPONIBLE' | 'RESERVADO' ...
+
+export class Mesa {
+    id: string;
+    numero: number;
+    cantidad: number;
+    img: string;
+    tipo: 'COMUN' | 'DISCAPACITADOS' | 'VIP';
+    estado: 'DISPONIBLE' | 'RESERVADO';
+    correo: string;
 }

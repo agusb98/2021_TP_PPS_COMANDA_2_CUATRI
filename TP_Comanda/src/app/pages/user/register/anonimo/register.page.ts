@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Vibration } from '@ionic-native/vibration/ngx';
+import { NavController } from '@ionic/angular';
 import { ToastrService } from 'ngx-toastr';
 import { Anonimo } from 'src/app/models/anonimo';
 import { AuthService } from 'src/app/services/auth.service';
@@ -19,7 +20,7 @@ import { UserService } from 'src/app/services/user.service';
 export class RegisterPage implements OnInit {
   form: FormGroup;
 
-  
+
   validationUserMessage = {
     name: [
       { type: "required", message: "Por favor, ingrese nombre" },
@@ -41,16 +42,23 @@ export class RegisterPage implements OnInit {
     private toastr: ToastrService,
     private fs: FirestorageService,
     private userService: UserService,
-    private cameraService: CameraService
+    private cameraService: CameraService,
+    public navCtrl: NavController 
   ) { }
+
+  
+ 
+  navigateBack(){
+    this.navCtrl.back();
+  }
 
   ngOnInit() { this.validateForm(); }
 
   validateForm() {
     this.form = this.formbuider.group({
       name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
-      img: new FormControl('', Validators.compose([Validators.required])),    
-      profile: new FormControl('ANONIMO'),  
+      img: new FormControl('', Validators.compose([Validators.required])),
+      profile: new FormControl('ANONIMO'),
     })
   }
 
@@ -60,27 +68,20 @@ export class RegisterPage implements OnInit {
   get img() { return this.form.get('img').value; }
   set img(data: any) { this.form.controls['img'].setValue(data); }
 
-  
-  
-  profile:string = '';
+  profile: string = '';
   email: string = '';
   password: string = "123456";
 
   async takePic() {
     const image = await this.cameraService.addNewToGallery();
-    if (image) { 
-      this.img = image; 
-      console.log('en takepic>>>' + this.img);
-    }
-  }  
+    if (image) { this.img = image; }
+  }
 
   onRegister() {
     this.email = this.name + '@anonimo.com';
-    //console.log("email>>>" + this.email);
     const user = this.authService.register(this.email, this.password);
     if (user) {
       const userAux = this.getDataUser();
-      console.log("userAux>>>>>" + userAux);
       this.fs.saveImage(this.img, 'users', new Date().getTime() + '')
         .then(async url => {
           userAux.img = url;
@@ -99,21 +100,19 @@ export class RegisterPage implements OnInit {
 
   getDataUser() {
     let user: Anonimo = null;
-    console.log("dento del getDateUser");
 
-    
-      user = {
-        id: '',
-        nombre: this.name,
-        apellido: '',
-        dni: '',
-        img: this.img,
-        estado: 'PENDIENTE',
-        correo: this.email,
-        perfil: 'ANONIMO',
-        fecha_creacion: new Date().getTime()
-      };
-    
+    user = {
+      id: '',
+      nombre: this.name,
+      apellido: '',
+      dni: '',
+      img: this.img,
+      estado: 'PENDIENTE',
+      correo: this.email,
+      perfil: 'ANONIMO',
+      fecha_creacion: new Date().getTime()
+    };
+
     return user;
   }
 
@@ -122,6 +121,4 @@ export class RegisterPage implements OnInit {
   }
 
   resetForm() { this.ngOnInit(); }
-
-  
 }

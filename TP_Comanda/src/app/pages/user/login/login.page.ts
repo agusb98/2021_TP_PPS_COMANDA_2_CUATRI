@@ -17,7 +17,7 @@ export class LoginPage implements OnInit {
   users = [
     { email: "duenio@duenio.com", password: "111111", icon: "😎" },
     { email: "supervisor@supervisor.com", password: "222222", icon: "🧐" },
-    { email: "metre@metre.com", password: "333333", icon: "💂" },
+    { email: "metre@metre.com", password: "123456", icon: "💂" },
     { email: "mozo@mozo.com", password: "444444", icon: "👨‍💼" },
     { email: "cocinero@cocinero.com", password: "555555", icon: "👨‍🍳" },
     { email: "bartender@bartender.com", password: "666666", icon: "🍻" },
@@ -77,7 +77,9 @@ export class LoginPage implements OnInit {
     }
     catch (error) {
       this.vibration.vibrate([500, 500, 500]);
-      this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión');
+
+      if (error == 911) { this.toastr.error('Aún no fue aceptado por Administración, sea paciente', 'Iniciar Sesión'); }
+      else { this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión'); }
     }
   }
 

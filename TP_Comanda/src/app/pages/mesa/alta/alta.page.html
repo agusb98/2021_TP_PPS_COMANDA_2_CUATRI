@@ -1,88 +1,72 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button (click)="navigateBack()" slot="start"></ion-back-button>
+    <ion-title>Registrar mesa</ion-title> 
+  </ion-toolbar>
+</ion-header>
+
+
 <ion-content>
   <ion-fab vertical="top" horizontal="end">
-    <ion-fab-button (click)="tomarFotoMesa()">
+    <ion-fab-button (click)="takePic()">
       <ion-icon name="camera"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  <!--FOTO DE LA MESA-->
-  <ion-card id="card-img">
-    <ion-card-content>
-      <ion-img *ngIf=" img; else no_img" [src]="img"></ion-img>
 
-      <ng-template #no_img>
-        <ion-img src="assets/images/default.jpg"></ion-img>
-      </ng-template>
+  <form [formGroup]="form" (ngSubmit)="crearMesa()">
+    <div class="wrapform">
+      <ion-item>
+        <ion-input type="number" name="numero" formControlName="numero" placeholder="Numero de mesa">
+          <ion-icon name="id-card-outline"></ion-icon>
+        </ion-input>
 
-    </ion-card-content>
-  </ion-card>
+        <!-- Errors numero-->
+        <ion-row class="hiddenItems">
+          <small
+            *ngIf="form.get('numero').hasError('required') && (form.get('numero').dirty || form.get('numero').touched)">Este
+            campo es obligatorio</small>
+        </ion-row>
+      </ion-item>
 
+      <ion-item>
+        <ion-input type="number" name="cantidad" formControlName="cantidad"
+          placeholder="Numero de comensales">
+          <ion-icon name="body-outline"></ion-icon>
+        </ion-input>
 
-  <!--DATOS DE LA MESA-->
-  <ion-card>
+        <!-- Errors  cantidad -->
+        <ion-row class="hiddenItems">
+          <small
+            *ngIf="form.get('cantidad').hasError('required') && (form.get('cantidad').dirty || form.get('cantidad').touched)">Este
+            campo es obligatorio</small>
+        </ion-row>
+      </ion-item>
 
-    <ion-card-content>
+      <!-- TIPO MESA -->
+      <ion-item lines="full" class="input-wrapper" style="margin-top: 0px;">
+        <ion-label position="fixed">Tipo mesa</ion-label>
 
-      <form [formGroup]="form" (ngSubmit)="crearMesa()">
-        <ion-item>
-          <ion-input type="NUMBER" name="numeroMesa" formControlName="numeroMesa" placeholder="Numero de la mesa">
-            <ion-icon name="id-card-outline"></ion-icon>
-          </ion-input>
-          <!-- Errors numeroMesa-->
-          <ion-row class="error_message">
-            <small
-              *ngIf="form.get('numeroMesa').hasError('required') && (form.get('numeroMesa').dirty || form.get('numeroMesa').touched)">Este
-              campo es obligatorio</small>
-          </ion-row>
-        </ion-item>
-
-
-        <ion-item>
-          <ion-input type="number" name="numeroComensales" formControlName="numeroComensales"
-            placeholder="Numero de comensales">
-            <ion-icon name="body-outline"></ion-icon>
-          </ion-input>
-
-
-          <ion-row class="error_message">
-            <small
-              *ngIf="form.get('numeroComensales').hasError('required') && (form.get('numeroComensales').dirty || form.get('numeroComensales').touched)">Este
-              campo es obligatorio</small>
-          </ion-row>
-        </ion-item>
+        <ion-select value="0" interface="popover" formControlName="tipo" placeholder="Seleccione una opcion"
+          required>
+          <ion-select-option value="COMUN">Comun</ion-select-option>
+          <ion-select-option value="DISCAPACITADOS">Discapacitados</ion-select-option>
+          <ion-select-option value="VIP">Vip</ion-select-option>
+        </ion-select>
 
 
-        <!-- Agregar  numeroComensales -->
+        <!-- Errors TIPO MESA -->
+        <ion-row class="hiddenItems">
+          <small
+            *ngIf="form.get('tipo').hasError('required') && (form.get('tipo').dirty || form.get('tipo').touched)">Este
+            campo es obligatorio</small>
+        </ion-row>
+      </ion-item>
+    </div>
 
-
-        <!---->
-
-
-        <!-- TIPO MESA -->
-        <ion-item lines="full" style="margin-top: 0px;">
-          <ion-label position="fixed">Tipo mesa</ion-label>
-
-          <ion-select value="0" cancelText='Cancelar' okText='Aceptar' formControlName="tipo_mesa"
-            placeholder="Seleccione una opcion" required>
-            <ion-select-option value="COMUN">Comun</ion-select-option>
-            <ion-select-option value="DISCAPACITADOS">Discapacitados</ion-select-option>
-            <ion-select-option value="VIP">Vip</ion-select-option>
-          </ion-select>
-
-
-          <!-- Errors TIPO MESA -->
-          <ion-row class="error_message">
-            <small
-              *ngIf="form.get('tipo_mesa').hasError('required') && (form.get('tipo_mesa').dirty || form.get('tipo_mesa').touched)">Este
-              campo es obligatorio</small>
-          </ion-row>
-        </ion-item> 
-
-        <ion-button shape="round" type="submit" fill="solid" class="sign-btn" [disabled]="!form.valid">
-          Dar de alta</ion-button>
-
-      </form>
-    </ion-card-content>
-  </ion-card>
+    <ion-button shape="round" type="submit" fill="solid" class="sign-btn" [disabled]="!form.valid || !this.img">
+      Crear</ion-button>
+  </form>
 
   <ion-fab (click)="redirectTo('home')" vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button>

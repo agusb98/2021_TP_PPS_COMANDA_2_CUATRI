@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Photo } from '@capacitor/camera';
 import { Vibration } from '@ionic-native/vibration/ngx';
+import { NavController } from '@ionic/angular';
 import { ToastrService } from 'ngx-toastr';
 import { Mesa } from 'src/app/models/mesa';
 import { CameraService } from 'src/app/services/camera.service';
 import { FirestorageService } from 'src/app/services/firestore.service';
 import { MesaService } from 'src/app/services/mesa.service';
+import { QrService } from 'src/app/services/qr.service';
 
 @Component({
   selector: 'app-alta',
@@ -16,45 +17,89 @@ import { MesaService } from 'src/app/services/mesa.service';
 })
 
 export class AltaPage implements OnInit {
-  
+
   form: FormGroup;
-  nuevaMesa: Mesa;
   resultadoError: boolean = null;
-  img:string;
+  img: any;
+
   constructor(
     private formbuider: FormBuilder,
     private mesaSrv: MesaService,
-    private router: Router,
-    private cameraService:CameraService,
-    private fs: FirestorageService, 
+    private cameraService: CameraService,
+    private fs: FirestorageService,
     private vibration: Vibration,
     private toastr: ToastrService,
+    private qrService: QrService,
+    private router: Router,
+    public navCtrl: NavController
   ) { }
+
+ 
+
+  navigateBack(){
+    this.navCtrl.back();
+  }
 
   ngOnInit() {
     this.img='';
     this.form = this.formbuider.group({
-      numeroMesa: ['', [Validators.required]],
-      numeroComensales: ['', [Validators.required]],
-      tipo_mesa: ['', [Validators.required]] 
+      numero: ['', [Validators.required]],
+      cantidad: ['', [Validators.required]],
+      tipo: ['', [Validators.required]]
     });
   }
 
-  crearMesa() {
-    this.nuevaMesa = new Mesa();
-    this.nuevaMesa.numeroMesa = this.form.get('numeroMesa').value;
-    this.nuevaMesa.cantidadComensales = this.form.get('numeroComensales').value;
-    this.nuevaMesa.tipo_mesa = this.form.get('tipo_mesa').value;
-    this.nuevaMesa.img= this.img;
-    this.mesaSrv.guardarNuevaMesa(this.nuevaMesa).then((res) => {
-       
-      this.vibration.vibrate([500]);
-      this.toastr.success('Datos guardados con éxito!', 'Registro de Mesa');
-      this.resetForm();
+  async takePic() {
+    const image = await this.cameraService.addNewToGallery();
+    if (image) { this.img = image; }
+  }
 
-    }).catch((err) => {
-      this.resultadoError = true;
-    })
+  //  TODO:: NO PUDE CON MISMO NUMERO..
+  crearMesa() {
+    let model = this.getDataModel();
+    // let flag;
+
+    try {
+      // this.mesaSrv.getByNumber(model.numero).subscribe(data => {
+      //   if (data == undefined) { flag = true; }
+      //   else { flag = false; }
+      // }).unsubscribe();
+
+      // if (flag) {
+        //this.qrService.createQR('mesa_' + model.id);  //  Ni idea
+        this.fs.saveImage(this.img, 'mesas', new Date().getTime() + '')
+          .then(url => {
+            model.img = url;
+
+            this.mesaSrv.createOne(model);
+            this.vibration.vibrate([500]);
+            this.toastr.success('Datos guardados con éxito!', 'Alta de Mesa');
+            this.resetForm();
+          });
+      // }
+      // else {
+      //   this.toastr.error('Número de mesa ya existente, por favor ingrese otro número', 'Alta de Mesa');
+      //   this.vibration.vibrate([500, 500, 500]);
+      // }
+    }
+    catch (error) {
+      this.toastr.error('Error al momento de registrar, por favor revise los datos ingresados!', 'Alta de Mesa');
+      this.vibration.vibrate([500, 500, 500]);
+    }
+  }
+
+  private getDataModel() {
+    let model: Mesa = {
+      id: '',
+      img: '',
+      correo: '',
+      estado: 'DISPONIBLE',
+      tipo: this.form.get('tipo').value,
+      numero: this.form.get('numero').value,
+      cantidad: this.form.get('cantidad').value,
+    };
+
+    return model;
   }
 
 
@@ -63,46 +108,6 @@ export class AltaPage implements OnInit {
 
   redirectTo(path: string) {
     this.router.navigate([path]);
-  }
-
-  tomarFotoMesa() { 
-      this.addPhotoToGallery(); 
-  }
-
-  async addPhotoToGallery() {
-    const photo = await this.cameraService.addNewToGallery();
-    this.uploadPhoto(photo).then().catch((err) => {
-      console.log("Error addPhotoToGallery", err);
-    });
-  }
- 
-  
-  private async uploadPhoto(cameraPhoto: Photo) {
-    const response = await fetch(cameraPhoto.webPath!);
-    const blob = await response.blob();
-    const filePath = this.getFilePath();
-
-    const uploadTask = this.fs.saveFile(blob, filePath);
-
-    
-    uploadTask.then(async res => {
-      const downloadURL = await res.ref.getDownloadURL();
-      if (downloadURL.length > 0) {
-        console.log("URL  CORRECTO- i_IMG++"); 
-          this.img= downloadURL; 
-        console.log(  "  URL:" + this.img);
-         
-      } else {
-        console.log("IMAGEN NO CORRECTA . NO SE CONTABILIZA " );
-      } 
-    })
-      .catch((err) => {
-        console.log("Error al subbir la imagen: ", err);
-      });
-  }
-
-  getFilePath() {
-    return 'mesas/' + new Date().getTime();
   }
  
 }
