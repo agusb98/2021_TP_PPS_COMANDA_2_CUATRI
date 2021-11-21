@@ -11,13 +11,17 @@ ion-card {
 }
 
 .details {
-  text-align: end;
-  padding-right: 1%;
+  text-align: start;
+  padding-left: 1%;
 }
 
 .buttons {
   padding: 1%;
-  margin: 0%;
+  margin-right: 0%;
+}
+
+#btn-cancel {
+  --background: red;
 }
 
 p {

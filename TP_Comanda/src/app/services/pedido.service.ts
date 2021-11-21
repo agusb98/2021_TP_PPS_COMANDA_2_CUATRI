@@ -1,0 +1,99 @@
+import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Pedido } from '../models/pedido';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class PedidoService {
+
+  pathOfCollection = 'pedidos';
+  referenceToCollection: AngularFirestoreCollection;
+
+  constructor(private bd: AngularFirestore) {
+    this.referenceToCollection =
+      this.bd.collection<Pedido>
+        (this.pathOfCollection, ref => ref.orderBy('date_created', 'asc'));
+  }
+
+  public async createOne(model: Pedido) {
+    try {
+      model.id = this.bd.createId();
+      return await this.referenceToCollection.doc(model.id).set({ ...model });  //  llaves es objeto, 3 puntitos es dinamico
+    }
+    catch (err) { console.log(err); }
+  }
+
+  public async setOne(model: Pedido) {
+    try { return this.referenceToCollection.doc(model.id).set({ ...model }); }
+    catch (err) { console.log(err); }
+  }
+
+  getPendientes() {
+    return this.getByStatus('PENDIENTE') as Observable<Pedido[]>;
+  }
+
+  getCancelados() {
+    return this.getByStatus('CANCELADO') as Observable<Pedido[]>;
+  }
+
+  getAceptados() {
+    return this.getByStatus('ACEPTADO') as Observable<Pedido[]>;
+  }
+
+  getConfirmados() {
+    return this.getByStatus('CONFIRMADO') as Observable<Pedido[]>;
+  }
+
+  getToCobrar() {
+    return this.getByStatus('COBRAR') as Observable<Pedido[]>;
+  }
+
+  getCobrados() {
+    return this.getByStatus('COBRADO') as Observable<Pedido[]>;
+  }
+
+  private getByStatus(estado: string) {
+    try {
+      return this.getAll().pipe(
+        map(pedidos => pedidos.filter(u => u.estado.includes(estado))));
+    }
+    catch (error) { }
+  }
+
+  getAll() {
+    try {
+      return this.referenceToCollection.snapshotChanges().pipe(
+        map(pedidos => pedidos.map(a => a.payload.doc.data()))
+      );
+    }
+    catch (error) { }
+  }
+
+  getById(id: string) {
+    try {
+      return this.getAll().pipe(
+        map(pedidos => pedidos.find(u => u.id == id)));
+    }
+    catch (error) { }
+  }
+
+  getByUser(correo: string, estado?: string) {
+    try {
+      if (!estado) {
+        return this.getAll().pipe(
+          map(pedidos => pedidos.find(u => u.correo == correo)));
+      }
+      else {
+        return this.getAll().pipe(
+          map(tables => tables.find(
+            u => u.correo == correo && u.estado == estado
+          )));
+      }
+    }
+    catch (error) { }
+  }
+}

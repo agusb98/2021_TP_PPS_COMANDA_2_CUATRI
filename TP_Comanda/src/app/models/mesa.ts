@@ -6,5 +6,4 @@ export class Mesa {
     img: string;
     tipo: 'COMUN' | 'DISCAPACITADOS' | 'VIP';
     estado: 'DISPONIBLE' | 'RESERVADO';
-    correo: string;
 }

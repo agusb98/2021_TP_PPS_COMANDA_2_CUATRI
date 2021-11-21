@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { WaitList } from 'src/app/models/waitList';
+import { PedidoService } from 'src/app/services/pedido.service';
 import { WaitListService } from 'src/app/services/wait.service';
 
 @Component({
@@ -9,12 +10,15 @@ import { WaitListService } from 'src/app/services/wait.service';
 })
 
 export class ScannerComponent implements OnInit {
+
   public user;
   public hasWait;
+  public hasRequest;
 
   constructor(
     private toastr: ToastrService,
     private waitService: WaitListService,
+    private requestService: PedidoService,
   ) { }
 
   ngOnInit() {
@@ -23,6 +27,9 @@ export class ScannerComponent implements OnInit {
 
     this.hasWait = false;
     this.checkWait();
+
+    this.hasRequest = false;
+    this.checkRequest();
   }
 
   getUser() {
@@ -38,12 +45,31 @@ export class ScannerComponent implements OnInit {
     if (this.hasWait == false) {
       this.waitService.getByUser(this.user.correo, 'EN USO').subscribe(data => {
         if (data) { this.hasWait = true; }
-      })
+      });
     }
   }
 
-  scannQR(){
-    this.addToWaitList();
+  private checkRequest() {
+    this.requestService.getByUser(this.user.correo, 'PENDIENTE').subscribe(data => {
+      if (data) { this.hasRequest = true; }
+      else { this.hasRequest = false; }
+    })
+
+    if (this.hasRequest == false) {
+      this.requestService.getByUser(this.user.correo, 'EN USO').subscribe(data => {
+        if (data) { this.hasRequest = true; }
+      });
+    }
+  }
+
+  scannQR() {
+
+    //obtener valor qr
+
+    if (this.hasWait) {
+
+    }
+    else { this.addToWaitList(); }
   }
 
   private addToWaitList() {

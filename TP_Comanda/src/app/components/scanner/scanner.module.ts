@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScannerComponent } from './scanner.component';
 
-
-
 @NgModule({
   declarations: [ScannerComponent],
   imports: [
@@ -13,4 +11,5 @@ import { ScannerComponent } from './scanner.component';
     ScannerComponent
   ]
 })
+
 export class ScannerModule { }

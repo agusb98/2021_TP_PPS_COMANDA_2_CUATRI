@@ -56,10 +56,6 @@ export class HomePage implements OnInit {
     { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'METRE', title: 'Encuesta' },
 
     //  Cliente
-    { img: 'assets/images/default.jpg', url: 'mesa/request', profile: 'CLIENTE', title: 'Solicitar Mesa' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Ocupar Mesa' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Entrar al Local' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Realizar Pedido' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Juegos' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Pagar' },
     { img: 'assets/images/encuesta.png', url: 'encuesta/cliente', profile: 'CLIENTE', title: 'Encuesta' },

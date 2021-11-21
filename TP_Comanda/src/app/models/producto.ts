@@ -1,8 +1,10 @@
 
-export class Producto{
-    nombreProducto:string;
-    descripcion:string;
-    tiempo:number;
-    precio:number;
-    img_src:string[];
+export class Producto {
+    id: string;
+    nombreProducto: string;
+    descripcion: string;
+    tiempo: number;
+    precio: number;
+    tipo: 'BEBIDA' | 'COMIDA' | 'POSTRE';
+    img_src: string[];
 }
