@@ -17,6 +17,7 @@ export class ListPage implements OnInit {
   kynds = [
     { val: 'Activos', img: 'assets/images/default.png' },
     { val: 'Inactivos', img: 'assets/images/default.png' },
+    { val: 'Cancelados', img: 'assets/images/default.png' },
     { val: 'Usados', img: 'assets/images/default.png' },
   ];
 
@@ -46,18 +47,22 @@ export class ListPage implements OnInit {
         this.waits$ = this.waitService.getInactivos();
         break;
 
+        case 'Cancelados':
+        this.waits$ = this.waitService.getCancelados();
+        break;
+
       default:
         this.waits$ = this.waitService.getPendientes();
         break;
     }
   }
 
-  setStatus(model: WaitList){
-    
+  setStatus(model: WaitList, status) {
+    model.estado = status;
+    this.waitService.setOne(model);
   }
 
   redirectTo(path: string) {
     this.router.navigate([path]);
   }
-
 }

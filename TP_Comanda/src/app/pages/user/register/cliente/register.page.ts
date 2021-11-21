@@ -76,8 +76,8 @@ export class RegisterPage implements OnInit {
     if (a) { this.user = a; }
   }
 
-  scannQR() {
-    let data = this.qrService.scannDNI();
+  async scannQR() {
+    let data: any = await this.qrService.scannDNI();
 
     if (data) {
       this.surname = data.name;

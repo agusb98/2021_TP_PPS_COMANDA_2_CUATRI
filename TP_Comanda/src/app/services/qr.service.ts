@@ -9,7 +9,6 @@ export class QrService {
 	constructor(private barcodeScanner: BarcodeScanner) { }
 
 	scannDNI() {
-		let data: { name: string, surname: string, dni: number };
 		const options = {
 			prompt: "Escaneá el DNI",
 			formats: 'PDF_417, QR_CODE',
@@ -17,19 +16,18 @@ export class QrService {
 			resultDisplayDuration: 2,
 		};
 
-		try {
+		return new Promise((res, rej) => {
 			this.barcodeScanner.scan(options).then(barcodeData => {
 				const datos = barcodeData.text.split('@');
 
-				data = {
+				let data = {
 					surname: datos[1],
 					name: datos[2],
 					dni: + datos[4],
 				}
+				res(data);
 			});
-		} catch (error) { console.log(error); }
-		
-		if (data) { return data; }
+		});
 	}
 
 	async createQR(code: any) {

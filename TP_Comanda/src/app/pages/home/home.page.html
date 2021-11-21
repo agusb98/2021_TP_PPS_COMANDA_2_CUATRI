@@ -1,4 +1,3 @@
-
 <ion-content *ngIf="this.user">
 
   <div class="loadingContainer" id="loadingContainer" hidden>
@@ -31,11 +30,7 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab (click)="addToWaitList()" *ngIf="this.user.perfil == 'CLIENTE' || this.user.perfil == 'ANONIMO'" vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button>
-      <ion-icon name="camera"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <app-scanner *ngIf="this.user.perfil == 'CLIENTE' || this.user.perfil == 'ANONIMO'"></app-scanner>
 
   <ion-fab (click)="redirectTo('user/logout')" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>

@@ -117,8 +117,8 @@ export class RegisterPage implements OnInit {
   get password() { return this.form.get('password').value; }
   set password(data: string) { this.form.controls['password'].setValue(data); }
 
-  scannQR() {
-    let data = this.qrService.scannDNI();
+  async scannQR() {
+    let data: any = await this.qrService.scannDNI();
 
     if (data) {
       this.surname = data.name;

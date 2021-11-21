@@ -40,6 +40,10 @@ export class WaitListService {
     return this.getByStatus('INACTIVO') as Observable<WaitList[]>;
   }
 
+  getCancelados() {
+    return this.getByStatus('CANCELADO') as Observable<WaitList[]>;
+  }
+
   getUsados() {
     return this.getByStatus('EN USO') as Observable<WaitList[]>;
   }
@@ -69,10 +73,18 @@ export class WaitListService {
     catch (error) { }
   }
 
-  getByUser(correo: string) {
+  getByUser(correo: string, estado?: string) {
     try {
-      return this.getAll().pipe(
-        map(tables => tables.find(u => u.correo == correo)));
+      if (!estado) {
+        return this.getAll().pipe(
+          map(tables => tables.find(u => u.correo == correo)));
+      }
+      else {
+        return this.getAll().pipe(
+          map(tables => tables.find(
+            u => u.correo == correo && u.estado == estado
+          )));
+      }
     }
     catch (error) { }
   }

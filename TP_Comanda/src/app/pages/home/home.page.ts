@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Vibration } from '@ionic-native/vibration/ngx';
 import { ToastrService } from 'ngx-toastr';
 import { WaitListService } from 'src/app/services/wait.service';
 import { WaitList } from '../../models/waitList';
@@ -13,8 +12,7 @@ import * as $ from "jquery";
 })
 export class HomePage implements OnInit {
 
-  user;
-  waitList;
+  public user;
 
   //  El orden de los links coincide con casosdeuso.jpg
   public links = [
@@ -68,12 +66,7 @@ export class HomePage implements OnInit {
     { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'CLIENTE', title: 'Grafico' },
   ];
 
-  constructor(
-    private router: Router,
-    private vibration: Vibration,
-    private toastr: ToastrService,
-    private waitService: WaitListService,
-  ) {
+  constructor(private router: Router,) {
     $("#loadingContainer").attr("hidden", false);
     setTimeout(() => {
       $("#loadingContainer").attr("hidden", true);
@@ -89,43 +82,9 @@ export class HomePage implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
   }
 
-  addToWaitList() {
-    this.waitService.getByUser(this.user.correo).subscribe(data => {
-      if (data) {
-        this.toastr.error('Aún no se le designó una mesa, por favor aguarde', 'Lista de espera')
-      }
-      else { this.saveWaitList(); }
-    });
-  }
-
-  private saveWaitList() {
-    const m = this.createModelWait();
-
-    try {
-      this.waitService.createOne(m);
-      this.vibration.vibrate([500]);
-      this.toastr.success('Aguarde un instante, en breves se le asignará una mesa!', 'Lista de Espera');
-    }
-    catch (error) { this.toastr.error('Error al momento de ingresarlo en lista de espera', 'Lista de espera') }
-  }
-
-  private createModelWait() {
-    let m: WaitList = {
-      id: '',
-      estado: 'PENDIENTE',
-      correo: this.user.correo,
-      date_created: new Date().getTime()
-    }
-
-    return m;
-  }
-
-
-
   redirectTo(path: string) {
-    //this.router.navigate([path]);
-
     $("#loadingContainer").attr("hidden", false);
+
     setTimeout(() => {
       $("#loadingContainer").attr("hidden", true);
       this.router.navigate([path]);

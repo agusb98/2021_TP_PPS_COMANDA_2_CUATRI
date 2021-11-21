@@ -4,10 +4,10 @@
     <div style="all:unset;" *ngFor="let w of this.waits$ | async">
       <ion-card class="card-shadow">
         <div class="buttons">
-          <ion-button (click)="setStatus(w)" *ngIf="w.estado == 'PENDIENTE'">
+          <ion-button (click)="setStatus(w, 'EN USO')" *ngIf="w.estado == 'PENDIENTE'">
             Reservar
           </ion-button>
-          <ion-button (click)="setStatus(w)" *ngIf="w.estado == 'PENDIENTE'">
+          <ion-button (click)="setStatus(w, 'CANCELADO')" *ngIf="w.estado == 'PENDIENTE'">
             Cancelar
           </ion-button>
         </div>

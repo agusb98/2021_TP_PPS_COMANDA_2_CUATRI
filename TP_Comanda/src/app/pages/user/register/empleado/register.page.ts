@@ -123,7 +123,7 @@ export class RegisterPage implements OnInit {
   public flag: boolean = false;
 
   async scannQR() {
-    let data = await this.qrService.scannDNI();
+    let data: any = await this.qrService.scannDNI();
 
     if (data) {
       this.surname = data.name;
