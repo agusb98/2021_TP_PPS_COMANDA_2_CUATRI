@@ -58,6 +58,7 @@ export class PedidosPage implements OnInit {
       })
     });
     //Traigo mesa-cliente
+    //
     this.pedidosSrv.TraerMesaCliente().subscribe( mesas => {
       this.mesasCliente = mesas;
       this.currentMesaClient = this.mesasCliente.find( x => {
