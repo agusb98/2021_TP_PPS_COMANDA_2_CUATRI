@@ -4,7 +4,7 @@ export class Pedido {
     mesa_numero: number;
     producto_id: string;
     date_created: number;
-    estado: 'PENDIENTE' | 'CANCELADO' | 'ACEPTADO' | 'CONFIRMADO' | 'COBRAR' | 'COBRADO';
+    estado: 'PENDIENTE' | 'CANCELADO' | 'ACEPTADO' | 'CONFIRMADO' | 'COBRAR' | 'COBRADO' | 'ENCUESTADO';
 }
 
 //  PENDIENTE: metre es quien asignará este estado

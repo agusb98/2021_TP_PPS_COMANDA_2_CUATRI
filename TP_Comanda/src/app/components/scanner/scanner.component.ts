@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { WaitList } from 'src/app/models/waitList';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { WaitListService } from 'src/app/services/wait.service';
+
+import { WaitList } from 'src/app/models/waitList';
+import { Pedido } from 'src/app/models/pedido';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-scanner',
@@ -12,8 +15,8 @@ import { WaitListService } from 'src/app/services/wait.service';
 export class ScannerComponent implements OnInit {
 
   public user;
-  public hasWait;
-  public hasRequest;
+  public hasWait$: Observable<any>;
+  public hasRequest$: Observable<any>;
 
   constructor(
     private toastr: ToastrService,
@@ -25,10 +28,7 @@ export class ScannerComponent implements OnInit {
     this.user = null;
     this.getUser();
 
-    this.hasWait = false;
     this.checkWait();
-
-    this.hasRequest = false;
     this.checkRequest();
   }
 
@@ -37,57 +37,52 @@ export class ScannerComponent implements OnInit {
   }
 
   private checkWait() {
-    this.waitService.getByUser(this.user.correo, 'PENDIENTE').subscribe(data => {
-      if (data) { this.hasWait = true; }
-      else { this.hasWait = false; }
-    })
-
-    if (this.hasWait == false) {
-      this.waitService.getByUser(this.user.correo, 'EN USO').subscribe(data => {
-        if (data) { this.hasWait = true; }
-      });
-    }
+    this.hasWait$ = this.waitService.getLastByUser(this.user.correo);
   }
 
   private checkRequest() {
-    this.requestService.getByUser(this.user.correo, 'PENDIENTE').subscribe(data => {
-      if (data) { this.hasRequest = true; }
-      else { this.hasRequest = false; }
-    })
-
-    if (this.hasRequest == false) {
-      this.requestService.getByUser(this.user.correo, 'EN USO').subscribe(data => {
-        if (data) { this.hasRequest = true; }
-      });
-    }
+    this.hasRequest$ = this.requestService.getLastByUser(this.user.correo);
   }
 
-  scannQR() {
+  async scannQR() {
 
     //obtener valor qr: puede ser para ingresar en lista de espera
     //o leer una mesa
+    //  por lo cual
+    //  quiero un qr para lista de espera
+    // y varios qr de mesas
 
-    if (this.hasWait && this.hasRequest) {
-      console.log("tiene pedido");
+    this.hasWait$.subscribe(data => {
+      if (data.estado == 'PENDIENTE' || data.estado == 'EN USO') {
+        this.toastr.error('Previamente usted ya solicitó una mesa, en breves se le acercará un recepcionista', 'Lista de espera');
+      }
+      else { this.addToWaitList(); }
+    })
+
+    this.hasRequest$.subscribe(data => {
+      console.log(data);
       
-    }
-    else if (this.hasWait) {
-      console.log('en espera..');
-      
-    }
-    else { this.addToWaitList(); }
+      if (data.estado == 'PENDIENTE') {
+        console.log('llevarlo a listado de productos');
+      }
+      else if (data.estado == 'ACEPTADO') {
+        console.log('preguntarle si ya lo recibió');
+      }
+      else if (data.estado == 'CONFIRMADO') {
+        console.log('preguntarle si quiere pagar o jugar un jueguito');
+      }
+      else if (data.estado == 'COBRADO') {
+        console.log('preguntarle si quiere hacer una encuesta');
+      }
+    })
   }
 
   private addToWaitList() {
     try {
-      if (this.hasWait == false) {
-        const m = this.createModelWait();
-        this.waitService.createOne(m);
+      const m = this.createModelWait();
+      this.waitService.createOne(m);
 
-        this.hasWait = true;
-        this.toastr.success('Aguarde un instante, en breves se le asignará una mesa!', 'Lista de Espera');
-      }
-      else { this.toastr.error('Previamente usted ya solicitó una mesa', 'Lista de espera') }
+      this.toastr.success('Aguarde un instante, en breves se le asignará una mesa!', 'Lista de Espera');
     }
     catch (error) { this.toastr.error('Error al momento de ingresarlo en lista de espera', 'Lista de espera'); }
   }
