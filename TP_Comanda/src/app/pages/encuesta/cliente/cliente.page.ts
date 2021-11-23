@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirestorageService } from 'src/app/services/firestore.service';
 import { ToastrService } from 'ngx-toastr';
+import { PedidoService } from 'src/app/services/pedido.service';
 
 
 
@@ -12,34 +13,45 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ClientePage implements OnInit {
 
-  opinion:string = "";
-  protocoloCovid:boolean;
+  opinion: string = "";
+  protocoloCovid: boolean;
+  requestId: string;
 
-  yaEnvioEncuesta:boolean = false;
+  yaEnvioEncuesta: boolean = false;
 
-  constructor( 
+  constructor(
     private router: Router,
-    private db:FirestorageService, 
+    private db: FirestorageService,
+    private pedidoService: PedidoService,
     private toastr: ToastrService,
-    ) { }
+  ) { }
 
   user;
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
-    console.log( this.user.id);
-    
+    console.log(this.user.id);
+
     this.yaEnvioEncuesta = false;
+
+    this.getLastPedido();
   }
+
+  getLastPedido() {
+    this.pedidoService.getLastByUser(this.user.correo).subscribe(data => {
+      this.requestId = data.id;
+    });
+  }
+
   redirectTo(path: string) {
     this.router.navigate([path]);
   }
 
   //falta meter la funcion al boton de escaneo qr que me lleve a los graficos
-  
 
 
-  enviarEncuesta(){
+
+  enviarEncuesta() {
     var rangoSatisfecho = (<HTMLIonRangeElement>document.getElementById("rango")).value;
     var protocoloCovid = (<HTMLIonRadioGroupElement>document.getElementById("grupo")).value == "true";
     var selectString = (<HTMLIonSelectElement>document.getElementById("select")).value;
@@ -52,10 +64,11 @@ export class ClientePage implements OnInit {
 
     var json = {
       "id_cliente": id_cliente,
+      "id_pedido": this.requestId,
       "cliente": clienteNombre,
       "rangoSatisfecho": rangoSatisfecho,
       "protocoloCovid": protocoloCovid,
-      "select": selectString, 
+      "select": selectString,
       "mesaConSal": mesaConSal,
       "mesaConEscarvadientes": mesaConEscarbadientes,
       "mesaConServilletas": mesaConServilletas,
@@ -70,4 +83,4 @@ export class ClientePage implements OnInit {
     }, 2000);
   }
 
-} 
+}

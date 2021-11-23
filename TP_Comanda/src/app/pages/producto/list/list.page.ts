@@ -46,12 +46,8 @@ export class ListPage implements OnInit {
 
     if (this.productsSelected) {
       this.productsSelected.forEach(p => {
-        console.log(p);
-        console.log(model);
         
         if (p.id == model.id) {
-          console.log("a");
-          
           quantity = p.quantity;
         }
       });

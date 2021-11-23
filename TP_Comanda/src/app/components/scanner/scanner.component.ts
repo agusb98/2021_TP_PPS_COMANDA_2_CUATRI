@@ -56,10 +56,12 @@ export class ScannerComponent implements OnInit {
 
   async scannQR() {
     let data;
-    this.barcodeScanner.scan(this.options).then(barcodeData => {
-      const datos = barcodeData.text.split(' ');
-      data = { name: datos[0], id: datos[1], }
-    });
+    // this.barcodeScanner.scan(this.options).then(barcodeData => {
+    //   const datos = barcodeData.text.split(' ');
+    //   data = { name: datos[0], id: datos[1], }
+    // });
+
+    data = { name: 'MESA', id: 2, }
 
     if (data) {
       if (data.name == 'ENTRADA') {
@@ -75,43 +77,25 @@ export class ScannerComponent implements OnInit {
       }
       else if (data.name == 'MESA') {
         this.hasRequest$.subscribe(dataRes => {
-          
-          if (dataRes.mesa_numero == data.id) {
-            if (data.estado == 'PENDIENTE') {
-              this.router.navigate(['/producto/list']);
-            }
-            else if (data.estado == 'ACEPTADO') {
-              console.log('preguntarle si ya lo recibió');
-            }
-            else if (data.estado == 'CONFIRMADO') {
-              console.log('preguntarle si quiere pagar o jugar un jueguito');
-            }
-            else if (data.estado == 'COBRADO') {
-              console.log('preguntarle si quiere hacer una encuesta');
-            }
+
+          if (dataRes?.estado == 'PENDIENTE') {
+            this.router.navigate(['/producto/list']);
           }
-          else {
-            this.toastr.error('Usted se ha equivocado de mesa', 'Lista de espera');
+          else if (dataRes?.estado == 'COBRAR') {
+            this.toastr.error('En breves se le acercará un mozo a cobrarle', 'QR');
           }
-        })
+          else if (
+            dataRes?.estado == 'ACEPTADO' || dataRes?.estado == 'CONFIRMADO' ||
+            dataRes?.estado == 'COBRADO'
+          ) {
+            this.router.navigate(['/pedido/id/' + dataRes?.id]);
+          }
+          else { this.toastr.error('Lo sentimos, primero debe anunciarse en recepción', 'QR'); }
+        });
       }
-      else if(data.name == 'PROPINA'){
-        console.log('preguntar si realmente quiere dejar propina');
-      }
+      else { this.toastr.error('QR fuera de servicio..', 'QR'); }
     }
-
-
-    //obtener valor qr: puede ser para ingresar en lista de espera
-    //o leer una mesa
-    //  por lo cual
-    //  quiero un qr para lista de espera
-    // y varios qr de mesas
-
-    //  if qr ir entrada
-
-
-    //  if qr is mesa X
-
+    else { this.toastr.error('QR no perteneciente al restaurante..', 'QR'); }
   }
 
   private addToWaitList() {

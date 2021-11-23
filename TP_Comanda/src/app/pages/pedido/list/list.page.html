@@ -14,10 +14,20 @@
             <table>
               <thead>
                 <tr>
-                  <th><ion-button (click)="setStatus(req, 'CANCELADO')" id="btn-decline">👎</ion-button></th>
+                  <th>
+                    <ion-button *ngIf="req.estado == 'COBRADO'" (click)="setStatus(req, 'CANCELADO')" id="btn-decline">👎</ion-button>
+                  </th>
                   <th></th>
                   <th></th>
-                  <th><ion-button (click)="setStatus(req, 'ACEPTADO')" id="btn-confirm">👍</ion-button></th>
+                  <th *ngIf="req.estado == 'PENDIENTE'">
+                    <ion-button (click)="setStatus(req, 'ACEPTADO')" id="btn-confirm">👍</ion-button>
+                  </th>
+                  <th *ngIf="req.estado == 'ACEPTADO'">
+                    <ion-button (click)="setStatus(req, 'CONFIRMADO')" id="btn-confirm">👍</ion-button>
+                  </th>
+                  <th *ngIf="req.estado == 'COBRAR'">
+                    <ion-button (click)="setStatus(req, 'COBRADO')" id="btn-confirm">👍</ion-button>
+                  </th>
                 </tr>
               </thead>
 
@@ -53,7 +63,7 @@
     <ion-fab-button>{{ this.kyndSelected.val }}</ion-fab-button>
     <ion-fab-list side="top">
       <ion-fab-button *ngFor="let p of this.kynds" (click)="setFilter(p)">
-        <p>p.val</p>
+        <p>{{p.val}}</p>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>

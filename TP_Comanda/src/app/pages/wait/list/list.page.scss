@@ -12,7 +12,8 @@ ion-card {
 
 .details {
   text-align: start;
-  padding-left: 1%;
+  padding-left: 2%;
+  width: 100%;
 }
 
 .buttons {
@@ -26,4 +27,8 @@ ion-card {
 
 p {
   margin-top: 5%;
+}
+
+#p-title {
+  margin-top: 0%;
 }

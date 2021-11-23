@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { Pedido } from 'src/app/models/pedido';
 import { ToastrService } from 'ngx-toastr';
+import { MesaService } from 'src/app/services/mesa.service';
+import { Mesa } from 'src/app/models/mesa';
 
 @Component({
   selector: 'app-list-mesa',
@@ -13,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ListPage implements OnInit {
 
   requests$: Observable<any>;
+  table: Mesa
 
   kyndSelected;
   kynds = [
@@ -27,6 +30,7 @@ export class ListPage implements OnInit {
 
   constructor(
     private reqService: PedidoService,
+    private tblService: MesaService,
     private toastr: ToastrService,
     private router: Router
   ) { }
@@ -51,15 +55,15 @@ export class ListPage implements OnInit {
         this.requests$ = this.reqService.getAceptados();
         break;
 
-        case 'Confirmados':
+      case 'Confirmados':
         this.requests$ = this.reqService.getConfirmados();
         break;
 
-        case 'A cobrar':
+      case 'A cobrar':
         this.requests$ = this.reqService.getToCobrar();
         break;
 
-        case 'Cobrados':
+      case 'Cobrados':
         this.requests$ = this.reqService.getCobrados();
         break;
 
@@ -69,15 +73,29 @@ export class ListPage implements OnInit {
     }
   }
 
-  setStatus(model: Pedido, status){
+  setStatus(model: Pedido, status) {
     model.estado = status;
     try {
       this.reqService.setOne(model);
-    } 
-    catch (error) {
-      this.toastr.error('Error inesperado al momento de cambiar estado del pedido', 'Acción')
-    }
 
+      if (model.estado == 'COBRADO') {
+
+        this.tblService.getByNumber(model.mesa_numero).subscribe(data => {
+          this.table = data as Mesa;
+
+          if (this.table) {
+            this.setStatusTable(this.table);
+            this.toastr.success('Datos registrados, ahora la mesa Nº ' + this.table.numero + ' se encuentra Disponible', 'Estado de Pedido');
+          }
+        });
+      }
+    }
+    catch (error) { this.toastr.error('Error inesperado al momento de cambiar estado del pedido', 'Acción') }
+  }
+
+  private setStatusTable(mesa: Mesa) {
+    mesa.estado = 'DISPONIBLE';
+    this.tblService.setOne(mesa);
   }
 
   redirectTo(path: string) {
