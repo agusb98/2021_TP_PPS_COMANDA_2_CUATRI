@@ -55,47 +55,46 @@ export class ScannerComponent implements OnInit {
   }
 
   async scannQR() {
-    let data;
     this.barcodeScanner.scan(this.options).then(barcodeData => {
       const datos = barcodeData.text.split(' ');
-      data = { name: datos[0], id: datos[1], }
+      let data = { name: datos[0], id: datos[1], }
+      // data = { name: 'MESA', id: 2, }
+  
+      if (data) {
+        if (data.name == 'ENTRADA') {
+          this.hasWait$.subscribe(data => {
+            if (data.estado == 'PENDIENTE') {
+              this.toastr.error('Previamente usted ya solicitó una mesa, en breves se le acercará un recepcionista', 'Lista de espera');
+            }
+            else if (data.estado == 'EN USO') {
+              this.toastr.error('Usted ya tiene una mesa reservada, por favor consulte al empleado más cercano', 'Lista de espera');
+            }
+            else { this.addToWaitList(); }
+          });
+        }
+        else if (data.name == 'MESA') {
+          this.hasRequest$.subscribe(dataRes => {
+  
+            if (dataRes?.estado == 'PENDIENTE') {
+              this.router.navigate(['/producto/list']);
+            }
+            else if (dataRes?.estado == 'COBRAR') {
+              this.toastr.error('En breves se le acercará un mozo a cobrarle', 'QR');
+            }
+            else if (
+              dataRes?.estado == 'ACEPTADO' || dataRes?.estado == 'CONFIRMADO' ||
+              dataRes?.estado == 'COBRADO'
+            ) {
+              this.router.navigate(['/pedido/id/' + dataRes?.id]);
+            }
+            else { this.toastr.error('Lo sentimos, primero debe anunciarse en recepción', 'QR'); }
+          });
+        }
+        else { this.toastr.error('QR fuera de servicio..', 'QR'); }
+      }
+      else { this.toastr.error('QR no perteneciente al restaurante..', 'QR'); }
     });
 
-    // data = { name: 'MESA', id: 2, }
-
-    if (data) {
-      if (data.name == 'ENTRADA') {
-        this.hasWait$.subscribe(data => {
-          if (data.estado == 'PENDIENTE') {
-            this.toastr.error('Previamente usted ya solicitó una mesa, en breves se le acercará un recepcionista', 'Lista de espera');
-          }
-          else if (data.estado == 'EN USO') {
-            this.toastr.error('Usted ya tiene una mesa reservada, por favor consulte al empleado más cercano', 'Lista de espera');
-          }
-          else { this.addToWaitList(); }
-        });
-      }
-      else if (data.name == 'MESA') {
-        this.hasRequest$.subscribe(dataRes => {
-
-          if (dataRes?.estado == 'PENDIENTE') {
-            this.router.navigate(['/producto/list']);
-          }
-          else if (dataRes?.estado == 'COBRAR') {
-            this.toastr.error('En breves se le acercará un mozo a cobrarle', 'QR');
-          }
-          else if (
-            dataRes?.estado == 'ACEPTADO' || dataRes?.estado == 'CONFIRMADO' ||
-            dataRes?.estado == 'COBRADO'
-          ) {
-            this.router.navigate(['/pedido/id/' + dataRes?.id]);
-          }
-          else { this.toastr.error('Lo sentimos, primero debe anunciarse en recepción', 'QR'); }
-        });
-      }
-      else { this.toastr.error('QR fuera de servicio..', 'QR'); }
-    }
-    else { this.toastr.error('QR no perteneciente al restaurante..', 'QR'); }
   }
 
   private addToWaitList() {
