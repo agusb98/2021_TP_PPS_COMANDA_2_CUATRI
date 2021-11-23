@@ -56,6 +56,10 @@ export class PedidoService {
     return this.getByStatus('COBRADO') as Observable<Pedido[]>;
   }
 
+  getEncuestados() {
+    return this.getByStatus('ENCUESTADO') as Observable<Pedido[]>;
+  }
+
   private getByStatus(estado: string) {
     try {
       return this.getAll().pipe(

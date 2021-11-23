@@ -1,0 +1,51 @@
+<ion-content>
+
+  <div class="container-cards">
+    <ion-card>
+      <table>
+        <thead>
+          <tr>
+            <th> </th>
+            <th><p>NOMBRE</p></th>
+            <th><p>PRECIO</p></th>
+            <th><p>CANTIDAD</p></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let product of this.list$ | async">
+            <td (click)="clickDetails(product)"> 👁‍🗨 </td>
+            <td><p>{{ product.nombreProducto }}</p></td>
+            <td><p>{{product.precio | currency }}</p></td>
+
+            <td>
+              <ion-input (change)="setQuantity(product, $event)" type="number" min-value="0" name="cantidad" value="{{hasToSet(product)}}"></ion-input>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ion-card>
+  </div>
+
+  <div (click)="clickBeforeConfirm()" *ngIf="this.getAcum() > 0" class="container-cards container-resume">
+    <ion-card>
+      <p>VER PEDIDO ({{ this.getAcum() | currency }} )</p>
+    </ion-card>
+  </div>
+
+  <ion-fab (click)="redirectTo('home')" vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="home"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>{{ this.kyndSelected.val }}</ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button *ngFor="let p of this.kynds" (click)="setFilter(p)">
+        <p>p.val</p>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+</ion-content>

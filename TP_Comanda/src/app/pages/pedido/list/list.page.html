@@ -1,0 +1,61 @@
+<ion-content>
+
+  <div class="container-cards">
+    <div style="all:unset;" *ngFor="let req of this.requests$ | async">
+      <ion-card class="card-shadow">
+
+        <div class="details">
+          <p>Usuario: {{ req.correo }}</p>
+          <p>Mesa: {{ req.mesa_numero }}</p>
+          <p>Estado: {{ req.estado }}</p>
+          <p>Fecha: {{ req.date_created | date:'short' }}</p>
+
+          <div class="container-table">
+            <table>
+              <thead>
+                <tr>
+                  <th><ion-button (click)="setStatus(req, 'CANCELADO')" id="btn-decline">👎</ion-button></th>
+                  <th></th>
+                  <th></th>
+                  <th><ion-button (click)="setStatus(req, 'ACEPTADO')" id="btn-confirm">👍</ion-button></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let product of req.producto_id">
+                  <td (click)="clickDetails(product)"> 👁‍🗨 </td>
+                  <td>
+                    <p>{{ product.name }}</p>
+                  </td>
+                  <td>
+                    <p>{{product.price | currency }}</p>
+                  </td>
+                  <td>
+                    <p>{{product.quantity }} unidades</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </ion-card>
+    </div>
+  </div>
+
+  <ion-fab (click)="redirectTo('home')" vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="home"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>{{ this.kyndSelected.val }}</ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button *ngFor="let p of this.kynds" (click)="setFilter(p)">
+        <p>p.val</p>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+</ion-content>

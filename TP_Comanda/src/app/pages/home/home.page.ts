@@ -46,8 +46,7 @@ export class HomePage implements OnInit {
 
     //  Mozo
     { img: 'assets/images/default.jpg', url: 'user/register/cliente', profile: 'MOZO', title: 'Agregar Cliente' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'MOZO', title: 'Ocupar Mesa' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'MOZO', title: 'Realizar Pedido' },
+    { img: 'assets/images/default.jpg', url: 'pedido/list', profile: 'MOZO', title: 'Listar Pedidos' },
     { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'MOZO', title: 'Encuesta' },
 
     //  Metre

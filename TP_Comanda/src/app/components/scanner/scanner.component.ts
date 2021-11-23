@@ -6,6 +6,7 @@ import { WaitListService } from 'src/app/services/wait.service';
 import { WaitList } from 'src/app/models/waitList';
 import { Pedido } from 'src/app/models/pedido';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scanner',
@@ -20,6 +21,7 @@ export class ScannerComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
+    private router: Router,
     private waitService: WaitListService,
     private requestService: PedidoService,
   ) { }
@@ -52,18 +54,21 @@ export class ScannerComponent implements OnInit {
     //  quiero un qr para lista de espera
     // y varios qr de mesas
 
+    //  if qr ir entrada
     this.hasWait$.subscribe(data => {
-      if (data.estado == 'PENDIENTE' || data.estado == 'EN USO') {
+      if (data.estado == 'PENDIENTE') {
         this.toastr.error('Previamente usted ya solicitó una mesa, en breves se le acercará un recepcionista', 'Lista de espera');
+      }
+      else if (data.estado == 'EN USO') {
+        this.toastr.error('Usted ya tiene una mesa reservada', 'Lista de espera');
       }
       else { this.addToWaitList(); }
     })
 
+    //  if qr is mesa X
     this.hasRequest$.subscribe(data => {
-      console.log(data);
-      
       if (data.estado == 'PENDIENTE') {
-        console.log('llevarlo a listado de productos');
+        this.router.navigate(['/producto/list']);
       }
       else if (data.estado == 'ACEPTADO') {
         console.log('preguntarle si ya lo recibió');

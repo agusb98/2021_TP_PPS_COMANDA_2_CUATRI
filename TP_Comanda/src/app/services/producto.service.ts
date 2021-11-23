@@ -47,7 +47,7 @@ export class ProductoService {
   private getByTipo(tipo: string) {
     try {
       return this.getAll().pipe(
-        map(foods => foods.filter(u => u.tipo.includes(tipo))));
+        map(products => products.filter(u => u.tipo.includes(tipo))));
     }
     catch (error) { }
   }
@@ -55,7 +55,7 @@ export class ProductoService {
   getAll() {
     try {
       return this.referenceToCollection.snapshotChanges().pipe(
-        map(foods => foods.map(a => a.payload.doc.data()))
+        map(products => products.map(a => a.payload.doc.data()))
       );
     }
     catch (error) { }

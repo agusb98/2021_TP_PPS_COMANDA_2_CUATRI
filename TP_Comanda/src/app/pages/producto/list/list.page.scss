@@ -1,0 +1,47 @@
+img {
+  max-height: 9.8rem;
+  min-height: 9.8rem;
+  max-width: 7.5rem;
+  min-width: 7.5rem;
+}
+
+ion-card {
+  display: flex;
+  justify-content: space-between;
+}
+
+.details {
+  text-align: end;
+  padding-right: 1%;
+}
+
+p {
+  margin-top: 5%;
+}
+
+table {
+  margin: 5%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+th {
+  padding: 1rem;
+}
+
+th,
+td {
+  border: 0rem solid transparent !important;
+}
+
+.container-cards {
+  margin-bottom: 0%;
+}
+
+.container-resume {
+  margin-bottom: 20%;
+
+  ion-card{
+    justify-content: center;
+  }
+}
