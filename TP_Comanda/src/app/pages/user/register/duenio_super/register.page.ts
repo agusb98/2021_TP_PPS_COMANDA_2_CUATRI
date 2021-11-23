@@ -10,6 +10,9 @@ import { UserService } from 'src/app/services/user.service';
 import { FirestorageService } from 'src/app/services/firestore.service';
 import { CameraService } from 'src/app/services/camera.service';
 import { QrService } from 'src/app/services/qr.service';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+
+declare let window: any;
 
 @Component({
   selector: 'app-register-duenio_super',
@@ -76,6 +79,7 @@ export class RegisterPage implements OnInit {
     private fs: FirestorageService,
     private cameraService: CameraService,
     private qrService: QrService,
+    private qrDni: BarcodeScanner
   ) { }
 
   ngOnInit() { this.validateForm(); }
@@ -117,16 +121,46 @@ export class RegisterPage implements OnInit {
   get password() { return this.form.get('password').value; }
   set password(data: string) { this.form.controls['password'].setValue(data); }
 
-  async scannQR() {
-    let data: any = await this.qrService.scannDNI();
+  public flag: boolean = false;
 
-    if (data) {
-      this.surname = data.name;
-      this.name = data.surname;
-      this.dni = data.dni;
-    }
-    else { this.toastr.error("Error al escanear el DNI", "QR"); }
+  scannQR() {
+    const options = {
+      prompt: "Escaneá el DNI",
+      formats: 'PDF_417, QR_CODE',
+      showTorchButton: true,
+      resultDisplayDuration: 2,
+    };
+
+    this.qrDni.scan(options).then(barcodeData => {
+      const datos = barcodeData.text.split('@');
+
+      this.inputSetQr.surname = datos[1];
+      this.inputSetQr.name = datos[2];
+      this.inputSetQr.dni = datos[4];
+
+    }).catch(err => {
+      console.log(err);
+      this.toastr.error("Error al escanear el DNI");
+    });
+
   }
+
+  inputSetQr = {
+    name: '',
+    surname: '',
+    dni: '',
+  };
+
+  // async scannQR() {
+  //   let data: any = await this.qrService.scannDNI();
+
+  //   if (data) {
+  //     this.surname = data.name;
+  //     this.name = data.surname;
+  //     this.dni = data.dni;
+  //   }
+  //   else { this.toastr.error("Error al escanear el DNI", "QR"); }
+  // }
 
   async takePic() {
     const image = await this.cameraService.addNewToGallery();

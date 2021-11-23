@@ -82,6 +82,8 @@ export class RegisterPage implements OnInit {
           this.vibration.vibrate([500]);
           this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
           this.resetForm();
+          
+          this.redirectTo('/home');
         });
     }
     else {
@@ -99,7 +101,7 @@ export class RegisterPage implements OnInit {
       apellido: '',
       dni: '',
       img: this.img,
-      estado: 'PENDIENTE',
+      estado: 'ACEPTADO',
       correo: this.email,
       perfil: 'ANONIMO',
       fecha_creacion: new Date().getTime()
