@@ -77,15 +77,20 @@ export class WaitListService {
     try {
       if (!estado) {
         return this.getAll().pipe(
-          map(tables => tables.find(u => u.correo == correo)));
+          map(tables => tables.filter(u => u.correo == correo)));
       }
       else {
         return this.getAll().pipe(
-          map(tables => tables.find(
+          map(tables => tables.filter(
             u => u.correo == correo && u.estado == estado
           )));
       }
     }
     catch (error) { }
+  }
+
+  getLastByUser(correo: string, estado?: string) {
+    return this.getByUser(correo, estado).pipe(
+      map(tables => tables.slice(-1)[0]));
   }
 }

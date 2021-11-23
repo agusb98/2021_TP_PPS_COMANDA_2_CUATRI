@@ -36,7 +36,8 @@ export class AltaPage implements OnInit {
       nombreProducto: ['', [Validators.required]],
       descripcionProducto: ['', [Validators.required]],
       tiempo: ['', [Validators.required]],
-      precio: ['', [Validators.required]]
+      precio: ['', [Validators.required]],
+      tipo: ['', [Validators.required]]
     });
   }
 
@@ -44,7 +45,7 @@ export class AltaPage implements OnInit {
     let a: Producto = {
       id: '',
       nombreProducto: this.form.get('nombreProducto').value,
-      descripcion: this.form.get('descripcion').value,
+      descripcion: this.form.get('descripcionProducto').value,
       tiempo: this.form.get('tiempo').value,
       precio: this.form.get('precio').value,
       tipo: this.form.get('tipo').value,

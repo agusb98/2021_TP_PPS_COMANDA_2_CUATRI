@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { WaitList } from 'src/app/models/waitList';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { WaitListService } from 'src/app/services/wait.service';
+
+import { WaitList } from 'src/app/models/waitList';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 @Component({
   selector: 'app-scanner',
@@ -12,23 +16,29 @@ import { WaitListService } from 'src/app/services/wait.service';
 export class ScannerComponent implements OnInit {
 
   public user;
-  public hasWait;
-  public hasRequest;
+  public hasWait$: Observable<any>;
+  public hasRequest$: Observable<any>;
+
+  private options = {
+    prompt: "Escaneá el QR",
+    formats: 'PDF_417, QR_CODE',
+    showTorchButton: true,
+    resultDisplayDuration: 2,
+  };
 
   constructor(
     private toastr: ToastrService,
+    private router: Router,
     private waitService: WaitListService,
     private requestService: PedidoService,
+    private barcodeScanner: BarcodeScanner
   ) { }
 
   ngOnInit() {
     this.user = null;
     this.getUser();
 
-    this.hasWait = false;
     this.checkWait();
-
-    this.hasRequest = false;
     this.checkRequest();
   }
 
@@ -37,57 +47,79 @@ export class ScannerComponent implements OnInit {
   }
 
   private checkWait() {
-    this.waitService.getByUser(this.user.correo, 'PENDIENTE').subscribe(data => {
-      if (data) { this.hasWait = true; }
-      else { this.hasWait = false; }
-    })
-
-    if (this.hasWait == false) {
-      this.waitService.getByUser(this.user.correo, 'EN USO').subscribe(data => {
-        if (data) { this.hasWait = true; }
-      });
-    }
+    this.hasWait$ = this.waitService.getLastByUser(this.user.correo);
   }
 
   private checkRequest() {
-    this.requestService.getByUser(this.user.correo, 'PENDIENTE').subscribe(data => {
-      if (data) { this.hasRequest = true; }
-      else { this.hasRequest = false; }
-    })
-
-    if (this.hasRequest == false) {
-      this.requestService.getByUser(this.user.correo, 'EN USO').subscribe(data => {
-        if (data) { this.hasRequest = true; }
-      });
-    }
+    this.hasRequest$ = this.requestService.getLastByUser(this.user.correo);
   }
 
-  scannQR() {
+  async scannQR() {
+    let data;
+    this.barcodeScanner.scan(this.options).then(barcodeData => {
+      const datos = barcodeData.text.split(' ');
+      data = { name: datos[0], id: datos[1], }
+    });
+
+    if (data) {
+      if (data.name == 'ENTRADA') {
+        this.hasWait$.subscribe(data => {
+          if (data.estado == 'PENDIENTE') {
+            this.toastr.error('Previamente usted ya solicitó una mesa, en breves se le acercará un recepcionista', 'Lista de espera');
+          }
+          else if (data.estado == 'EN USO') {
+            this.toastr.error('Usted ya tiene una mesa reservada, por favor consulte al empleado más cercano', 'Lista de espera');
+          }
+          else { this.addToWaitList(); }
+        });
+      }
+      else if (data.name == 'MESA') {
+        this.hasRequest$.subscribe(dataRes => {
+          
+          if (dataRes.mesa_numero == data.id) {
+            if (data.estado == 'PENDIENTE') {
+              this.router.navigate(['/producto/list']);
+            }
+            else if (data.estado == 'ACEPTADO') {
+              console.log('preguntarle si ya lo recibió');
+            }
+            else if (data.estado == 'CONFIRMADO') {
+              console.log('preguntarle si quiere pagar o jugar un jueguito');
+            }
+            else if (data.estado == 'COBRADO') {
+              console.log('preguntarle si quiere hacer una encuesta');
+            }
+          }
+          else {
+            this.toastr.error('Usted se ha equivocado de mesa', 'Lista de espera');
+          }
+        })
+      }
+      else if(data.name == 'PROPINA'){
+        console.log('preguntar si realmente quiere dejar propina');
+      }
+    }
+
 
     //obtener valor qr: puede ser para ingresar en lista de espera
     //o leer una mesa
+    //  por lo cual
+    //  quiero un qr para lista de espera
+    // y varios qr de mesas
 
-    if (this.hasWait && this.hasRequest) {
-      console.log("tiene pedido");
-      
-    }
-    else if (this.hasWait) {
-      console.log('en espera..');
-      
-    }
-    else { this.addToWaitList(); }
+    //  if qr ir entrada
+
+
+    //  if qr is mesa X
+
   }
 
   private addToWaitList() {
     try {
-      if (this.hasWait == false) {
-        const m = this.createModelWait();
-        this.waitService.createOne(m);
+      const m = this.createModelWait();
+      this.waitService.createOne(m);
 
-        this.hasWait = true;
-        this.toastr.success('Aguarde un instante, en breves se le asignará una mesa!', 'Lista de Espera');
-      }
-      else { this.toastr.error('Previamente usted ya solicitó una mesa', 'Lista de espera') }
+      this.toastr.success('Aguarde un instante, en breves se le asignará una mesa!', 'Lista de Espera');
     }
     catch (error) { this.toastr.error('Error al momento de ingresarlo en lista de espera', 'Lista de espera'); }
   }

@@ -1,0 +1,44 @@
+img {
+  max-height: 7rem;
+  min-height: 7rem;
+  max-width: 7rem;
+  min-width: 7rem;
+}
+
+ion-card {
+  display: flex;
+  justify-content: space-between;
+}
+
+.details {
+  text-align: start;
+  padding-left: 1%;
+}
+
+.container-table{
+  text-align: center;
+
+}
+
+p {
+  margin-top: 2%;
+}
+
+table {
+  margin: 2%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+th {
+  padding: 1rem;
+}
+
+th,
+td {
+  border: 0rem solid transparent !important;
+}
+
+#btn-decline{
+  --background: red;
+}

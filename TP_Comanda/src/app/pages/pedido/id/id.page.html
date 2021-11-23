@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Confirmar Pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="this.pedido$ | async as pedido">
+
+  <div class="container-cards">
+    <ion-card>
+      <table>
+        <tbody>
+          <tr *ngFor="let product of getProductsSelected()">
+            <td>
+              <p>{{ product.name }}</p>
+            </td>
+            <td>
+              <p>{{ product.price | currency }} x {{ product.quantity }} :</p>
+            </td>
+            <td>
+              <p>{{ product.price * product.quantity | currency }}</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ion-card>
+  </div>
+
+  <div class="container-cards container-resume">
+    <ion-card>
+      <p>MONTO TOTAL: ( {{ this.getAcum() | currency }} )</p>
+
+      <ion-button (click)="redirectTo('producto/list')">EDITAR</ion-button>
+      <ion-button (click)="clickConfirm(pedido)">CONFIRMAR</ion-button>
+    </ion-card>
+  </div>
+
+  <ion-fab (click)="redirectTo('home')" vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="home"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

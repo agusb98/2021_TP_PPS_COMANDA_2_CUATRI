@@ -118,7 +118,7 @@ export class ListPage implements OnInit {
       id: '',
       correo: this.waitSelected.correo,
       mesa_numero: mesa.numero,
-      producto_id: '',
+      producto_id: null,
       date_created: new Date().getTime(),
       estado: 'PENDIENTE'
     }

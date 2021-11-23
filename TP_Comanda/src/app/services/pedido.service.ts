@@ -56,6 +56,10 @@ export class PedidoService {
     return this.getByStatus('COBRADO') as Observable<Pedido[]>;
   }
 
+  getEncuestados() {
+    return this.getByStatus('ENCUESTADO') as Observable<Pedido[]>;
+  }
+
   private getByStatus(estado: string) {
     try {
       return this.getAll().pipe(
@@ -85,15 +89,20 @@ export class PedidoService {
     try {
       if (!estado) {
         return this.getAll().pipe(
-          map(pedidos => pedidos.find(u => u.correo == correo)));
+          map(pedidos => pedidos.filter(u => u.correo == correo)));
       }
       else {
         return this.getAll().pipe(
-          map(tables => tables.find(
+          map(tables => tables.filter(
             u => u.correo == correo && u.estado == estado
           )));
       }
     }
     catch (error) { }
+  }
+
+  getLastByUser(correo: string, estado?: string) {
+    return this.getByUser(correo, estado).pipe(
+      map(pedidos => pedidos.slice(-1)[0]));
   }
 }
