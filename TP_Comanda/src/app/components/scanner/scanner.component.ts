@@ -56,12 +56,12 @@ export class ScannerComponent implements OnInit {
 
   async scannQR() {
     let data;
-    // this.barcodeScanner.scan(this.options).then(barcodeData => {
-    //   const datos = barcodeData.text.split(' ');
-    //   data = { name: datos[0], id: datos[1], }
-    // });
+    this.barcodeScanner.scan(this.options).then(barcodeData => {
+      const datos = barcodeData.text.split(' ');
+      data = { name: datos[0], id: datos[1], }
+    });
 
-    data = { name: 'MESA', id: 2, }
+    // data = { name: 'MESA', id: 2, }
 
     if (data) {
       if (data.name == 'ENTRADA') {

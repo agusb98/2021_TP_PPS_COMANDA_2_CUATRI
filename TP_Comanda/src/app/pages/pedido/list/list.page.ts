@@ -15,7 +15,8 @@ import { Mesa } from 'src/app/models/mesa';
 export class ListPage implements OnInit {
 
   requests$: Observable<any>;
-  table: Mesa
+
+  tables: any;
 
   kyndSelected;
   kynds = [
@@ -38,11 +39,21 @@ export class ListPage implements OnInit {
   ngOnInit() {
     this.kyndSelected = this.kynds[0];
     this.getRequests(this.kyndSelected.val);
+
+
+    //  es una mierda esta parte..
+    this.getAllTables();
   }
 
   setFilter(p) {
     this.kyndSelected = p;
     this.getRequests(p.val);
+  }
+
+  private getAllTables() {
+    this.tblService.getAll().subscribe(data => {
+      this.tables = data;
+    })
   }
 
   getRequests(filter: string) {
@@ -80,12 +91,11 @@ export class ListPage implements OnInit {
 
       if (model.estado == 'COBRADO') {
 
-        this.tblService.getByNumber(model.mesa_numero).subscribe(data => {
-          this.table = data as Mesa;
-
-          if (this.table) {
-            this.setStatusTable(this.table);
-            this.toastr.success('Datos registrados, ahora la mesa Nº ' + this.table.numero + ' se encuentra Disponible', 'Estado de Pedido');
+        this.tables.forEach(t => {
+          if (t.numero == model.mesa_numero) {
+            t.estado = 'DISPONIBLE';
+            this.setStatusTable(t);
+            this.toastr.success('Datos registrados, ahora la mesa Nº ' + t.numero + ' se encuentra Disponible', 'Estado de Pedido');
           }
         });
       }

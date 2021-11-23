@@ -10,7 +10,7 @@ import { FirestorageService } from 'src/app/services/firestore.service';
 import { CameraService } from 'src/app/services/camera.service';
 
 import { Empleado } from 'src/app/models/empleado';
-import { QrService } from 'src/app/services/qr.service';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 @Component({
   selector: 'app-register-empleado',
@@ -21,6 +21,13 @@ import { QrService } from 'src/app/services/qr.service';
 export class RegisterPage implements OnInit {
   form: FormGroup;
 
+  private options = {
+    prompt: "Escaneá el DNI",
+    formats: 'PDF_417, QR_CODE',
+    showTorchButton: true,
+    resultDisplayDuration: 2,
+  };
+  
   listEmployees = [
     { kynd: 'METRE' },
     { kynd: 'MOZO' },
@@ -78,7 +85,7 @@ export class RegisterPage implements OnInit {
     private userService: UserService,
     private fs: FirestorageService,
     private cameraService: CameraService,
-    private qrService: QrService
+    private barcodeScanner: BarcodeScanner
   ) { }
 
   ngOnInit() { this.validateForm(); }
@@ -123,7 +130,17 @@ export class RegisterPage implements OnInit {
   public flag: boolean = false;
 
   async scannQR() {
-    let data: any = await this.qrService.scannDNI();
+    let data;
+
+    this.barcodeScanner.scan(this.options).then(barcodeData => {
+      const datos = barcodeData.text.split('@');
+
+      data = {
+        surname: datos[1],
+        name: datos[2],
+        dni: + datos[4],
+      }
+    });
 
     if (data) {
       this.surname = data.name;
