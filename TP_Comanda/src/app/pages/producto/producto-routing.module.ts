@@ -8,7 +8,15 @@ const routes: Routes = [
   {
     path: 'alta',
     loadChildren: () => import('./alta/alta.module').then(m => m.AltaPageModule),
-    canActivate: [BartenderGuard || CocineroGuard ]
+    canActivate: [BartenderGuard || CocineroGuard ] 
+  },
+  {
+    path: 'id/:id',
+    loadChildren: () => import('./id/id.module').then(m => m.IdPageModule)
+  },
+  {
+    path: 'list',
+    loadChildren: () => import('./list/list.module').then(m => m.ListPageModule),
   }
 ];
 

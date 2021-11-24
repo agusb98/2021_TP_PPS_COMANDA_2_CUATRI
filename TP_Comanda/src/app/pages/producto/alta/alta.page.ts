@@ -47,20 +47,35 @@ export class AltaPage implements OnInit {
       nombreProducto: ['', [Validators.required]],
       descripcionProducto: ['', [Validators.required]],
       tiempo: ['', [Validators.required]],
-      precio: ['', [Validators.required]]
+      precio: ['', [Validators.required]],
+      tipo: ['', [Validators.required]]
     });
   }
 
-  crearProducto() {
-    this.nuevoProducto.nombreProducto = this.form.get('nombreProducto').value;
-    this.nuevoProducto.descripcion = this.form.get('descripcionProducto').value;
-    this.nuevoProducto.tiempo = this.form.get('tiempo').value;
-    this.nuevoProducto.precio = this.form.get('precio').value;
+  private createModel() {
+    let a: Producto = {
+      id: '',
+      nombreProducto: this.form.get('nombreProducto').value,
+      descripcion: this.form.get('descripcionProducto').value,
+      tiempo: this.form.get('tiempo').value,
+      precio: this.form.get('precio').value,
+      tipo: this.form.get('tipo').value,
+      img_src: this.nuevoProducto.img_src
+    };
 
-    this.prodSrv.guardarNuevoProducto(this.nuevoProducto).then((res) => {
+    return a;
+  }
+
+  crearProducto() {
+    const a: Producto = this.createModel();
+
+  /*  this.prodSrv.guardarNuevoProducto(this.nuevoProducto).then((res) => {
       this.vibration.vibrate([500]);
       this.toastr.success('Datos guardados con éxito!', 'Registro de producto');
-      this.resetForm();
+      this.resetForm();*/
+    this.prodSrv.createOne(a).then((res) => {
+      console.log(res);
+      this.resultadoError = false;
     }).catch((err) => {
       this.resultadoError = true;
     });

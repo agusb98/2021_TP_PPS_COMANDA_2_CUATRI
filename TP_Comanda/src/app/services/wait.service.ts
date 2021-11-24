@@ -32,22 +32,22 @@ export class WaitListService {
     catch (err) { console.log(err); }
   }
 
-  getPendientes() {
-    return this.getByStatus('PENDIENTE') as Observable<WaitList[]>;
-  }
-
   getInactivos() {
-    return this.getByStatus('INACTIVO') as Observable<WaitList[]>;
-  }
-
-  getUsados() {
-    return this.getByStatus('EN USO') as Observable<WaitList[]>;
-  }
-
-  private getByStatus(estado: string) {
     try {
       return this.getAll().pipe(
-        map(waits => waits.filter(u => u.estado.includes(estado))));
+        map(waits => waits.filter(
+          u => u.estado == 'CANCELADO' || u.estado == 'FINALIZADO'
+        )));
+    }
+    catch (error) { }
+  }
+
+  getActivos() {
+    try {
+      return this.getAll().pipe(
+        map(waits => waits.filter(
+          u => u.estado == 'PENDIENTE' || u.estado == 'EN USO'
+        )));
     }
     catch (error) { }
   }
@@ -69,11 +69,24 @@ export class WaitListService {
     catch (error) { }
   }
 
-  getByUser(correo: string) {
+  getByUser(correo: string, estado?: string) {
     try {
-      return this.getAll().pipe(
-        map(tables => tables.find(u => u.correo == correo)));
+      if (!estado) {
+        return this.getAll().pipe(
+          map(tables => tables.filter(u => u.correo == correo)));
+      }
+      else {
+        return this.getAll().pipe(
+          map(tables => tables.filter(
+            u => u.correo == correo && u.estado == estado
+          )));
+      }
     }
     catch (error) { }
+  }
+
+  getLastByUser(correo: string, estado?: string) {
+    return this.getByUser(correo, estado).pipe(
+      map(tables => tables.slice(-1)[0]));
   }
 }

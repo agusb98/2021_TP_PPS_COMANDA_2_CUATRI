@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { Vibration } from '@ionic-native/vibration/ngx';
+import { ScannerModule } from 'src/app/components/scanner/scanner.module';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { Vibration } from '@ionic-native/vibration/ngx';
     CommonModule,
     FormsModule,
     IonicModule,
+    ScannerModule,
     HomePageRoutingModule
   ],
   declarations: [HomePage],

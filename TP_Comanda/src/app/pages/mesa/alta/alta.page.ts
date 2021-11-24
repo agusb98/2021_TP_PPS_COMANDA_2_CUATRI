@@ -92,7 +92,6 @@ export class AltaPage implements OnInit {
     let model: Mesa = {
       id: '',
       img: '',
-      correo: '',
       estado: 'DISPONIBLE',
       tipo: this.form.get('tipo').value,
       numero: this.form.get('numero').value,

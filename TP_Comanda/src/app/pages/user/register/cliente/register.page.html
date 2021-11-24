@@ -1,9 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-back-button (click)="navigateBack()" slot="start"></ion-back-button>
-    <ion-title>Registrar cliente</ion-title> 
+    <ion-title *ngIf="this.user" size="small">Registrar Cliente</ion-title>
   </ion-toolbar>
  </ion-header>
+   
+
 <ion-content>
   <ion-fab  vertical="top" horizontal="end">
     <ion-fab-button (click)="takePic()">
@@ -107,15 +109,21 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-fab (click)="redirectTo('user/register/anonimo')" vertical="bottom" horizontal="start" slot="fixed">
+  <ion-fab (click)="redirectTo('user/register/anonimo')" *ngIf="!this.user" vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button id="anonymus"> ❓ </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab *ngIf="this.user" (click)="redirectTo('home')" vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="home"></ion-icon>
+    </ion-fab-button>
   </ion-fab>
 
 </ion-content>
 
 
 
-<ion-footer>
+<ion-footer *ngIf="!this.user">
   <p>¿Tienes una cuenta?</p>
   <ion-button (click)="redirectTo('user/login')" size="small" shape="round" type="submit" fill="solid" class="sign-btn">
     Inicia Sesíon</ion-button>

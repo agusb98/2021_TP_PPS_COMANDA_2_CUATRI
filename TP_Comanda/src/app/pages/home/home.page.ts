@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Vibration } from '@ionic-native/vibration/ngx';
 import { ToastrService } from 'ngx-toastr';
 import { WaitListService } from 'src/app/services/wait.service';
 import { WaitList } from '../../models/waitList';
@@ -13,8 +12,7 @@ import * as $ from "jquery";
 })
 export class HomePage implements OnInit {
 
-  user;
-  waitList;
+  public user;
 
   //  El orden de los links coincide con casosdeuso.jpg
   public links = [
@@ -23,14 +21,13 @@ export class HomePage implements OnInit {
     { img: 'assets/images/duenio-super.png', url: 'user/register/duenio', profile: 'DUENIO', title: 'Agregar Dueño/Supervisor' },
     { img: 'assets/images/table.png', url: 'mesa/alta', profile: 'DUENIO', title: 'Alta Mesa' },
     { img: 'assets/images/empleados.png', url: 'user/register/empleado', profile: 'DUENIO', title: 'Agregar Empleado' },
-    { img: 'assets/images/empleados.png', url: 'user/list', profile: 'DUENIO', title: 'Listado Clientes' },
-    { img: 'assets/images/table.png', url: 'mesa/list', profile: 'DUENIO', title: 'Listado de Mesas' },
+    { img: 'assets/images/cliente-list.png', url: 'user/list', profile: 'DUENIO', title: 'Listado Clientes' },
+    { img: 'assets/images/mesa-list.png', url: 'mesa/list', profile: 'DUENIO', title: 'Listado de Mesas' },
 
     //  Supervisor
     { img: 'assets/images/empleados.png', url: 'user/register/duenio', profile: 'SUPERVISOR', title: 'Agregar Empleado' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'SUPERVISOR', title: 'Ver Encuestas' },
+    { img: 'assets/images/pedido-list.png', url: 'none', profile: 'SUPERVISOR', title: 'Ver Encuestas' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'SUPERVISOR', title: 'Crear Encuesta' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'SUPERVISOR', title: 'Confirmar Reserva' },
 
     //  Cocinero
     { img: 'assets/images/product.png', url: 'producto/alta', profile: 'COCINERO', title: 'Agregar Plato/Bebida' },
@@ -47,13 +44,13 @@ export class HomePage implements OnInit {
     { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'REPARTIDOR', title: 'Encuesta' },
 
     //  Mozo
-    { img: 'assets/images/default.jpg', url: 'user/register/cliente', profile: 'MOZO', title: 'Agregar Cliente' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'MOZO', title: 'Ocupar Mesa' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'MOZO', title: 'Realizar Pedido' },
+    { img: 'assets/images/cliente-list.png', url: 'user/register/cliente', profile: 'MOZO', title: 'Agregar Cliente' },
+    { img: 'assets/images/pedido-list.png', url: 'pedido/list', profile: 'MOZO', title: 'Listar Pedidos' },
     { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'MOZO', title: 'Encuesta' },
 
     //  Metre
-    { img: 'assets/images/default.jpg', url: 'user/register/cliente', profile: 'METRE', title: 'Agregar Cliente' },
+    { img: 'assets/images/cliente-list.png', url: 'user/register/cliente', profile: 'METRE', title: 'Agregar Cliente' },
+    { img: 'assets/images/pedido-list.png', url: 'wait/list', profile: 'METRE', title: 'Clientes en Espera' },
     { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'METRE', title: 'Encuesta' },
 
     //  Cliente
@@ -67,12 +64,7 @@ export class HomePage implements OnInit {
     { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'CLIENTE', title: 'Grafico' },
   ];
 
-  constructor(
-    private router: Router,
-    private vibration: Vibration,
-    private toastr: ToastrService,
-    private waitService: WaitListService,
-  ) {
+  constructor(private router: Router,) {
     $("#loadingContainer").attr("hidden", false);
     setTimeout(() => {
       $("#loadingContainer").attr("hidden", true);
@@ -88,43 +80,9 @@ export class HomePage implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
   }
 
-  addToWaitList() {
-    this.waitService.getByUser(this.user.correo).subscribe(data => {
-      if (data) {
-        this.toastr.error('Aún no se le designó una mesa, por favor aguarde', 'Lista de espera')
-      }
-      else { this.saveWaitList(); }
-    });
-  }
-
-  private saveWaitList() {
-    const m = this.createModelWait();
-
-    try {
-      this.waitService.createOne(m);
-      this.vibration.vibrate([500]);
-      this.toastr.success('Aguarde un instante, en breves se le asignará una mesa!', 'Lista de Espera');
-    }
-    catch (error) { this.toastr.error('Error al momento de ingresarlo en lista de espera', 'Lista de espera') }
-  }
-
-  private createModelWait() {
-    let m: WaitList = {
-      id: '',
-      estado: 'PENDIENTE',
-      correo: this.user.correo,
-      date_created: new Date().getTime()
-    }
-
-    return m;
-  }
-
-
-
   redirectTo(path: string) {
-    //this.router.navigate([path]);
-
     $("#loadingContainer").attr("hidden", false);
+
     setTimeout(() => {
       $("#loadingContainer").attr("hidden", true);
       this.router.navigate([path]);

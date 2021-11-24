@@ -6,10 +6,10 @@ import { ToastrService } from 'ngx-toastr';
 import { Cliente } from 'src/app/models/cliente';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestorageService } from 'src/app/services/firestore.service';
-import { QrService } from 'src/app/services/qr.service';
 import { UserService } from 'src/app/services/user.service';
 import { CameraService } from 'src/app/services/camera.service';
 import { NavController } from '@ionic/angular';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'; 
 
 @Component({
   selector: 'app-register-cliente',
@@ -19,6 +19,14 @@ import { NavController } from '@ionic/angular';
 
 export class RegisterPage implements OnInit {
   form: FormGroup;
+  user;
+
+  private options = {
+    prompt: "Escaneá el DNI",
+    formats: 'PDF_417, QR_CODE',
+    showTorchButton: true,
+    resultDisplayDuration: 2,
+  };
 
   validationUserMessage = {
     name: [
@@ -61,9 +69,9 @@ export class RegisterPage implements OnInit {
     private toastr: ToastrService,
     private fs: FirestorageService,
     private userService: UserService,
-    private qrService: QrService,
     private cameraService: CameraService,
-    public navCtrl: NavController 
+    public navCtrl: NavController ,
+    private barcodeScanner: BarcodeScanner
   ) { }
  
  
@@ -71,17 +79,25 @@ export class RegisterPage implements OnInit {
     this.navCtrl.back();
   }
   
-  ngOnInit() { this.validateForm(); }
+  
 
-  scannQR() {
-    let data = this.qrService.scannDNI();
+  ngOnInit() {
+    this.validateForm();
+    this.checkUser();
+  }
 
-    if (data) {
-      this.surname = data.name;
-      this.name = data.surname;
-      this.dni = data.dni;
-    }
-    else { this.toastr.error("Error al escanear el DNI", "QR"); }
+  checkUser() {
+    let a = localStorage.getItem('user');
+    if (a) { this.user = a; }
+  }
+
+  async scannQR() {
+    this.barcodeScanner.scan(this.options).then(barcodeData => {
+      const datos = barcodeData.text.split('@');
+      this.surname = datos[1];
+      this.name = datos[2];
+      this.dni = + datos[4];
+    });
   }
 
   validateForm() {

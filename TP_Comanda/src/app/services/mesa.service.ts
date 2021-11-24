@@ -52,6 +52,14 @@ export class MesaService {
     catch (error) { }
   }
 
+  getByStatus(estado: 'DISPONIBLE' | 'RESERVADO') {
+    try {
+      return this.getAll().pipe(
+        map(tables => tables.filter(u => u.estado.includes(estado))));
+    }
+    catch (error) { }
+  }
+
   getAll() {
     try {
       return this.referenceToCollection.snapshotChanges().pipe(

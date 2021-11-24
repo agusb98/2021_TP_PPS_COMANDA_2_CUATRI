@@ -138,9 +138,9 @@
 
 ### Alpha - Agustín
 
-- Confirmación de cliente :question: 
-- Lectura Codio QR's de ingreso al local. :question: 
-- Lectura Codio QR's de la mesa. :question: 
+- Confirmación de cliente :white_check_mark: 
+- Lectura Codio QR's de ingreso al local. :white_check_mark: 
+- Lectura Codio QR's de la mesa. :white_check_mark: 
 
 
 ### Beta - Rocio 
@@ -162,8 +162,8 @@
 ### Alpha - Agustín
 
 **GESTIÓN:** 
-- Agregar un nuevo cliente. :question:
-- Ingresa al local. :question:
+- Agregar un nuevo cliente. :white_check_mark:
+- Ingresa al local. :white_check_mark:
 
 
 ### Beta - Rocio 

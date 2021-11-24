@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ListPageRoutingModule } from './list-routing.module';
 
 import { ListPage } from './list.page';
+import { Vibration } from '@ionic-native/vibration/ngx';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ListPage } from './list.page';
     IonicModule,
     ListPageRoutingModule
   ],
-  declarations: [ListPage]
+  declarations: [ListPage],
+  providers: [Vibration]
 })
-export class ListPageModule {}
+export class ListPageModule { }

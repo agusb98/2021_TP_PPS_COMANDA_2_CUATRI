@@ -9,10 +9,13 @@ const routes: Routes = [
   { path: 'producto', loadChildren: () => import('./pages/producto/producto.module').then(m => m.ProductoModule) },
   { path: 'mesa', loadChildren: () => import('./pages/mesa/mesa.module').then(m => m.MesaModule) },
   { path: 'wait', loadChildren: () => import('./pages/wait/wait.module').then(m => m.WaitModule) },
+  { path: 'pedido', loadChildren: () => import('./pages/pedido/pedido.module').then(m => m.PedidoModule) },
+ 
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule), canActivate: [AuthGuard]
   },
+  { path: 'encuesta', loadChildren: () => import('./pages/encuesta/encuesta.module').then(m => m.EncuestaModule) },
   {
     path: 'encuesta/cliente',
     loadChildren: () => import('./pages/encuestas/cliente/cliente.module').then( m => m.ClientePageModule),
