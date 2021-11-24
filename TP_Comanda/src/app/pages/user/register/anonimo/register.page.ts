@@ -79,9 +79,16 @@ export class RegisterPage implements OnInit {
           userAux.img = url;
 
           await this.userService.createOne(userAux);
+
+          await this.authService.login(this.email, this.password);
+
+          
           this.vibration.vibrate([500]);
           this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
           this.resetForm();
+
+
+
         });
     }
     else {
