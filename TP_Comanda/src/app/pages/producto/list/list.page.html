@@ -1,3 +1,9 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title size="small">Listado de Productos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
 
   <div class="container-cards">
@@ -14,7 +20,7 @@
 
         <tbody>
           <tr *ngFor="let product of this.list$ | async">
-            <td > 👁‍🗨 </td> <!-- (click)="clickDetails(product)" -->
+            <td (click)="clickDetails(product)"> 👁‍🗨 </td>
             <td><p>{{ product.nombreProducto }}</p></td>
             <td><p>{{product.precio | currency }}</p></td>
 

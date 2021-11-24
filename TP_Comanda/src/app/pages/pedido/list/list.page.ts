@@ -8,6 +8,7 @@ import { MesaService } from 'src/app/services/mesa.service';
 import { Mesa } from 'src/app/models/mesa';
 import { WaitListService } from 'src/app/services/wait.service';
 import { WaitList } from 'src/app/models/waitList';
+import { Producto } from 'src/app/models/producto';
 
 @Component({
   selector: 'app-list-mesa',
@@ -23,12 +24,8 @@ export class ListPage implements OnInit {
 
   kyndSelected;
   kynds = [
-    { val: 'Pendientes', img: 'assets/images/default.png' },
-    { val: 'Cancelados', img: 'assets/images/default.png' },
-    { val: 'Aceptados', img: 'assets/images/default.png' },
-    { val: 'Confirmados', img: 'assets/images/default.png' },
-    { val: 'A cobrar', img: 'assets/images/default.png' },
-    { val: 'Cobrados', img: 'assets/images/default.png' },
+    { val: 'Activos', img: 'assets/images/default.png' },
+    { val: 'Inactivos', img: 'assets/images/default.png' },
   ];
 
 
@@ -69,35 +66,19 @@ export class ListPage implements OnInit {
 
   getRequests(filter: string) {
     switch (filter) {
-      case 'Cancelados':
-        this.requests$ = this.reqService.getCancelados();
-        break;
-
-      case 'Aceptados':
-        this.requests$ = this.reqService.getAceptados();
-        break;
-
-      case 'Confirmados':
-        this.requests$ = this.reqService.getConfirmados();
-        break;
-
-      case 'A cobrar':
-        this.requests$ = this.reqService.getToCobrar();
-        break;
-
-      case 'Cobrados':
-        this.requests$ = this.reqService.getCobrados();
+      case 'Inactivos':
+        this.requests$ = this.reqService.getInactivos();
         break;
 
       default:
-        this.requests$ = this.reqService.getPendientes();
+        this.requests$ = this.reqService.getActivos();
         break;
     }
   }
 
   setStatus(model: Pedido, status) {
     model.estado = status;
-    
+
     try {
       this.reqService.setOne(model);
 
@@ -112,7 +93,7 @@ export class ListPage implements OnInit {
         this.tables.forEach(t => {
           if (t.numero == model.mesa_numero) {
             this.setStatusTable(t);
-            this.toastr.success('Datos registrados, ahora la mesa Nº ' + t.numero + ' se encuentra Disponible', 'Estado de Pedido');
+            this.toastr.success('Datos registrados, ahora la mesa Nº ' + t.numero + ' está Disponible', 'Estado de Pedido');
           }
         });
       }
@@ -128,6 +109,21 @@ export class ListPage implements OnInit {
   private setStatusWait(waitzzz: WaitList) {
     waitzzz.estado = 'FINALIZADO';
     this.waitService.setOne(waitzzz);
+  }
+
+  getQuestion(status: string) {
+    switch (status) {
+      case 'PENDIENTE':
+        return '¿Aceptar?';
+      case 'COBRAR':
+        return '¿Pagó?';
+      default:
+        return '';
+    }
+  }
+
+  clickDetails(model: Producto) {
+    this.redirectTo('producto/id/' + model.id);
   }
 
   redirectTo(path: string) {

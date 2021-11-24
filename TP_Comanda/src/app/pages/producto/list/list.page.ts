@@ -48,7 +48,7 @@ export class ListPage implements OnInit {
 
     if (this.productsSelected) {
       this.productsSelected.forEach(p => {
-        
+
         if (p.id == model.id) {
           quantity = p.quantity;
         }
@@ -146,6 +146,10 @@ export class ListPage implements OnInit {
     this.pedido$.subscribe(data => {
       this.redirectTo('pedido/id/' + data.id);
     });
+  }
+
+  clickDetails(model: Producto) {
+    this.redirectTo('producto/id/' + model.id);
   }
 
   private getProductoIdAsString() {

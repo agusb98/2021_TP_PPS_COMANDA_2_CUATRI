@@ -23,8 +23,8 @@ export class IdPage implements OnInit {
     private route: ActivatedRoute,
     private pedidoService: PedidoService,
     private router: Router
-  ) { 
-    
+  ) {
+
   }
 
   ngOnInit() {
@@ -82,6 +82,28 @@ export class IdPage implements OnInit {
     catch (error) {
       this.vibration.vibrate([500, 500, 500]);
       this.toastr.error('Error inesperado al momento de registrar su pedido!', 'Estado de Pedido');
+    }
+  }
+
+  getTitle(status: string) {
+    switch (status) {
+      case 'PENDIENTE':
+        return 'Confirmar Pedido';
+
+      case 'ACEPTADO':
+        return 'Confirmar Recepción a su Mesa';
+
+      case 'CONFIRMADO':
+        return 'Pedir Cuenta para Pagar';
+
+      case 'COBRAR':
+        return 'Confirmar Pago Efectuado';
+
+      case 'COBRAR':
+        return 'Realizar Encuesta';
+
+      default:
+        return '';
     }
   }
 

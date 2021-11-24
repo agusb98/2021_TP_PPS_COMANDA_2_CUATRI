@@ -2,11 +2,7 @@
 
   <ion-header>
     <ion-toolbar>
-      <ion-title *ngIf="pedido.estado == 'PENDIENTE'">Confirmar Pedido</ion-title>
-      <ion-title *ngIf="pedido.estado == 'ACEPTADO'">Confirmar Recepción</ion-title>
-      <ion-title *ngIf="pedido.estado == 'CONFIRMADO'">Para Pagar</ion-title>
-      <ion-title *ngIf="pedido.estado == 'COBRAR'">Pago Confirmado</ion-title>
-      <ion-title *ngIf="pedido.estado == 'COBRADO'">Realizar Encuesta</ion-title>
+      <ion-title size="small">{{ this.getTitle(pedido.estado) }}</ion-title>
     </ion-toolbar>
   </ion-header>
 
