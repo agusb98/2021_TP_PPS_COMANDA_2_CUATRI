@@ -32,6 +32,28 @@ export class PedidoService {
     catch (err) { console.log(err); }
   }
 
+  getInactivos() {
+    try {
+      return this.getAll().pipe(
+        map(requests => requests.filter(
+          u => u.estado == 'CANCELADO' || u.estado == 'FINALIZADO' ||
+            u.estado == 'COBRADO' || u.estado == 'ENCUESTADO'
+        )));
+    }
+    catch (error) { }
+  }
+
+  getActivos() {
+    try {
+      return this.getAll().pipe(
+        map(requests => requests.filter(
+          u => u.estado == 'PENDIENTE' || u.estado == 'ACEPTADO' ||
+            u.estado == 'CONFIRMADO' || u.estado == 'COBRAR'
+        )));
+    }
+    catch (error) { }
+  }
+
   getPendientes() {
     return this.getByStatus('PENDIENTE') as Observable<Pedido[]>;
   }

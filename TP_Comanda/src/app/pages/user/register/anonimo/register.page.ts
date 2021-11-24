@@ -77,7 +77,7 @@ export class RegisterPage implements OnInit {
       this.fs.saveImage(this.img, 'users', new Date().getTime() + '')
         .then(async url => {
           userAux.img = url;
-
+//
           await this.userService.createOne(userAux);
 
           await this.authService.login(this.email, this.password);
@@ -106,8 +106,8 @@ export class RegisterPage implements OnInit {
       apellido: '',
       dni: '',
       img: this.img,
-      estado: 'PENDIENTE',
-      correo: this.email,
+      estado: 'ACEPTADO',
+      correo: '',
       perfil: 'ANONIMO',
       fecha_creacion: new Date().getTime()
     };

@@ -50,7 +50,7 @@ export class HomePage implements OnInit {
 
     //  Metre
     { img: 'assets/images/cliente-list.png', url: 'user/register/cliente', profile: 'METRE', title: 'Agregar Cliente' },
-    { img: 'assets/images/pedido-list.png', url: 'wait/list', profile: 'METRE', title: 'Agregar Cliente' },
+    { img: 'assets/images/pedido-list.png', url: 'wait/list', profile: 'METRE', title: 'Clientes en Espera' },
     { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'METRE', title: 'Encuesta' },
 
     //  Cliente

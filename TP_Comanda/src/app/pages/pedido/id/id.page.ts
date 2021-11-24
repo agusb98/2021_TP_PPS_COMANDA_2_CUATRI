@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { Pedido } from 'src/app/models/pedido';
+import { Producto } from 'src/app/models/producto';
 
 @Component({
   selector: 'app-id',
@@ -23,8 +24,8 @@ export class IdPage implements OnInit {
     private route: ActivatedRoute,
     private pedidoService: PedidoService,
     private router: Router
-  ) { 
-    
+  ) {
+
   }
 
   ngOnInit() {
@@ -82,6 +83,41 @@ export class IdPage implements OnInit {
     catch (error) {
       this.vibration.vibrate([500, 500, 500]);
       this.toastr.error('Error inesperado al momento de registrar su pedido!', 'Estado de Pedido');
+    }
+  }
+
+  getAproxFinish() {
+    let seconds: number = 0;
+
+    this.getProductsSelected().forEach(p => {
+      seconds += p.time;
+    });
+
+    return seconds;
+  }
+
+  getTitle(status: string) {
+    switch (status) {
+      case 'PENDIENTE':
+        return 'Confirmar Pedido';
+
+      case 'ACEPTADO':
+        return 'Confirmar Recepción a su Mesa';
+
+      case 'CONFIRMADO':
+        return 'Pedir Cuenta para Pagar';
+
+      case 'COBRAR':
+        return 'Confirmar Pago Efectuado';
+
+      case 'COBRAR':
+        return 'Realizar Encuesta';
+
+      case 'COBRADO':
+        return 'Recomendación del Cliente';
+
+      default:
+        return '';
     }
   }
 

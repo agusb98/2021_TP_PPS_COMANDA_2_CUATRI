@@ -26,8 +26,6 @@ export class ListPage implements OnInit {
   kynds = [
     { val: 'Activos', img: 'assets/images/default.png' },
     { val: 'Inactivos', img: 'assets/images/default.png' },
-    { val: 'Cancelados', img: 'assets/images/default.png' },
-    { val: 'Usados', img: 'assets/images/default.png' },
   ];
 
   constructor(
@@ -56,20 +54,13 @@ export class ListPage implements OnInit {
 
   getWaits(filter: string) {
     switch (filter) {
-      case 'Usados':
-        this.waits$ = this.waitService.getUsados();
-        break;
 
       case 'Inactivos':
         this.waits$ = this.waitService.getInactivos();
         break;
 
-      case 'Cancelados':
-        this.waits$ = this.waitService.getCancelados();
-        break;
-
       default:
-        this.waits$ = this.waitService.getPendientes();
+        this.waits$ = this.waitService.getActivos();
         break;
     }
   }

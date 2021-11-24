@@ -33,7 +33,7 @@
       <ion-row>
         <ion-col col-12>
           <ion-item>
-            <ion-input placeholder="Escriba su opinión" [(ngModel)]="dos">
+            <ion-input placeholder="Escriba su opinión">
             </ion-input>
           </ion-item>
         </ion-col>
@@ -82,14 +82,14 @@
         <ion-col col-6>
           <ion-item>
             <p>Sí</p>
-            <ion-checkbox (click)="pruebita()" value="si">Si</ion-checkbox>
+            <ion-checkbox value="si">Si</ion-checkbox>
           </ion-item>
         </ion-col>
 
         <ion-col col-6>
           <ion-item>
             <p>No</p>
-            <ion-checkbox (click)="pruebitaDos()" value="no">No</ion-checkbox>
+            <ion-checkbox value="no">No</ion-checkbox>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -97,7 +97,7 @@
       <ion-row>
         <ion-col col-12>
           <ion-button color="dark" expand="block"
-            (click)="enviarEncuesta()">Enviar la encuesta
+            >Enviar la encuesta
           </ion-button>
         </ion-col>
       </ion-row>

@@ -37,6 +37,8 @@ export class ListPage implements OnInit {
     this.getUser();
     this.getPedido();
 
+    this.getList('sdf');
+
     //  If user wanna set something
     this.checkProductsSelected();
   }
@@ -46,7 +48,7 @@ export class ListPage implements OnInit {
 
     if (this.productsSelected) {
       this.productsSelected.forEach(p => {
-        
+
         if (p.id == model.id) {
           quantity = p.quantity;
         }
@@ -107,12 +109,12 @@ export class ListPage implements OnInit {
           this.productsSelected[index] = a;
         }
         else {
-          let g = { id: model.id, quantity: qua, price: model.precio, name: model.nombreProducto };
+          let g = { id: model.id, quantity: qua, price: model.precio, name: model.nombreProducto, time: model.tiempo };
           this.productsSelected.push(g);
         }
       }
       else {
-        let g = { id: model.id, quantity: qua, price: model.precio, name: model.nombreProducto };
+        let g = { id: model.id, quantity: qua, price: model.precio, name: model.nombreProducto, time: model.tiempo };
         this.productsSelected.push(g);
       }
     }
@@ -146,12 +148,25 @@ export class ListPage implements OnInit {
     });
   }
 
+  clickDetails(model: Producto) {
+    this.redirectTo('producto/id/' + model.id);
+  }
+
+  getAproxFinish() {
+    let seconds: number = 0;
+
+    this.productsSelected.forEach(p => {
+      seconds += p.time;
+    });
+
+    return seconds;
+  }
+
   private getProductoIdAsString() {
     let s: any[] = [];
 
-    this.productsSelected.forEach(p => {
-      let aux = { id: p.id, quantity: p.quantity, price: p.price, name: p.name };
-      s.push(aux);
+    this.productsSelected.forEach((p: Producto) => {
+      s.push(p);
     });
 
     return s;

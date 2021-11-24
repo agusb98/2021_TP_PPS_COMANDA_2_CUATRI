@@ -83,24 +83,12 @@ export class RegisterPage implements OnInit {
   }
 
   async scannQR() {
-    let data;
-
     this.barcodeScanner.scan(this.options).then(barcodeData => {
       const datos = barcodeData.text.split('@');
-
-      data = {
-        surname: datos[1],
-        name: datos[2],
-        dni: + datos[4],
-      }
+      this.surname = datos[1];
+      this.name = datos[2];
+      this.dni = + datos[4];
     });
-
-    if (data) {
-      this.surname = data.name;
-      this.name = data.surname;
-      this.dni = data.dni;
-    }
-    else { this.toastr.error("Error al escanear el DNI", "QR"); }
   }
 
   validateForm() {
