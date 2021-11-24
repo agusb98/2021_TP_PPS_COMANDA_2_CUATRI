@@ -68,14 +68,13 @@ export class ScannerComponent implements OnInit, OnDestroy {
   }
 
   async scannQR() {
-    // this.barcodeScanner.scan(this.options).then(barcodeData => {
-    //   const datos = barcodeData.text.split(' ');
-    // this.data = { name: datos[0], id: datos[1], }
-    this.data = { name: 'MESA', id: 3, }
+    this.barcodeScanner.scan(this.options).then(barcodeData => {
+      const datos = barcodeData.text.split(' ');
+      this.data = { name: datos[0], id: datos[1], }
 
-    if (this.data) {
-      switch (this.data.name) {
-        case 'ENTRADA':
+      if (this.data) {
+        switch (this.data.name) {
+          case 'ENTRADA':
             if (!this.hasWait) {
               this.addToWaitList();
             }
@@ -85,9 +84,9 @@ export class ScannerComponent implements OnInit, OnDestroy {
             else if (this.hasWait.estado == 'EN USO') {
               this.toastr.warning('Usted ya tiene una mesa reservada, por favor consulte al empleado más cercano', 'Lista de espera');
             }
-          break;
+            break;
 
-        case 'MESA':
+          case 'MESA':
             if (!this.hasRequest) {
               this.toastr.warning('Lo sentimos, primero debe anunciarse en recepción', 'QR');
             }
@@ -108,13 +107,14 @@ export class ScannerComponent implements OnInit, OnDestroy {
               this.router.navigate(['/pedido/id/' + this.hasRequest.id]);
             }
             else { this.toastr.warning('Lo sentimos, primero debe anunciarse en recepción', 'QR'); }
-          break;
+            break;
 
-        default:
-          this.toastr.warning('QR no perteneciente a ARM-Restaurante..', 'QR');
-          break;
+          default:
+            this.toastr.warning('QR no perteneciente a ARM-Restaurante..', 'QR');
+            break;
+        }
       }
-    }
+    });
   }
 
   private addToWaitList() {
