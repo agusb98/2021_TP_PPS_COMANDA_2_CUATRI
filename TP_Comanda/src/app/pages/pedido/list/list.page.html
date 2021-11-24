@@ -1,3 +1,9 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title size="small">Listado de Pedidos {{ this.kyndSelected.val }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
 
   <div class="container-cards">
@@ -14,16 +20,23 @@
             <table>
               <thead>
                 <tr>
-                  <th><ion-button (click)="setStatus(req, 'CANCELADO')" id="btn-decline">👎</ion-button></th>
+                  <th>
+                    <ion-button *ngIf="req.estado == 'PENDIENTE'" (click)="setStatus(req, 'CANCELADO')" id="btn-decline">👎</ion-button>
+                  </th>
+                  <th><p>{{ this.getQuestion(req.estado) }}</p></th>
                   <th></th>
-                  <th></th>
-                  <th><ion-button (click)="setStatus(req, 'ACEPTADO')" id="btn-confirm">👍</ion-button></th>
+                  <th *ngIf="req.estado == 'PENDIENTE'">
+                    <ion-button (click)="setStatus(req, 'ACEPTADO')" id="btn-confirm">👍</ion-button>
+                  </th>
+                  <th *ngIf="req.estado == 'COBRAR'">
+                    <ion-button (click)="setStatus(req, 'COBRADO')" id="btn-confirm">👍</ion-button>
+                  </th>
                 </tr>
               </thead>
 
               <tbody>
                 <tr *ngFor="let product of req.producto_id">
-                  <td (click)="clickDetails(product)"> 👁‍🗨 </td>
+                  <td (click)="clickDetails(product)"> 👁‍🗨 </td> 
                   <td>
                     <p>{{ product.name }}</p>
                   </td>
@@ -31,7 +44,7 @@
                     <p>{{product.price | currency }}</p>
                   </td>
                   <td>
-                    <p>{{product.quantity }} unidades</p>
+                    <p>{{product.quantity }} unidad</p>
                   </td>
                 </tr>
               </tbody>
@@ -53,7 +66,7 @@
     <ion-fab-button>{{ this.kyndSelected.val }}</ion-fab-button>
     <ion-fab-list side="top">
       <ion-fab-button *ngFor="let p of this.kynds" (click)="setFilter(p)">
-        <p>p.val</p>
+        <p>{{p.val}}</p>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>

@@ -6,12 +6,14 @@ import { ToastrService } from 'ngx-toastr';
 import { Cliente } from 'src/app/models/cliente';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestorageService } from 'src/app/services/firestore.service';
-import { QrService } from 'src/app/services/qr.service';
 import { UserService } from 'src/app/services/user.service';
 import { CameraService } from 'src/app/services/camera.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+<<<<<<< HEAD
 
 declare let window: any;
+=======
+>>>>>>> alpha
 
 @Component({
   selector: 'app-register-cliente',
@@ -21,8 +23,14 @@ declare let window: any;
 
 export class RegisterPage implements OnInit {
   form: FormGroup;
-
   user;
+
+  private options = {
+    prompt: "Escaneá el DNI",
+    formats: 'PDF_417, QR_CODE',
+    showTorchButton: true,
+    resultDisplayDuration: 2,
+  };
 
   validationUserMessage = {
     name: [
@@ -65,9 +73,12 @@ export class RegisterPage implements OnInit {
     private toastr: ToastrService,
     private fs: FirestorageService,
     private userService: UserService,
-    private qrService: QrService,
     private cameraService: CameraService,
+<<<<<<< HEAD
     private qrDni: BarcodeScanner
+=======
+    private barcodeScanner: BarcodeScanner
+>>>>>>> alpha
   ) { }
 
   ngOnInit() {
@@ -80,6 +91,7 @@ export class RegisterPage implements OnInit {
     if (a) { this.user = a; }
   }
 
+<<<<<<< HEAD
   public flag: boolean = false;
 
   scannQR() {
@@ -102,6 +114,15 @@ export class RegisterPage implements OnInit {
       this.toastr.error("Error al escanear el DNI");
     });
 
+=======
+  async scannQR() {
+    this.barcodeScanner.scan(this.options).then(barcodeData => {
+      const datos = barcodeData.text.split('@');
+      this.surname = datos[1];
+      this.name = datos[2];
+      this.dni = + datos[4];
+    });
+>>>>>>> alpha
   }
 
   inputSetQr = {

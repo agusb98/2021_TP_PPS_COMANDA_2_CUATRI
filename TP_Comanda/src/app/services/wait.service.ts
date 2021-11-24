@@ -32,26 +32,22 @@ export class WaitListService {
     catch (err) { console.log(err); }
   }
 
-  getPendientes() {
-    return this.getByStatus('PENDIENTE') as Observable<WaitList[]>;
-  }
-
   getInactivos() {
-    return this.getByStatus('INACTIVO') as Observable<WaitList[]>;
-  }
-
-  getCancelados() {
-    return this.getByStatus('CANCELADO') as Observable<WaitList[]>;
-  }
-
-  getUsados() {
-    return this.getByStatus('EN USO') as Observable<WaitList[]>;
-  }
-
-  private getByStatus(estado: string) {
     try {
       return this.getAll().pipe(
-        map(waits => waits.filter(u => u.estado.includes(estado))));
+        map(waits => waits.filter(
+          u => u.estado == 'CANCELADO' || u.estado == 'FINALIZADO'
+        )));
+    }
+    catch (error) { }
+  }
+
+  getActivos() {
+    try {
+      return this.getAll().pipe(
+        map(waits => waits.filter(
+          u => u.estado == 'PENDIENTE' || u.estado == 'EN USO'
+        )));
     }
     catch (error) { }
   }

@@ -10,35 +10,11 @@ const routes: Routes = [
   { path: 'mesa', loadChildren: () => import('./pages/mesa/mesa.module').then(m => m.MesaModule) },
   { path: 'wait', loadChildren: () => import('./pages/wait/wait.module').then(m => m.WaitModule) },
   { path: 'pedido', loadChildren: () => import('./pages/pedido/pedido.module').then(m => m.PedidoModule) },
+  { path: 'encuesta', loadChildren: () => import('./pages/encuesta/encuesta.module').then(m => m.EncuestaModule) },
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule), canActivate: [AuthGuard]
   },
-  {
-    path: 'encuesta/cliente',
-    loadChildren: () => import('./pages/encuestas/cliente/cliente.module').then( m => m.ClientePageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'encuesta/empleado',
-    loadChildren: () => import('./pages/encuestas/empleado/empleado.module').then( m => m.EmpleadoPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'encuesta/supervisor',
-    loadChildren: () => import('./pages/encuestas/supervisor/supervisor.module').then( m => m.SupervisorPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'encuesta/cliente/grafico',
-    loadChildren: () => import('./pages/encuestas/grafico-cliente/grafico-cliente.module').then( m => m.GraficoClientePageModule),
-    canActivate: [AuthGuard]
-  },
-
-
-
-
-
 ];
 
 @NgModule({

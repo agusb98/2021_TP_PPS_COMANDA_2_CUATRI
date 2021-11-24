@@ -1,44 +1,69 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Confirmar Pedido</ion-title>
-  </ion-toolbar>
-</ion-header>
+<div class="container" *ngIf="this.pedido$ | async as pedido">
 
-<ion-content *ngIf="this.pedido$ | async as pedido">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title size="small">{{ this.getTitle(pedido.estado) }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-  <div class="container-cards">
-    <ion-card>
-      <table>
-        <tbody>
-          <tr *ngFor="let product of getProductsSelected()">
-            <td>
-              <p>{{ product.name }}</p>
-            </td>
-            <td>
-              <p>{{ product.price | currency }} x {{ product.quantity }} :</p>
-            </td>
-            <td>
-              <p>{{ product.price * product.quantity | currency }}</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </ion-card>
-  </div>
+  <ion-content>
 
-  <div class="container-cards container-resume">
-    <ion-card>
-      <p>MONTO TOTAL: ( {{ this.getAcum() | currency }} )</p>
+    <div class="container-cards">
+      <ion-card>
+        <table>
+          <tbody>
+            <tr *ngFor="let product of getProductsSelected()">
+              <td>
+                <p>{{ product.name }}</p>
+              </td>
+              <td>
+                <p>{{ product.price | currency }} x {{ product.quantity }} :</p>
+              </td>
+              <td>
+                <p>{{ product.price * product.quantity | currency }}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ion-card>
 
-      <ion-button (click)="redirectTo('producto/list')">EDITAR</ion-button>
-      <ion-button (click)="clickConfirm(pedido)">CONFIRMAR</ion-button>
-    </ion-card>
-  </div>
+      <div class="container-cards container-resume">
+        <ion-card>
+          <p>MONTO TOTAL: ( {{ this.getAcum() | currency }} )</p>
+          <p>TIEMPO ESTIMADO: {{ this.getAproxFinish() }} minutos</p>
 
-  <ion-fab (click)="redirectTo('home')" vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button>
-      <ion-icon name="home"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 
-</ion-content>
+          <div *ngIf="pedido.estado == 'PENDIENTE'">
+            <ion-button (click)="redirectTo('producto/list')">EDITAR</ion-button>
+            <ion-button (click)="clickPendiente(pedido)">CONFIRMAR</ion-button>
+          </div>
+
+          <div *ngIf="pedido.estado == 'ACEPTADO'">
+            <ion-button (click)="clickRecibido(pedido)">RECIBIDO</ion-button>
+          </div>
+
+          <div *ngIf="pedido.estado == 'CONFIRMADO'">
+            <ion-button (click)="clickCobrar(pedido)">PAGAR</ion-button>
+          </div>
+
+          <div *ngIf="pedido.estado == 'COBRADO'">
+            <br>
+            <p>¿Le interesa ser parte de una breve encuesta?</p>
+            <ion-button (click)="redirectTo('encuesta/cliente')">PARTICIPAR</ion-button>
+          </div>
+
+        </ion-card>
+      </div>
+
+    </div>
+
+    <ion-fab (click)="redirectTo('home')" vertical="bottom" horizontal="start" slot="fixed">
+      <ion-fab-button>
+        <ion-icon name="home"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+  </ion-content>
+
+
+</div>

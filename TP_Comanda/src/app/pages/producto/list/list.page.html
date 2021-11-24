@@ -1,3 +1,9 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title size="small">Listado de Productos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
 
   <div class="container-cards">
@@ -19,7 +25,7 @@
             <td><p>{{product.precio | currency }}</p></td>
 
             <td>
-              <ion-input (change)="setQuantity(product, $event)" type="number" min-value="0" name="cantidad" value="{{hasToSet(product)}}"></ion-input>
+              <ion-input (change)="setQuantity(product, $event)" type="number" min-value="0" name="cantidad" value="{{ hasToSet(product) }}"></ion-input>
             </td>
           </tr>
         </tbody>
@@ -30,6 +36,7 @@
   <div (click)="clickBeforeConfirm()" *ngIf="this.getAcum() > 0" class="container-cards container-resume">
     <ion-card>
       <p>VER PEDIDO ({{ this.getAcum() | currency }} )</p>
+      <p>TIEMPO ESTIMADO: {{ this.getAproxFinish() }} minutos</p>
     </ion-card>
   </div>
 
@@ -43,7 +50,7 @@
     <ion-fab-button>{{ this.kyndSelected.val }}</ion-fab-button>
     <ion-fab-list side="top">
       <ion-fab-button *ngFor="let p of this.kynds" (click)="setFilter(p)">
-        <p>p.val</p>
+        <p>{{p.val}}</p>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>

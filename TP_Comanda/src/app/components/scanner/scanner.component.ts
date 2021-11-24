@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { WaitListService } from 'src/app/services/wait.service';
@@ -13,11 +13,13 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
   templateUrl: './scanner.component.html'
 })
 
-export class ScannerComponent implements OnInit {
+export class ScannerComponent implements OnInit, OnDestroy {
 
   public user;
-  public hasWait$: Observable<any>;
-  public hasRequest$: Observable<any>;
+  public hasWait;
+  public hasRequest;
+
+  private data: any;
 
   private options = {
     prompt: "Escaneá el QR",
@@ -36,10 +38,15 @@ export class ScannerComponent implements OnInit {
 
   ngOnInit() {
     this.user = null;
+    this.data = null;
     this.getUser();
 
     this.checkWait();
     this.checkRequest();
+  }
+
+  ngOnDestroy() {
+    this.data = null;
   }
 
   getUser() {
@@ -47,71 +54,82 @@ export class ScannerComponent implements OnInit {
   }
 
   private checkWait() {
-    this.hasWait$ = this.waitService.getLastByUser(this.user.correo);
+    this.waitService.getLastByUser(this.user.correo)
+      .subscribe(data => {
+        this.hasWait = data;
+      });
   }
 
   private checkRequest() {
-    this.hasRequest$ = this.requestService.getLastByUser(this.user.correo);
+    this.requestService.getLastByUser(this.user.correo)
+      .subscribe(data => {
+        this.hasRequest = data;
+      });
   }
 
   async scannQR() {
-    let data;
     this.barcodeScanner.scan(this.options).then(barcodeData => {
       const datos = barcodeData.text.split(' ');
-      data = { name: datos[0], id: datos[1], }
+      this.data = { name: datos[0], id: datos[1], }
+
+      // this.data = { name: 'MESA', id: 3, }
+
+
+      if (this.data) {
+        switch (this.data.name) {
+          case 'ENTRADA':
+            if (!this.hasWait) {
+              this.addToWaitList();
+            }
+            else if (this.hasWait.estado == 'PENDIENTE') {
+              this.toastr.warning('Previamente usted ya solicitó una mesa, en breves se le acercará un recepcionista', 'Lista de espera');
+            }
+            else if (this.hasWait.estado == 'EN USO') {
+              this.toastr.warning('Usted ya tiene una mesa reservada, por favor consulte al empleado más cercano', 'Lista de espera');
+            }
+            break;
+
+          case 'MESA':
+            if (!this.hasRequest) { //  If first time in restaurant
+              this.toastr.warning('Lo sentimos, primero debe anunciarse en recepción', 'QR');
+            }
+            else if (this.hasRequest.estado == 'PENDIENTE') { //  If was accepted
+              if (this.hasRequest.mesa_numero == this.data.id) {  //  If is the table selected
+                this.router.navigate(['/producto/list']);
+              }
+              else {  //  If is not the table selected
+                this.toastr.warning('La mesa que se le asignó es: Nº ' + this.hasRequest.mesa_numero, 'QR');
+              }
+            }
+            else if (this.hasRequest.estado == 'COBRAR') {
+              if (this.hasRequest.mesa_numero == this.data.id) {  //  If is the table selected
+                this.toastr.warning('En breves se le acercará un mozo a cobrarle', 'QR');
+              }
+              else {  //  If is not the table selected
+                this.toastr.warning('La mesa que se le asignó es: Nº ' + this.hasRequest.mesa_numero, 'QR');
+              }
+            }
+            else if (
+              this.hasRequest.estado == 'COBRADO' ||
+              this.hasRequest.estado == 'ACEPTADO' ||
+              this.hasRequest.estado == 'CONFIRMADO'
+            ) {
+              if (this.hasRequest.mesa_numero == this.data.id) {  //  If is the table selected
+                this.router.navigate(['/pedido/id/' + this.hasRequest.id]);
+              }
+              else {  //  If is not the table selected
+                this.toastr.warning('La mesa que se le asignó es: Nº ' + this.hasRequest.mesa_numero, 'QR');
+              }
+            }
+            else { this.toastr.warning('Lo sentimos, primero debe anunciarse en recepción', 'QR'); }
+            break;
+
+          default:
+            this.toastr.warning('QR no perteneciente a ARM-Restaurante..', 'QR');
+            break;
+        }
+      }
     });
-
-    if (data) {
-      if (data.name == 'ENTRADA') {
-        this.hasWait$.subscribe(data => {
-          if (data.estado == 'PENDIENTE') {
-            this.toastr.error('Previamente usted ya solicitó una mesa, en breves se le acercará un recepcionista', 'Lista de espera');
-          }
-          else if (data.estado == 'EN USO') {
-            this.toastr.error('Usted ya tiene una mesa reservada, por favor consulte al empleado más cercano', 'Lista de espera');
-          }
-          else { this.addToWaitList(); }
-        });
-      }
-      else if (data.name == 'MESA') {
-        this.hasRequest$.subscribe(dataRes => {
-          
-          if (dataRes.mesa_numero == data.id) {
-            if (data.estado == 'PENDIENTE') {
-              this.router.navigate(['/producto/list']);
-            }
-            else if (data.estado == 'ACEPTADO') {
-              console.log('preguntarle si ya lo recibió');
-            }
-            else if (data.estado == 'CONFIRMADO') {
-              console.log('preguntarle si quiere pagar o jugar un jueguito');
-            }
-            else if (data.estado == 'COBRADO') {
-              console.log('preguntarle si quiere hacer una encuesta');
-            }
-          }
-          else {
-            this.toastr.error('Usted se ha equivocado de mesa', 'Lista de espera');
-          }
-        })
-      }
-      else if(data.name == 'PROPINA'){
-        console.log('preguntar si realmente quiere dejar propina');
-      }
-    }
-
-
-    //obtener valor qr: puede ser para ingresar en lista de espera
-    //o leer una mesa
-    //  por lo cual
-    //  quiero un qr para lista de espera
-    // y varios qr de mesas
-
-    //  if qr ir entrada
-
-
-    //  if qr is mesa X
-
   }
 
   private addToWaitList() {
