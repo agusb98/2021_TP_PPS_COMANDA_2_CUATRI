@@ -19,7 +19,7 @@
             <td><p>{{product.precio | currency }}</p></td>
 
             <td>
-              <ion-input (change)="setQuantity(product, $event)" type="number" min-value="0" name="cantidad" value="{{hasToSet(product)}}"></ion-input>
+              <ion-input (change)="setQuantity(product, $event)" type="number" min-value="0" name="cantidad" value="{{ hasToSet(product) }}"></ion-input>
             </td>
           </tr>
         </tbody>

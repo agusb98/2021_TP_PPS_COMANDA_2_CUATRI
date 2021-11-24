@@ -22,7 +22,7 @@ export class LogoutPage {
   async onLogout() {
     try {
       await this.authService.logout();
-      localStorage.setItem('user', ''); //Save user data in the local storage
+      localStorage.removeItem('user');
       this.vibration.vibrate([500]);
       this.toastr.success('Sesión Cerrada con Exito', 'Salir');
       this.redirectTo('user/login');

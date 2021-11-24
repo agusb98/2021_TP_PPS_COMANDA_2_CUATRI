@@ -83,8 +83,6 @@ export class RegisterPage implements OnInit {
   }
 
   async scannQR() {
-    let data;
-
     this.barcodeScanner.scan(this.options).then(barcodeData => {
       const datos = barcodeData.text.split('@');
       this.surname = datos[1];

@@ -6,6 +6,8 @@ import { Pedido } from 'src/app/models/pedido';
 import { ToastrService } from 'ngx-toastr';
 import { MesaService } from 'src/app/services/mesa.service';
 import { Mesa } from 'src/app/models/mesa';
+import { WaitListService } from 'src/app/services/wait.service';
+import { WaitList } from 'src/app/models/waitList';
 
 @Component({
   selector: 'app-list-mesa',
@@ -17,6 +19,7 @@ export class ListPage implements OnInit {
   requests$: Observable<any>;
 
   tables: any;
+  waits: any;
 
   kyndSelected;
   kynds = [
@@ -32,6 +35,7 @@ export class ListPage implements OnInit {
   constructor(
     private reqService: PedidoService,
     private tblService: MesaService,
+    private waitService: WaitListService,
     private toastr: ToastrService,
     private router: Router
   ) { }
@@ -43,6 +47,7 @@ export class ListPage implements OnInit {
 
     //  es una mierda esta parte..
     this.getAllTables();
+    this.getAllWaits();
   }
 
   setFilter(p) {
@@ -53,6 +58,12 @@ export class ListPage implements OnInit {
   private getAllTables() {
     this.tblService.getAll().subscribe(data => {
       this.tables = data;
+    })
+  }
+
+  private getAllWaits() {
+    this.waitService.getAll().subscribe(data => {
+      this.waits = data;
     })
   }
 
@@ -86,14 +97,20 @@ export class ListPage implements OnInit {
 
   setStatus(model: Pedido, status) {
     model.estado = status;
+    
     try {
       this.reqService.setOne(model);
 
       if (model.estado == 'COBRADO') {
 
+        this.waits.reverse().forEach(t => {
+          if (t.correo == model.correo) {
+            this.setStatusWait(t);
+          }
+        });
+
         this.tables.forEach(t => {
           if (t.numero == model.mesa_numero) {
-            t.estado = 'DISPONIBLE';
             this.setStatusTable(t);
             this.toastr.success('Datos registrados, ahora la mesa Nº ' + t.numero + ' se encuentra Disponible', 'Estado de Pedido');
           }
@@ -106,6 +123,11 @@ export class ListPage implements OnInit {
   private setStatusTable(mesa: Mesa) {
     mesa.estado = 'DISPONIBLE';
     this.tblService.setOne(mesa);
+  }
+
+  private setStatusWait(waitzzz: WaitList) {
+    waitzzz.estado = 'FINALIZADO';
+    this.waitService.setOne(waitzzz);
   }
 
   redirectTo(path: string) {

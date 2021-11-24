@@ -37,6 +37,8 @@ export class ListPage implements OnInit {
     this.getUser();
     this.getPedido();
 
+    this.getList('sdf');
+
     //  If user wanna set something
     this.checkProductsSelected();
   }
