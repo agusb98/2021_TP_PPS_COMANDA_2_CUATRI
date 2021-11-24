@@ -155,9 +155,8 @@ export class ListPage implements OnInit {
   private getProductoIdAsString() {
     let s: any[] = [];
 
-    this.productsSelected.forEach(p => {
-      let aux = { id: p.id, quantity: p.quantity, price: p.price, name: p.name };
-      s.push(aux);
+    this.productsSelected.forEach((p: Producto) => {
+      s.push(p);
     });
 
     return s;

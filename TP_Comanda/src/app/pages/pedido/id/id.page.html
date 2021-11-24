@@ -30,6 +30,7 @@
       <div class="container-cards container-resume">
         <ion-card>
           <p>MONTO TOTAL: ( {{ this.getAcum() | currency }} )</p>
+          <p>TIEMPO ESTIMADO: {{ this.getAproxFinish() }} minutos</p>
 
 
           <div *ngIf="pedido.estado == 'PENDIENTE'">
