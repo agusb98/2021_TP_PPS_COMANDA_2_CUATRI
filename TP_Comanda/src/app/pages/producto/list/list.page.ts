@@ -109,12 +109,12 @@ export class ListPage implements OnInit {
           this.productsSelected[index] = a;
         }
         else {
-          let g = { id: model.id, quantity: qua, price: model.precio, name: model.nombreProducto };
+          let g = { id: model.id, quantity: qua, price: model.precio, name: model.nombreProducto, time: model.tiempo };
           this.productsSelected.push(g);
         }
       }
       else {
-        let g = { id: model.id, quantity: qua, price: model.precio, name: model.nombreProducto };
+        let g = { id: model.id, quantity: qua, price: model.precio, name: model.nombreProducto, time: model.tiempo };
         this.productsSelected.push(g);
       }
     }
@@ -150,6 +150,16 @@ export class ListPage implements OnInit {
 
   clickDetails(model: Producto) {
     this.redirectTo('producto/id/' + model.id);
+  }
+
+  getAproxFinish() {
+    let seconds: number = 0;
+
+    this.productsSelected.forEach(p => {
+      seconds += p.time;
+    });
+
+    return seconds;
   }
 
   private getProductoIdAsString() {

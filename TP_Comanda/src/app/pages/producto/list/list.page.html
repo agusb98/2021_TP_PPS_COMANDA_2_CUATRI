@@ -36,6 +36,7 @@
   <div (click)="clickBeforeConfirm()" *ngIf="this.getAcum() > 0" class="container-cards container-resume">
     <ion-card>
       <p>VER PEDIDO ({{ this.getAcum() | currency }} )</p>
+      <p>TIEMPO ESTIMADO: {{ this.getAproxFinish() }} minutos</p>
     </ion-card>
   </div>
 

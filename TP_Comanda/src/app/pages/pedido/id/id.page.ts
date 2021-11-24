@@ -87,12 +87,10 @@ export class IdPage implements OnInit {
   }
 
   getAproxFinish() {
-    let seconds: number = 10;
+    let seconds: number = 0;
 
-    this.getProductsSelected().forEach((p: Producto) => {
-      console.log(p);
-      
-      seconds += p.tiempo;
+    this.getProductsSelected().forEach(p => {
+      seconds += p.time;
     });
 
     return seconds;
