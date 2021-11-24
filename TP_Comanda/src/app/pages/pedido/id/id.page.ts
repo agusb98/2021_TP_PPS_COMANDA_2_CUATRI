@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { Pedido } from 'src/app/models/pedido';
+import { Producto } from 'src/app/models/producto';
 
 @Component({
   selector: 'app-id',
@@ -85,6 +86,16 @@ export class IdPage implements OnInit {
     }
   }
 
+  getAproxFinish() {
+    let seconds: number = 0;
+
+    this.getProductsSelected().forEach(p => {
+      seconds += p.time;
+    });
+
+    return seconds;
+  }
+
   getTitle(status: string) {
     switch (status) {
       case 'PENDIENTE':
@@ -101,6 +112,9 @@ export class IdPage implements OnInit {
 
       case 'COBRAR':
         return 'Realizar Encuesta';
+
+      case 'COBRADO':
+        return 'Recomendación del Cliente';
 
       default:
         return '';
