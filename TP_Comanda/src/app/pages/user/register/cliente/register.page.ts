@@ -11,6 +11,8 @@ import { CameraService } from 'src/app/services/camera.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { MailService } from 'src/app/services/mail.service';
 
+declare let window: any;
+
 @Component({
   selector: 'app-register-cliente',
   templateUrl: './register.page.html',
@@ -71,6 +73,7 @@ export class RegisterPage implements OnInit {
     private userService: UserService,
     private mailService: MailService,
     private cameraService: CameraService,
+    private qrDni: BarcodeScanner,
     private barcodeScanner: BarcodeScanner
   ) { }
 
@@ -84,13 +87,28 @@ export class RegisterPage implements OnInit {
     if (a) { this.user = a; }
   }
 
-  async scannQR() {
-    this.barcodeScanner.scan(this.options).then(barcodeData => {
+  public flag: boolean = false;
+
+  scannQR() {
+    const options = {
+      prompt: "Escaneá el DNI",
+      formats: 'PDF_417, QR_CODE',
+      showTorchButton: true,
+      resultDisplayDuration: 2,
+    };
+
+    this.qrDni.scan(options).then(barcodeData => {
       const datos = barcodeData.text.split('@');
-      this.surname = datos[1];
-      this.name = datos[2];
-      this.dni = + datos[4];
+
+      this.inputSetQr.surname = datos[1];
+      this.inputSetQr.name = datos[2];
+      this.inputSetQr.dni = datos[4];
+
+    }).catch(err => {
+      console.log(err);
+      this.toastr.error("Error al escanear el DNI");
     });
+
   }
 
   inputSetQr = {

@@ -51,4 +51,4 @@ export class MailService {
         try { emailjs.send(this.serviceID, this.templateID, template) }
         catch (error) { console.log("Error al enviar el email.", error); }
     }
-}
+} 
