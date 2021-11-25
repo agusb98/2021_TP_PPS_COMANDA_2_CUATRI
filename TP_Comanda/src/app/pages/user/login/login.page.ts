@@ -85,9 +85,6 @@ export class LoginPage implements OnInit {
         }
         else {
           this.vibration.vibrate([500, 500, 500]);
-          console.log(data as User);
-          
-          this.mailService.notificationInabled(data as User);
           this.toastr.error('Aún no fue habilitado por administración, sea paciente', 'Iniciar Sesión');
         }
       });
