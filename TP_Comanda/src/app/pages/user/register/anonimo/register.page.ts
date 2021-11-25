@@ -77,11 +77,13 @@ export class RegisterPage implements OnInit {
       this.fs.saveImage(this.img, 'users', new Date().getTime() + '')
         .then(async url => {
           userAux.img = url;
-//
+
           await this.userService.createOne(userAux);
           this.vibration.vibrate([500]);
           this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
           this.resetForm();
+          
+          this.redirectTo('/home');
         });
     }
     else {
@@ -100,7 +102,7 @@ export class RegisterPage implements OnInit {
       dni: '',
       img: this.img,
       estado: 'ACEPTADO',
-      correo: '',
+      correo: this.email,
       perfil: 'ANONIMO',
       fecha_creacion: new Date().getTime()
     };

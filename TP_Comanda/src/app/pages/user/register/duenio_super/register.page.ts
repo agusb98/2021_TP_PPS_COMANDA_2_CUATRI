@@ -82,7 +82,12 @@ export class RegisterPage implements OnInit {
     private userService: UserService,
     private fs: FirestorageService,
     private cameraService: CameraService,
+<<<<<<< HEAD
     private barcodeScanner: BarcodeScanner
+=======
+    private qrService: QrService,
+    private qrDni: BarcodeScanner
+>>>>>>> gamma
   ) { }
 
   ngOnInit() { this.validateForm(); }
@@ -124,6 +129,7 @@ export class RegisterPage implements OnInit {
   get password() { return this.form.get('password').value; }
   set password(data: string) { this.form.controls['password'].setValue(data); }
 
+<<<<<<< HEAD
   async scannQR() {
     let data;
 
@@ -135,15 +141,48 @@ export class RegisterPage implements OnInit {
         name: datos[2],
         dni: + datos[4],
       }
+=======
+  public flag: boolean = false;
+
+  scannQR() {
+    const options = {
+      prompt: "Escaneá el DNI",
+      formats: 'PDF_417, QR_CODE',
+      showTorchButton: true,
+      resultDisplayDuration: 2,
+    };
+
+    this.qrDni.scan(options).then(barcodeData => {
+      const datos = barcodeData.text.split('@');
+
+      this.inputSetQr.surname = datos[1];
+      this.inputSetQr.name = datos[2];
+      this.inputSetQr.dni = datos[4];
+
+    }).catch(err => {
+      console.log(err);
+      this.toastr.error("Error al escanear el DNI");
+>>>>>>> gamma
     });
 
-    if (data) {
-      this.surname = data.name;
-      this.name = data.surname;
-      this.dni = data.dni;
-    }
-    else { this.toastr.error("Error al escanear el DNI", "QR"); }
   }
+
+  inputSetQr = {
+    name: '',
+    surname: '',
+    dni: '',
+  };
+
+  // async scannQR() {
+  //   let data: any = await this.qrService.scannDNI();
+
+  //   if (data) {
+  //     this.surname = data.name;
+  //     this.name = data.surname;
+  //     this.dni = data.dni;
+  //   }
+  //   else { this.toastr.error("Error al escanear el DNI", "QR"); }
+  // }
 
   async takePic() {
     const image = await this.cameraService.addNewToGallery();

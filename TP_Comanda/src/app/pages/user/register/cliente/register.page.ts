@@ -91,6 +91,23 @@ export class RegisterPage implements OnInit {
     });
   }
 
+  inputSetQr = {
+    name: '',
+    surname: '',
+    dni: '',
+  };
+
+  // async scannQR() {
+  //   let data: any = await this.qrService.scannDNI();
+
+  //   if (data) {
+  //     this.surname = data.name;
+  //     this.name = data.surname;
+  //     this.dni = data.dni;
+  //   }
+  //   else { this.toastr.error("Error al escanear el DNI", "QR"); }
+  // }
+
   validateForm() {
     this.form = this.formbuider.group({
       name: new FormControl('',
