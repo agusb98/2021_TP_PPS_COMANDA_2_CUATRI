@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [],
-<<<<<<< HEAD
   imports: [
     
     IonicModule,
@@ -15,9 +14,5 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     ReactiveFormsModule,
     RegisterRoutingModule,]
-=======
-  imports: [RegisterRoutingModule,],
-  providers:[BarcodeScanner]
->>>>>>> alpha
 })
 export class RegisterModule { }

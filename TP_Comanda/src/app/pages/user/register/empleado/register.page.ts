@@ -10,14 +10,10 @@ import { FirestorageService } from 'src/app/services/firestore.service';
 import { CameraService } from 'src/app/services/camera.service';
 
 import { Empleado } from 'src/app/models/empleado';
-<<<<<<< HEAD
 import { QrService } from 'src/app/services/qr.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 declare let window: any;
-=======
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
->>>>>>> alpha
 
 @Component({
   selector: 'app-register-empleado',
@@ -92,13 +88,9 @@ export class RegisterPage implements OnInit {
     private userService: UserService,
     private fs: FirestorageService,
     private cameraService: CameraService,
-<<<<<<< HEAD
     private qrService: QrService,
     
     private qrDni: BarcodeScanner
-=======
-    private barcodeScanner: BarcodeScanner
->>>>>>> alpha
   ) { }
 
   ngOnInit() { this.validateForm(); }
@@ -142,7 +134,6 @@ export class RegisterPage implements OnInit {
 
   public flag: boolean = false;
 
-<<<<<<< HEAD
   scannQR() {
     const options = {
       prompt: "Escaneá el DNI",
@@ -161,19 +152,6 @@ export class RegisterPage implements OnInit {
     }).catch(err => {
       console.log(err);
       this.toastr.error("Error al escanear el DNI");
-=======
-  async scannQR() {
-    let data;
-
-    this.barcodeScanner.scan(this.options).then(barcodeData => {
-      const datos = barcodeData.text.split('@');
-
-      data = {
-        surname: datos[1],
-        name: datos[2],
-        dni: + datos[4],
-      }
->>>>>>> alpha
     });
 
   }

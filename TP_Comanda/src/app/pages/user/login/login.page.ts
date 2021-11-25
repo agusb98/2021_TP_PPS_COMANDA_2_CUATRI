@@ -17,6 +17,7 @@ export class LoginPage implements OnInit {
   users = [
     { email: "duenio@duenio.com", password: "111111", icon: "😎" },
     { email: "supervisor@supervisor.com", password: "222222", icon: "🧐" },
+    //{ email: "anonimo@anonimo.com", password: "anonimo", icon: "❓" },
     { email: "metre@metre.com", password: "123456", icon: "💂" },
     { email: "mozo@mozo.com", password: "444444", icon: "👨‍💼" },
     { email: "cocinero@cocinero.com", password: "555555", icon: "👨‍🍳" },
@@ -44,6 +45,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() { this.validateForm(); }
 
+  
   validateForm() {
     this.form = this.formbuider.group({
       email: new FormControl('', Validators.compose([
@@ -67,6 +69,11 @@ export class LoginPage implements OnInit {
     this.email = user.email;
     this.password = user.password;
   }
+
+  async onAnonymous() {
+      this.redirectTo('user/register/anonimo');
+  }
+    
 
   async onLogin() {
     try {

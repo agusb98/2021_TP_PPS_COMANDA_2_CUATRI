@@ -108,9 +108,9 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-fab (click)="redirectTo('user/register/anonimo')" *ngIf="!this.user" vertical="bottom" horizontal="start" slot="fixed">
+  <!-- <ion-fab (click)="redirectTo('user/register/anonimo')" *ngIf="!this.user" vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button id="anonymus"> ❓ </ion-fab-button>
-  </ion-fab>
+  </ion-fab> -->
 
   <ion-fab *ngIf="this.user" (click)="redirectTo('home')" vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button>
