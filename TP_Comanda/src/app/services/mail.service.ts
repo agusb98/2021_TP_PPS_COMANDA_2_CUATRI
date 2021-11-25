@@ -16,6 +16,18 @@ export class MailService {
 
     constructor() { }
 
+    notificationWelcome(model: User) {
+        let template = {
+            from: "ARM Group",
+            to: model.correo,
+            client_name: model.nombre,
+            message: "Si recibió este correo electrónico significa que se ha registrado correctamente en ARM GROUP muchas gracias!",
+        }
+
+        try { emailjs.send(this.serviceID, this.templateID, template) }
+        catch (error) { console.log("Error al enviar el email.", error); }
+    }
+
     notificationInabled(model: User) {
         let template = {
             from: "ARM Group",

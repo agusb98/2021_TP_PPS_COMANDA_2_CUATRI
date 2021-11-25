@@ -71,7 +71,7 @@ export class ListPage implements OnInit {
   setStatus($event, user) {
     user.estado = $event.target.value;
     this.userService.setOne(user);
-    this.mailService.notificationAble(user);
+    this.mailService.notificationStatus(user);
   }
 
 }
