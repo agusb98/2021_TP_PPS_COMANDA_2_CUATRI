@@ -111,6 +111,7 @@ export class ListPage implements OnInit {
       mesa_numero: mesa.numero,
       producto_id: null,
       date_created: new Date().getTime(),
+      date_updated: new Date().getTime(),
       estado: 'PENDIENTE'
     }
     return m;
