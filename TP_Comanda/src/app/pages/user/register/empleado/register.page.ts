@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
 import { UserService } from 'src/app/services/user.service';
-import { FirestorageService } from 'src/app/services/firestore.service';z
+import { FirestorageService } from 'src/app/services/firestore.service';
 import { CameraService } from 'src/app/services/camera.service';
 
 import { Empleado } from 'src/app/models/empleado';
@@ -85,13 +85,7 @@ export class RegisterPage implements OnInit {
     private userService: UserService,
     private fs: FirestorageService,
     private cameraService: CameraService,
-<<<<<<< HEAD
     private barcodeScanner: BarcodeScanner
-=======
-    private qrService: QrService,
-    
-    private qrDni: BarcodeScanner
->>>>>>> gamma
   ) { }
 
   ngOnInit() { this.validateForm(); }
@@ -135,7 +129,6 @@ export class RegisterPage implements OnInit {
 
   public flag: boolean = false;
 
-<<<<<<< HEAD
   async scannQR() {
     let data;
 
@@ -147,26 +140,6 @@ export class RegisterPage implements OnInit {
         name: datos[2],
         dni: + datos[4],
       }
-=======
-  scannQR() {
-    const options = {
-      prompt: "Escaneá el DNI",
-      formats: 'PDF_417, QR_CODE',
-      showTorchButton: true,
-      resultDisplayDuration: 2,
-    };
-
-    this.qrDni.scan(options).then(barcodeData => {
-      const datos = barcodeData.text.split('@');
-
-      this.inputSetQr.surname = datos[1];
-      this.inputSetQr.name = datos[2];
-      this.inputSetQr.dni = datos[4];
-
-    }).catch(err => {
-      console.log(err);
-      this.toastr.error("Error al escanear el DNI");
->>>>>>> gamma
     });
 
   }

@@ -48,7 +48,7 @@ export class RegisterPage implements OnInit {
 
   validateForm() {
     this.form = this.formbuider.group({
-      name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
+      name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z0-9 ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
       img: new FormControl('', Validators.compose([Validators.required])),
       profile: new FormControl('ANONIMO'),
     })
@@ -77,13 +77,11 @@ export class RegisterPage implements OnInit {
       this.fs.saveImage(this.img, 'users', new Date().getTime() + '')
         .then(async url => {
           userAux.img = url;
-
+//
           await this.userService.createOne(userAux);
           this.vibration.vibrate([500]);
           this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
           this.resetForm();
-          
-          this.redirectTo('/home');
         });
     }
     else {
@@ -102,7 +100,7 @@ export class RegisterPage implements OnInit {
       dni: '',
       img: this.img,
       estado: 'ACEPTADO',
-      correo: this.email,
+      correo: '',
       perfil: 'ANONIMO',
       fecha_creacion: new Date().getTime()
     };
