@@ -68,11 +68,11 @@ export class ScannerComponent implements OnInit, OnDestroy {
   }
 
   async scannQR() {
-    this.barcodeScanner.scan(this.options).then(barcodeData => {
-      const datos = barcodeData.text.split(' ');
-      this.data = { name: datos[0], id: datos[1], }
+    // this.barcodeScanner.scan(this.options).then(barcodeData => {
+    //   const datos = barcodeData.text.split(' ');
+    //   this.data = { name: datos[0], id: datos[1], }
 
-      // this.data = { name: 'MESA', id: 3, }
+      this.data = { name: 'ENTRADA', id: 3, }
 
 
       if (this.data) {
@@ -129,7 +129,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
             break;
         }
       }
-    });
+    // });
   }
 
   private addToWaitList() {
