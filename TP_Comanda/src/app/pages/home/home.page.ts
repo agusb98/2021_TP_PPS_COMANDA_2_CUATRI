@@ -55,6 +55,7 @@ export class HomePage implements OnInit {
 
     //  Cliente
     { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'CLIENTE', title: 'Grafico' },
+    { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'ANONIMO', title: 'Grafico' },
   ];
 
   constructor(private router: Router,) {
