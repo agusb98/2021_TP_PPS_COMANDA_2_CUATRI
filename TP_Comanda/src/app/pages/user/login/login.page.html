@@ -43,18 +43,38 @@
         <ion-button shape="round" type="submit" fill="solid" class="sign-btn" [disabled]="!form.valid">
           Ingresar</ion-button>
 
-        <ion-item class="divUsuarios" color="none" lines="none">
+        <!-- <ion-item class="divUsuarios" color="none" lines="none">
           <p id="icon-user" *ngFor="let user of this.users" (click)="selectUser(user)">
             {{ user.icon }}
           </p>
-        </ion-item>
+        </ion-item> -->
 
       </form>
 
+      
     </ion-card-content>
+  
+    
 
     
   </ion-card>
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" >
+
+    <ion-fab-button>
+      <ion-icon md="caret-back" ios="chevron-back-circle-outline"> {{imgUser}}</ion-icon>
+      
+    </ion-fab-button>   
+
+    <ion-fab-list side="top" >          
+      <!-- <ion-fab-button color="dark" (click)="completar1()" value="admin@admin.com" style=" margin-right: 60px "> -->
+        <ion-fab-button id="icon-user" *ngFor="let user of this.users" (click)="selectUser(user)" color="dark">
+          {{ user.icon }}
+        </ion-fab-button>      
+
+    </ion-fab-list>
+  </ion-fab>
+
   <ion-fab (click)="onAnonymous()" vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button id="anonymus"> ❓ </ion-fab-button>
   </ion-fab>

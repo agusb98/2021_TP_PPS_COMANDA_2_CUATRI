@@ -70,9 +70,13 @@ export class LoginPage implements OnInit {
   get password() { return this.form.get('password').value; }
   set password(str: string) { this.form.controls['password'].setValue(str); }
 
+
+  imgUser: string = '';
+
   selectUser(user) {
     this.email = user.email;
     this.password = user.password;
+    this.imgUser = user.icon;
   }
 
   async onAnonymous() {
