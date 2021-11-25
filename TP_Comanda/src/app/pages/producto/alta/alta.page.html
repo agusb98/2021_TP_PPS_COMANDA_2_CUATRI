@@ -46,9 +46,7 @@
 
           <!-- Errors  tiempo -->
           <ion-row class="error_message">
-            <small
-              *ngIf="form.get('tiempo').hasError('required') && (form.get('tiempo').dirty || form.get('tiempo').touched)">Este
-              campo es obligatorio</small>
+            <small *ngIf="form.get('tiempo').hasError('required') && (form.get('tiempo').dirty || form.get('tiempo').touched)">Este campo es obligatorio</small>
           </ion-row>
         </ion-item>
 
@@ -79,6 +77,7 @@
         </ion-input>
 
         <!-- Errors nombreProducto-->
+        <ion-item>
         <ion-row class="hiddenItems">
           <small
             *ngIf="form.get('nombreProducto').hasError('required') && (form.get('nombreProducto').dirty || form.get('nombreProducto').touched)">Este
@@ -152,7 +151,7 @@
             <ion-icon name="camera-outline"></ion-icon>
           </div>
         </ion-col>
-      </ion-item-->
+      </ion-item>
         <!--ion-row class="uploaded-images">
         <ion-avatar *ngFor="let item of nuevoProducto.img_src; let index=index">
           <img [src]="item">
@@ -200,5 +199,4 @@
       <ion-icon name="home"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
 </ion-content>
