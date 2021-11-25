@@ -9,6 +9,7 @@ import { FirestorageService } from 'src/app/services/firestore.service';
 import { UserService } from 'src/app/services/user.service';
 import { CameraService } from 'src/app/services/camera.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { MailService } from 'src/app/services/mail.service';
 
 declare let window: any;
 
@@ -70,8 +71,10 @@ export class RegisterPage implements OnInit {
     private toastr: ToastrService,
     private fs: FirestorageService,
     private userService: UserService,
+    private mailService: MailService,
     private cameraService: CameraService,
-    private qrDni: BarcodeScanner
+    private qrDni: BarcodeScanner,
+    private barcodeScanner: BarcodeScanner
   ) { }
 
   ngOnInit() {
@@ -174,6 +177,7 @@ export class RegisterPage implements OnInit {
 
           await this.userService.createOne(userAux);
           this.vibration.vibrate([500]);
+          this.mailService.notificationWelcome(userAux);
           this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
           this.resetForm();
         });

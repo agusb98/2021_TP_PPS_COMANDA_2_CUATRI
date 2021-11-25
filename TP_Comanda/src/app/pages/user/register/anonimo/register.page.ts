@@ -48,7 +48,7 @@ export class RegisterPage implements OnInit {
 
   validateForm() {
     this.form = this.formbuider.group({
-      name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
+      name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z0-9 ñ]+$'), Validators.maxLength(30), Validators.minLength(2)])),
       img: new FormControl('', Validators.compose([Validators.required])),
       profile: new FormControl('ANONIMO'),
     })

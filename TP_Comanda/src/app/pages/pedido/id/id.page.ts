@@ -24,9 +24,7 @@ export class IdPage implements OnInit {
     private route: ActivatedRoute,
     private pedidoService: PedidoService,
     private router: Router
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
     this.getPedido();
@@ -74,6 +72,7 @@ export class IdPage implements OnInit {
 
   private myWeirdNotification(new_pedido: Pedido, message: string) {
     try {
+      new_pedido.date_updated = new Date().getTime();
       this.pedidoService.setOne(new_pedido);
 
       this.vibration.vibrate([500]);

@@ -1,14 +1,13 @@
-import { NgModule } from '@angular/core';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
-import { RegisterRoutingModule } from './register-routing.module';
-import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { IonicModule } from '@ionic/angular';
+import { RegisterRoutingModule } from './register-routing.module';
 
 @NgModule({
   declarations: [],
-  imports: [
-    
+  imports: [    
     IonicModule,
     FormsModule,
     CommonModule,
