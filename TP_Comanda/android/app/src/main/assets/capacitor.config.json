@@ -2,14 +2,5 @@
 	"appId": "io.ionic.starter",
 	"appName": "TP_Comanda",
 	"webDir": "www",
-	"bundledWebRuntime": false,
-	"plugins": {
-		"PushNotifications": {
-			"presentationOptions": [
-				"badge",
-				"sound",
-				"alert"
-			]
-		}
-	}
+	"bundledWebRuntime": false
 }

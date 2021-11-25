@@ -82,21 +82,27 @@ export class LoginPage implements OnInit {
 
   async onLogin() {
     const auth = await this.authService.login(this.email, this.password);
+    let dataUser;
+    this.userService.getByEmail(this.email).subscribe(data => {
+      dataUser = data;
+    });
 
-    if (auth) {
-      this.userService.getByEmail(this.email).subscribe(data => {
-        if (data.estado == 'ACEPTADO') {
+    setTimeout(() => {
+      if (auth) {
+        if (dataUser.estado == 'ACEPTADO') {
           this.vibration.vibrate([500]);
-          localStorage.setItem('user', JSON.stringify(data));
+          localStorage.setItem('user', JSON.stringify(dataUser));
+          this.toastr.success('Ingreso con éxito', 'Iniciar Sesión');
           this.redirectTo('/home');
         }
         else {
           this.vibration.vibrate([500, 500, 500]);
           this.toastr.error('Aún no fue habilitado por administración, sea paciente', 'Iniciar Sesión');
         }
-      });
-    }
-    else { this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión'); }
+      }
+      else { this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión'); }
+    }, 4000);
+
   }
 
   redirectTo(path: string) {
