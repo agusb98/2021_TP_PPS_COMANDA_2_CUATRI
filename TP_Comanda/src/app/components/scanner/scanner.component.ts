@@ -54,14 +54,14 @@ export class ScannerComponent implements OnInit, OnDestroy {
   }
 
   private checkWait() {
-    this.waitService.getLastByUser(this.user.correo)
+    const a = this.waitService.getLastByUser(this.user.correo)
       .subscribe(data => {
         this.hasWait = data;
       });
   }
 
   private checkRequest() {
-    this.requestService.getLastByUser(this.user.correo)
+    const a = this.requestService.getLastByUser(this.user.correo)
       .subscribe(data => {
         this.hasRequest = data;
       });

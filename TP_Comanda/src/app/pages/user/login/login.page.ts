@@ -80,11 +80,11 @@ export class LoginPage implements OnInit {
       dataUser = data;
     });
 
-    setTimeout(() => {
-      if (auth) {
-        if (dataUser.estado == 'ACEPTADO') {
+    const sub = this.userService.getByEmail(this.email).subscribe(data => {
+      if (auth && data) {
+        if (data.estado == 'ACEPTADO') {
           this.vibration.vibrate([500]);
-          localStorage.setItem('user', JSON.stringify(dataUser));
+          localStorage.setItem('user', JSON.stringify(data));
           this.toastr.success('Ingreso con éxito', 'Iniciar Sesión');
           this.redirectTo('/home');
         }
@@ -94,7 +94,9 @@ export class LoginPage implements OnInit {
         }
       }
       else { this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión'); }
-    }, 4000);
+      sub.unsubscribe();
+    });
+
 
   }
 
