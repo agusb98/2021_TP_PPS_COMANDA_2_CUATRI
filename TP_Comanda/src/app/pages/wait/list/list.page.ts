@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -34,8 +35,15 @@ export class ListPage implements OnInit {
     private toastr: ToastrService,
     private tableService: MesaService,
     private waitService: WaitListService,
+    public navCtrl: NavController , 
     private pedidoService: PedidoService,
   ) { }
+ 
+ 
+  navigateBack(){
+    this.navCtrl.back();
+  }
+
 
   ngOnInit() {
     this.kyndSelected = this.kynds[0];
@@ -112,7 +120,8 @@ export class ListPage implements OnInit {
       producto_id: null,
       date_created: new Date().getTime(),
       date_updated: new Date().getTime(),
-      estado: 'PENDIENTE'
+      estado: 'PENDIENTE',
+      descuento: false
     }
     return m;
   }

@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 import { CameraService } from 'src/app/services/camera.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { MailService } from 'src/app/services/mail.service';
+import { NavController } from '@ionic/angular';
 
 declare let window: any;
 
@@ -74,8 +75,16 @@ export class RegisterPage implements OnInit {
     private mailService: MailService,
     private cameraService: CameraService,
     private qrDni: BarcodeScanner,
-    private barcodeScanner: BarcodeScanner
+    private barcodeScanner: BarcodeScanner,
+    public navCtrl: NavController 
   ) { }
+ 
+ 
+  navigateBack(){
+    this.navCtrl.back();
+  }
+  
+  
 
   ngOnInit() {
     this.validateForm();

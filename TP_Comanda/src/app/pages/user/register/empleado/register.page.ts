@@ -12,6 +12,7 @@ import { CameraService } from 'src/app/services/camera.service';
 import { Empleado } from 'src/app/models/empleado';
 import { QrService } from 'src/app/services/qr.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { NavController } from '@ionic/angular';
 
 declare let window: any;
 
@@ -90,8 +91,14 @@ export class RegisterPage implements OnInit {
     private cameraService: CameraService,
     private qrService: QrService,
     
-    private qrDni: BarcodeScanner
+    private qrDni: BarcodeScanner,
+    public navCtrl: NavController 
   ) { }
+ 
+ 
+  navigateBack(){
+    this.navCtrl.back();
+  }
 
   ngOnInit() { this.validateForm(); }
 

@@ -18,6 +18,7 @@ import { environment } from 'src/environments/environment';
 // Qr
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Vibration } from '@ionic-native/vibration/ngx';
+import { NavController } from '@ionic/angular';
 import { ToastrService } from 'ngx-toastr';
 import { Anonimo } from 'src/app/models/anonimo';
 import { AuthService } from 'src/app/services/auth.service';
@@ -41,8 +42,15 @@ export class RegisterPage implements OnInit {
     private toastr: ToastrService,
     private fs: FirestorageService,
     private userService: UserService,
-    private cameraService: CameraService
+    private cameraService: CameraService,
+    public navCtrl: NavController 
   ) { }
+
+  
+ 
+  navigateBack(){
+    this.navCtrl.back();
+  }
 
   ngOnInit() { this.validateForm(); }
 

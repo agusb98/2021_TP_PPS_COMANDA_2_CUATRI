@@ -6,6 +6,9 @@ import { ProductoService } from 'src/app/services/producto.service';
 import { FirestorageService } from 'src/app/services/firestore.service';
 import { Photo } from '@capacitor/camera';
 import { Router } from '@angular/router';
+import { Vibration } from '@ionic-native/vibration/ngx';
+import { ToastrService } from 'ngx-toastr';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-alta',
@@ -26,9 +29,17 @@ export class AltaPage implements OnInit {
     private formbuider: FormBuilder,
     private prodSrv: ProductoService,
     private cameraService: CameraService,
-    private fs: FirestorageService
-  ) { }
+    private fs: FirestorageService,
+    private vibration: Vibration,
+    private toastr: ToastrService,
+    public navCtrl: NavController
+  ) { } 
+      
 
+  navigateBack(){
+    this.navCtrl.back();
+  }
+  
   ngOnInit() {
     this.nuevoProducto = new Producto();
     this.nuevoProducto.img_src = new Array();
@@ -58,6 +69,10 @@ export class AltaPage implements OnInit {
   crearProducto() {
     const a: Producto = this.createModel();
 
+  /*  this.prodSrv.guardarNuevoProducto(this.nuevoProducto).then((res) => {
+      this.vibration.vibrate([500]);
+      this.toastr.success('Datos guardados con éxito!', 'Registro de producto');
+      this.resetForm();*/
     this.prodSrv.createOne(a).then((res) => {
       console.log(res);
       this.resultadoError = false;
@@ -66,6 +81,8 @@ export class AltaPage implements OnInit {
     });
   }
 
+  resetForm() { this.ngOnInit(); }
+  
   tomarFotoProducto() {
     if (this.i_NroImagen < 3) {
       this.addPhotoToGallery();

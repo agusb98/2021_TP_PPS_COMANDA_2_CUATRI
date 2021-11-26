@@ -45,6 +45,10 @@ export class ScannerComponent implements OnInit, OnDestroy {
     this.checkRequest();
   }
 
+  verProductos(){
+    this.router.navigate(['/producto/list']);
+  }
+
   ngOnDestroy() {
     this.data = null;
   }

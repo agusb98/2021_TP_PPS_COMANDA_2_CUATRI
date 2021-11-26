@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { MailService } from 'src/app/services/mail.service';
 import { UserService } from 'src/app/services/user.service';
@@ -31,9 +32,14 @@ export class ListPage implements OnInit {
   constructor(
     private userService: UserService,
     private mailService: MailService,
-    private router: Router
+    private router: Router,
+    public navCtrl: NavController 
   ) { }
-
+ 
+   
+  navigateBack(){
+    this.navCtrl.back();
+  }
   ngOnInit() {
     this.profileSelected = this.profiles[0];
     this.getUsers(this.profileSelected.val);

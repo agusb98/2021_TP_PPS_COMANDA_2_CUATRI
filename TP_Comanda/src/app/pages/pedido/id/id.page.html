@@ -2,7 +2,9 @@
 
   <ion-header>
     <ion-toolbar>
+      <ion-back-button (click)="navigateBack()" slot="start"></ion-back-button>
       <ion-title size="small">{{ this.getTitle(pedido.estado) }}</ion-title>
+      <ion-icon slot="end" name="qr-code-outline" (click)="ScanQr()" style="font-size: 2em; margin-right: 0.5em;"></ion-icon>
     </ion-toolbar>
   </ion-header>
 
@@ -20,7 +22,10 @@
                 <p>{{ product.price | currency }} x {{ product.quantity }} :</p>
               </td>
               <td>
+                <ion-icon name="remove-outline"(click)="RemoveProducto(item.nombre,index)" class="remove"></ion-icon>
                 <p>{{ product.price * product.quantity | currency }}</p>
+                <ion-icon name="add-outline" (click)="AddProducto(index)" class="add"></ion-icon>
+
               </td>
             </tr>
           </tbody>
@@ -40,6 +45,12 @@
 
           <div *ngIf="pedido.estado == 'ACEPTADO'">
             <ion-button (click)="clickRecibido(pedido)">RECIBIDO</ion-button>
+          </div>
+
+          <div *ngIf="pedido.estado == 'ACEPTADO' && !pedido.descuento">
+            <br>
+            <p>¿Le interesa ganar un descuento?</p>
+            <ion-button (click)="clickJuego(pedido)">JUGAR</ion-button>
           </div>
 
           <div *ngIf="pedido.estado == 'CONFIRMADO'">

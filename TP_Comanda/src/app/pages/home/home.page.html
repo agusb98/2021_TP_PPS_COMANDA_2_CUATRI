@@ -13,6 +13,15 @@
     </ion-fab-button>
   </ion-fab>
 
+  <!--que solopuedan acceder el mozo o el usuario con mesa asignada-->
+  <ion-fab vertical="top" horizontal="start" slot="fixed" (click)="redirectTo('chat')">
+    <ion-fab-button>
+      <img src="./../../../assets/images/consulta.png" alt="">
+    </ion-fab-button>
+  </ion-fab>
+
+ 
+
   <div class="container-cards">
     <div style="all:unset;" *ngFor="let link of this.links">
       <ion-card *ngIf="this.user.perfil == link.profile || this.user?.rol == link.profile" class="card-shadow"

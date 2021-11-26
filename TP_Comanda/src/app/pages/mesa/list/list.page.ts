@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { MesaService } from 'src/app/services/mesa.service';
 
@@ -22,8 +23,13 @@ export class ListPage implements OnInit {
 
   constructor(
     private mesaService: MesaService,
-    private router: Router
+    private router: Router,
+    public navCtrl: NavController  
   ) { }
+   
+  navigateBack(){
+    this.navCtrl.back();
+  }
 
   ngOnInit() {
     this.kyndSelected = this.kynds[0];

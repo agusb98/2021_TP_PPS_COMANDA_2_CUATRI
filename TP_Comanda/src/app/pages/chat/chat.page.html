@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-back-button (click)="return()" slot="start"></ion-back-button>
+    <ion-title>{{title}}</ion-title>
+    <!-- <ion-icon class="logout-icon" slot="end" name="log-out-outline" size="large" (click)="logout()"></ion-icon> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+<div *ngIf="currentMesaCliente">
+    <app-sala-chat [user]="currentUser" [uid]="currentUid" [mesaNumber]="mesasCliente.nro_mesa" [idMesaCliente]="mesasCliente.doc_id"></app-sala-chat>
+
+
+    <!--VER MENSAJES-->
+    <div [class]="bgSala">
+      <div class="row" style="max-height: 65vh; overflow-y: auto;">
+        <div class="col">
+          <div class="mensajes"  >
+        
+            <div class="row m-1" >
+              <div class="col">  
+                <div class="alert alert-secondary p-1"  >         
+                  <p class="mb-0"><strong>Rocio (cliente):</strong>Se puede pagar con mercado pago? <br><small> 2021-11-25 | 18:55</small></p> 
+                </div>
+
+                <div class="alert alert-secondary p-1"  >         
+                  <p class="mb-0"><strong>Pepe (mozo):</strong>Si <br><small> 2021-11-25 | 18:56</small></p> 
+                </div>
+              </div>        
+            </div>   
+  
+          </div> 
+        </div>
+      </div>
+
+
+    <!--ESCRIBIR Y ENVIAR MENSAJE-->
+    <div class="row input-row">
+      <div class="col">
+        <form  >
+          <input type="text" class="form-control mje-ctrl" placeholder="Escriba aquí su mensaje" >      
+          <button type="button" class="w-100 btn btn-lg btn-success"  >Enviar</button>
+        </form>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+</ion-content> 

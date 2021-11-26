@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Vibration } from '@ionic-native/vibration/ngx';
+import { NavController } from '@ionic/angular';
 import { ToastrService } from 'ngx-toastr';
 import { Mesa } from 'src/app/models/mesa';
 import { CameraService } from 'src/app/services/camera.service';
@@ -29,10 +30,18 @@ export class AltaPage implements OnInit {
     private vibration: Vibration,
     private toastr: ToastrService,
     private qrService: QrService,
-    private router: Router
+    private router: Router,
+    public navCtrl: NavController
   ) { }
 
+ 
+
+  navigateBack(){
+    this.navCtrl.back();
+  }
+
   ngOnInit() {
+    this.img='';
     this.form = this.formbuider.group({
       numero: ['', [Validators.required]],
       cantidad: ['', [Validators.required]],
@@ -92,9 +101,12 @@ export class AltaPage implements OnInit {
     return model;
   }
 
+
+  
+  resetForm() { this.ngOnInit(); }
+
   redirectTo(path: string) {
     this.router.navigate([path]);
   }
-
-  resetForm() { this.ngOnInit(); }
+ 
 }

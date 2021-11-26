@@ -6,6 +6,7 @@ export class Pedido {
     date_created: number;
     date_updated: number;
     estado: 'PENDIENTE' | 'CANCELADO' | 'ACEPTADO' | 'CONFIRMADO' | 'COBRAR' | 'COBRADO' | 'ENCUESTADO';
+    descuento: boolean;
 }
 
 //  PENDIENTE: metre es quien asignará este estado

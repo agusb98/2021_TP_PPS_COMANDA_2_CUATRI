@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirestorageService } from 'src/app/services/firestore.service';
 import { ToastrService } from 'ngx-toastr';
+import { NavController } from '@ionic/angular';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { Observable } from 'rxjs';
 import { Pedido } from 'src/app/models/pedido';
@@ -20,15 +21,17 @@ export class ClientePage implements OnInit {
   request$: Observable<any>;
 
   yaEnvioEncuesta: boolean = false;
-
+  user;
   constructor(
     private router: Router,
     private db: FirestorageService,
     private pedidoService: PedidoService,
     private toastr: ToastrService,
-  ) { }
+    public navCtrl: NavController  
+    ) { }
+ 
 
-  user;
+
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -46,6 +49,9 @@ export class ClientePage implements OnInit {
   }
 
   //falta meter la funcion al boton de escaneo qr que me lleve a los graficos
+  navigateBack(){
+    this.navCtrl.back();
+  }
 
 
 

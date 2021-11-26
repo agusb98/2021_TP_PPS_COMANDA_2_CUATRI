@@ -1,12 +1,14 @@
 <ion-header>
   <ion-toolbar>
+    <ion-back-button (click)="navigateBack()" slot="start"></ion-back-button>
     <ion-title size="small">Listado Clientes en Espera</ion-title>
     <p *ngIf="this.waitSelected"> ( Seleccione Mesa )</p>
   </ion-toolbar>
 </ion-header>
-
+ 
+ 
+ 
 <ion-content>
-
   <div *ngIf="!this.waitSelected" id="container-users" class="container-cards">
     <div style="all:unset;" *ngFor="let w of this.waits$ | async">
       <ion-card class="card-shadow">

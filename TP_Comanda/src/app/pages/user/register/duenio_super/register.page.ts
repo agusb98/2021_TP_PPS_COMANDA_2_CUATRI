@@ -11,6 +11,7 @@ import { FirestorageService } from 'src/app/services/firestore.service';
 import { CameraService } from 'src/app/services/camera.service';
 import { QrService } from 'src/app/services/qr.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { NavController } from '@ionic/angular';
 
 declare let window: any;
 
@@ -86,9 +87,15 @@ export class RegisterPage implements OnInit {
     private fs: FirestorageService,
     private cameraService: CameraService,
     private qrService: QrService,
-    private qrDni: BarcodeScanner
+    private qrDni: BarcodeScanner,
+    public navCtrl: NavController 
   ) { }
 
+
+ 
+  navigateBack(){
+    this.navCtrl.back();
+  }
   ngOnInit() { this.validateForm(); }
 
   validateForm() {

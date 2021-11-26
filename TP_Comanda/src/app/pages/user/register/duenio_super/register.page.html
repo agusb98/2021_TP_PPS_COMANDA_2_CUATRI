@@ -1,17 +1,19 @@
+ 
+
 <ion-header>
   <ion-toolbar>
+    <ion-back-button (click)="navigateBack()" slot="start"></ion-back-button>
     <ion-title size="small">Registrar Duenio o Supervisor</ion-title>
   </ion-toolbar>
 </ion-header>
-
+ 
 <ion-content>
-
   <ion-fab  vertical="top" horizontal="end">
     <ion-fab-button (click)="takePic()">
       <ion-icon name="camera"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
+ 
   <ion-card id="card-img">
     <ion-card-content>
       <ion-img *ngIf="this.img; else no_img" [src]="this.img.webPath"></ion-img>

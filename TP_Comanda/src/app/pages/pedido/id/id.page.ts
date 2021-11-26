@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { Pedido } from 'src/app/models/pedido';
 import { Producto } from 'src/app/models/producto';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-id',
@@ -23,8 +25,12 @@ export class IdPage implements OnInit {
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private pedidoService: PedidoService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private qrProducto: BarcodeScanner,
+    public navCtrl: NavController
+  ) {
+
+  }
 
   ngOnInit() {
     this.getPedido();
@@ -119,5 +125,63 @@ export class IdPage implements OnInit {
         return '';
     }
   }
+
+  AddProducto(index: number) {
+
+  }
+  RemoveProducto(nombre: string, index: number) { }
+  /* AddProducto(index:number){
+     this.productos[index].selected = true;
+     this.productos[index].cantidad++;
+     this.total += this.productos[index].precio;
+     this.CalcularDemora();
+   }
+   RemoveProducto(nombre:string,index:number){
+      if(this.productos[index].cantidad > 0){
+        this.productos[index].cantidad--;
+        if(this.productos[index].cantidad == 0){
+         this.productos[index].selected = false;
+        }
+        this.total -= this.productos[index].precio;
+        this.CalcularDemora();
+      }
+   }*/
+
+   navigateBack(){
+    this.navCtrl.back();
+  }
+
+   ScanQr() { 
+    const options = { 
+      prompt: "Escaneá el producto", 
+      formats: 'QR_CODE',
+      showTorchButton: true, 
+      resultDisplayDuration: 2,};
+
+    this.qrProducto.scan(options).then(data =>{
+      this.AgregarConQr(data.text);
+    }).catch(err => { 
+      console.log(err); 
+    });  
+ }
+
+ AgregarConQr(textqr:string){
+    
+ /* let obj = this.productos.findIndex( x => x.doc_id == textqr);
+  if (obj !== -1) {
+    console.log(obj)
+    this.saveProdIndex = obj;
+    console.log(this.saveProdIndex)
+    this.openModal(this.productos[obj])
+  } else {
+    this.toastSrv.error("No se encontro el producto buscado..",'Pedir producto');
+   alert("No se encontro el producto buscado..");
+  }*/
+}
+
+clickJuego(pedido:Pedido){
+  this.redirectTo('/juego/'+pedido.id);
+}
+
 
 }
