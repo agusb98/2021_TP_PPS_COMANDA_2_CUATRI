@@ -59,7 +59,6 @@ export class ChatPage implements OnInit {
     this.chatForm = this.fb.group({
       messageCtrl:['', [Validators.required]],      
     }); 
- 
   }
 
   return(){
