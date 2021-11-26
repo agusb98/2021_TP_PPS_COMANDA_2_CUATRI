@@ -86,13 +86,13 @@ export class IdPage implements OnInit {
   }
 
   getAproxFinish() {
-    let seconds: number = 0;
-
+    let minutes: number = 0;
+    
     this.getProductsSelected().forEach(p => {
-      seconds += p.time;
+      minutes += p.time;
     });
 
-    return seconds;
+    return minutes;
   }
 
   getTitle(status: string) {

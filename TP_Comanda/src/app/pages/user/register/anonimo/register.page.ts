@@ -77,8 +77,8 @@ export class RegisterPage implements OnInit {
       this.fs.saveImage(this.img, 'users', new Date().getTime() + '')
         .then(async url => {
           userAux.img = url;
-//
           await this.userService.createOne(userAux);
+          localStorage.setItem('user', JSON.stringify(userAux));
 
           // await this.authService.login(this.email, this.password);
 
