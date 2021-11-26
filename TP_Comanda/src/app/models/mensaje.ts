@@ -4,8 +4,8 @@ export interface Message {
     message:string; 
     fecha:number;    
     uid:string;
-    idMesa:string;
-    Mesa:string;
+    idMesa?:string;
+    Mesa?:string;
     rol:string;
-    mesaClienteId:string;
+    mesaClienteId?:string;
 }

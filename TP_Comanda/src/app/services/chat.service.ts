@@ -7,13 +7,13 @@ import { Observable } from 'rxjs';
 })
 export class ChatService {
   protected itemsCollection: AngularFirestoreCollection<any>;
-    items: Observable<any[]>;  
+    items: Observable<any[]>;   
 
   constructor(private fire: AngularFirestore ){
-    //super(fire);    
+    this.itemsCollection = this.fire.collection("Chats");
   } 
 
-  setChatCollection(mesaCliente:string){
+  setChatCollection(mesaCliente?:string){
     let collName = "Chats";
     this.setCollFilter(mesaCliente, collName, "fecha", "mesaClienteId");
   }
@@ -27,5 +27,13 @@ export class ChatService {
 
   setItemWithId(item: any, id:string) {
     return this.itemsCollection.doc(id).set(Object.assign({}, item));    
+  }
+
+
+  traerMensajes(){ 
+    this.itemsCollection =  this.fire.collection('Chats', 
+                                      ref => ref.orderBy('fecha',  "asc")       
+                                    );  
+      return this.itemsCollection.valueChanges(); 
   }
 }
