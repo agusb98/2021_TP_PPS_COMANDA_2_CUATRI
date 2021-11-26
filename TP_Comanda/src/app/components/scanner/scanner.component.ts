@@ -121,7 +121,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
                   break;
 
                 default:
-                  this.toastr.warning('La mesa que se le asignó es: Nº ' + this.hasRequest.mesa_numero, 'QR');
+                  this.toastr.warning('Le recomendamos que se dirija a recepción para que le asigne una mesa', 'QR');
                   break;
               }
             }

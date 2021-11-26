@@ -54,7 +54,7 @@ export class HomePage implements OnInit {
     // { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'METRE', title: 'Encuesta' },
 
     //  Cliente
-    { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'CLIENTE', title: 'Grafico' },
+    // { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'CLIENTE', title: 'Grafico' },
 
     //  Anonimo
     { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'ANONIMO', title: 'Grafico' },
