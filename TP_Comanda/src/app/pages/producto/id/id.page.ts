@@ -31,8 +31,6 @@ export class IdPage implements OnInit {
     this.getProduct();
   }
 
-       
-
   navigateBack(){
     this.navCtrl.back();
   }

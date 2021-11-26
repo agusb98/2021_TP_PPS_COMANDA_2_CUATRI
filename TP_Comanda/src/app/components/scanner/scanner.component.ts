@@ -45,7 +45,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
     this.checkRequest();
   }
 
-  verProductos(){
+  verProductos() {
     this.router.navigate(['/producto/list']);
   }
 
@@ -72,71 +72,73 @@ export class ScannerComponent implements OnInit, OnDestroy {
   }
 
   async scannQR() {
-    this.barcodeScanner.scan(this.options).then(barcodeData => {
-      const datos = barcodeData.text.split(' ');
-      this.data = { name: datos[0], id: datos[1], }
+    // this.barcodeScanner.scan(this.options).then(barcodeData => {
+    //   const datos = barcodeData.text.split(' ');
+    //   this.data = { name: datos[0], id: datos[1], }
 
-      if (this.data) {
-        switch (this.data.name) {
-          case 'ENTRADA':
-            if (!this.hasWait) {
-              this.addToWaitList();
-            }
-            else if (this.hasWait.estado == 'PENDIENTE') {
-              this.toastr.warning('Previamente usted ya solicitó una mesa, en breves se le acercará un recepcionista', 'Lista de espera');
-            }
-            else if (this.hasWait.estado == 'EN USO') {
-              this.toastr.warning('Usted ya tiene una mesa reservada, por favor consulte al empleado más cercano', 'Lista de espera');
-            }
-            else if (this.hasWait.estado == 'FINALIZADO') {
-              this.addToWaitList();
-            }
-            break;
+    this.data = { name: 'MESA', id: 1 };
 
-          case 'MESA':
-            if (!this.hasRequest) { //  If first time in restaurant
-              this.toastr.warning('Lo sentimos, primero debe anunciarse en recepción', 'QR');
-            }
-            else if (this.hasRequest.mesa_numero == this.data.id) {
-              switch (this.hasRequest.estado) {
-                case 'PENDIENTE':
-                  this.router.navigate(['/producto/list']);
-                  break;
+    if (this.data) {
+      switch (this.data.name) {
+        case 'ENTRADA':
+          if (!this.hasWait) {
+            this.addToWaitList();
+          }
+          else if (this.hasWait.estado == 'PENDIENTE') {
+            this.toastr.warning('Previamente usted ya solicitó una mesa, en breves se le acercará un recepcionista', 'Lista de espera');
+          }
+          else if (this.hasWait.estado == 'EN USO') {
+            this.toastr.warning('Usted ya tiene una mesa reservada, por favor consulte al empleado más cercano', 'Lista de espera');
+          }
+          else if (this.hasWait.estado == 'FINALIZADO') {
+            this.addToWaitList();
+          }
+          break;
 
-                case 'ACEPTADO':
+        case 'MESA':
+          if (!this.hasRequest) { //  If first time in restaurant
+            this.toastr.warning('Lo sentimos, primero debe anunciarse en recepción', 'QR');
+          }
+          else if (this.hasRequest.mesa_numero == this.data.id) {
+            switch (this.hasRequest.estado) {
+              case 'PENDIENTE':
+                this.router.navigate(['/producto/list']);
+                break;
+
+              case 'ACEPTADO':
+                this.router.navigate(['/pedido/id/' + this.hasRequest.id]);
+                break;
+
+              case 'CONFIRMADO':
+                this.router.navigate(['/pedido/id/' + this.hasRequest.id]);
+                break;
+
+              case 'COBRAR':
+                this.toastr.warning('En breves se le acercará un mozo a cobrarle', 'QR');
+                break;
+
+              case 'COBRADO':
+                if ((new Date().getTime() - this.hasRequest.date_updated) >= (10 * 60 * 60 * 1000)) {  //  If pass 10 hours of last pedido
+                  this.toastr.warning('La mesa que se le asignó es: Nº ' + this.hasRequest.mesa_numero, 'QR');
+                }
+                else {  //  If is the table selected
                   this.router.navigate(['/pedido/id/' + this.hasRequest.id]);
-                  break;
+                }
+                break;
 
-                case 'CONFIRMADO':
-                  this.router.navigate(['/pedido/id/' + this.hasRequest.id]);
-                  break;
-
-                case 'COBRAR':
-                  this.toastr.warning('En breves se le acercará un mozo a cobrarle', 'QR');
-                  break;
-
-                case 'COBRADO':
-                  if ((new Date().getTime() - this.hasRequest.date_updated) >= (10 * 60 * 60 * 1000)) {  //  If pass 10 hours of last pedido
-                    this.toastr.warning('La mesa que se le asignó es: Nº ' + this.hasRequest.mesa_numero, 'QR');
-                  }
-                  else {  //  If is the table selected
-                    this.router.navigate(['/pedido/id/' + this.hasRequest.id]);
-                  }
-                  break;
-
-                default:
-                  this.toastr.warning('Le recomendamos que se dirija a recepción para que le asigne una mesa', 'QR');
-                  break;
-              }
+              default:
+                this.toastr.warning('Le recomendamos que se dirija a recepción para que le asigne una mesa', 'QR');
+                break;
             }
-            break;
+          }
+          break;
 
-          default:
-            this.toastr.warning('QR no perteneciente a ARM-Restaurante..', 'QR');
-            break;
-        }
+        default:
+          this.toastr.warning('QR no perteneciente a ARM-Restaurante..', 'QR');
+          break;
       }
-    });
+    }
+    // });
   }
 
   private addToWaitList() {

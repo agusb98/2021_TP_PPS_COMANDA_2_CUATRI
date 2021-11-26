@@ -38,12 +38,21 @@ td {
   margin-bottom: 0%;
 }
 
+.container-btn {
+  display: flex;
+  justify-content: space-around;
+
+  ion-button {
+    width: 1rem;
+    height: 1.5rem;
+  }
+}
+
 .container-resume {
   margin-bottom: 20%;
 
-  ion-card{
+  ion-card {
     justify-content: center;
     display: block;
   }
 }
-  

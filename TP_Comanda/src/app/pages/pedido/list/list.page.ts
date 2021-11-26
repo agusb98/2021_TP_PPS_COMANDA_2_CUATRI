@@ -76,10 +76,24 @@ export class ListPage implements OnInit {
     }
   }
 
+  getTotal(model: any) {
+    let a = 0;
+
+    model.producto_id.forEach(p => {
+      a += p.precio
+    });
+
+    if (model.descuento == 'GANO') {
+      a = a - (a * 0.1);
+    }
+
+    return a;
+  }
+
   setStatus(model: Pedido, status) {
     model.estado = status;
     model.date_updated = new Date().getTime();
-    
+
     try {
       this.reqService.setOne(model);
 

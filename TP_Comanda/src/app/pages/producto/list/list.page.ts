@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
-import { ModalController, NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Producto } from 'src/app/models/producto';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { ProductoService } from 'src/app/services/producto.service';
-import { ModalPedidoPage } from '../../modal-pedido/modal-pedido.page';
 
 @Component({
   selector: 'app-list-product',
@@ -28,14 +26,10 @@ export class ListPage implements OnInit {
     { val: 'Postre', img: 'assets/images/default.png' },
   ]
 
-
   constructor(
     private productoService: ProductoService,
     private pedidoService: PedidoService,
     private router: Router,
-    private qrProducto: BarcodeScanner,
-    public navCtrl: NavController ,
-    public modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -43,17 +37,13 @@ export class ListPage implements OnInit {
     this.getUser();
     this.getPedido();
 
-    this.getList('sdf');
+    this.getList('sdfjukhjhggvg :)');
 
     //  If user wanna set something
     this.checkProductsSelected();
   }
 
-
-  navigateBack(){
-    this.navCtrl.back();
-  }
-  hasToSet(model: Producto) {
+  getQuantity(model: Producto) {
     let quantity = 0;
 
     if (this.productsSelected) {
@@ -106,76 +96,37 @@ export class ListPage implements OnInit {
     this.router.navigate([path]);
   }
 
-  setQuantity(model: Producto, $event, accion:string) {
-    let qua = $event.target.value;
-    
-    if (qua > 0) {
-      if (this.productsSelected) {
-        let a = this.productsSelected.find(x => x.id == model.id);
-        let index = this.productsSelected.indexOf(a)
+  //  Model es Producto, pero desps tengo ganas de agregarle un campo llamado quantity.
+  setQuantity(model: any, action: '+' | '-') {
 
-        if (index >= 0) {
-          a.quantity = qua;
-          this.productsSelected[index] = a;
-        }
-        else {
-          let g = { id: model.id, quantity: qua, price: model.precio, name: model.nombreProducto, time: model.tiempo };
-          this.productsSelected.push(g);
-        }
-      }
-      else {
-        let g = { id: model.id, quantity: qua, price: model.precio, name: model.nombreProducto, time: model.tiempo };
-        this.productsSelected.push(g);
-      }
+    if (action == '+') {
+      model.quantity = this.getQuantity(model) + 1;
     }
-    else if (qua == 0) {
-      if (this.productsSelected) {
-        let a = this.productsSelected.find(x => x.id == model.id);
-        let index = this.productsSelected.indexOf(a);
-        this.productsSelected.splice(index, 1);
-      }
+    else {
+      const quaa = this.getQuantity(model) - 1;
+      if (quaa == -1) { model.quantity = 0; }
+      else { model.quantity = quaa; }
     }
+
+    if (model.quantity == 0) {
+      let a = this.productsSelected.find(x => x.id == model.id);
+      let index = this.productsSelected.indexOf(a);
+      this.productsSelected.splice(index, 1);
+    }
+    else {
+      this.productsSelected.push(model);
+    }
+
   }
-
-
-  
-  AddProducto(model: Producto, $event){
-    /*  this.productos[index].selected = true;
-      this.productos[index].cantidad++;
-      this.total += this.productos[index].precio;
-      this.CalcularDemora();*/
-
-      this.setQuantity(model, $event, 'add');
-    }
-    
-    RemoveProducto(model: Producto, $event){
-    /*   if(this.productos[index].cantidad > 0){
-         this.productos[index].cantidad--;
-         if(this.productos[index].cantidad == 0){
-          this.productos[index].selected = false;
-         }
-         this.total -= this.productos[index].precio;
-         this.CalcularDemora();
-       }*/
-
-       this.setQuantity(model, $event, 'remove');
-    }
 
   getAcum() {
     let a = 0;
-
-    if (this.productsSelected) {
-      this.productsSelected.forEach(p => {
-        a += (p.quantity * p.price);
-      });
-    }
-
+    this.productsSelected.forEach(p => { a += (p.quantity * p.precio); });
     return a;
   }
 
   clickBeforeConfirm() {
-    let products = this.getProductoIdAsString();
-    localStorage.setItem('products', JSON.stringify(products));
+    localStorage.setItem('products', JSON.stringify(this.productsSelected));
 
     const a = this.pedido$.subscribe(data => {
       this.redirectTo('pedido/id/' + data.id);
@@ -188,73 +139,8 @@ export class ListPage implements OnInit {
   }
 
   getAproxFinish() {
-    let seconds: number = 0;
-
-    this.productsSelected.forEach(p => {
-      seconds += p.time;
-    });
-
-    return seconds;
+    let minutos: number = 0;
+    this.productsSelected.forEach(p => { minutos += p.tiempo; });
+    return minutos;
   }
-
-  private getProductoIdAsString() {
-    let s: any[] = [];
-
-    this.productsSelected.forEach((p: Producto) => {
-      s.push(p);
-    });
-
-    return s;
-  }
-
-
-
-  
-  ScanQr() { 
-    const options = { 
-      prompt: "Escaneá el producto", 
-      formats: 'QR_CODE',
-      showTorchButton: true, 
-      resultDisplayDuration: 2,};
-
-    this.qrProducto.scan(options).then(data =>{
-      this.AgregarConQr(data.text);
-    }).catch(err => { 
-      console.log(err); 
-    });  
- }
-
- AgregarConQr(textqr:string){
-   
-  let obj = this.productsSelected.find(x => x.nombreProducto == textqr);
-  let index = this.productsSelected.indexOf(obj)
-  if (obj !== -1) { 
-    this.productsSelected[index] = obj;
-    this.openModal( this.productsSelected[index])
-  } else {
-   // this.toastSrv.error("No se encontro el producto buscado..",'Pedir producto');
-   alert("No se encontro el producto buscado..");
-  }
-  
-
- // this.openModal(this.pr)
-}
-
-
-async openModal(producto) {
-  const modal = await this.modalController.create({
-  component: ModalPedidoPage,
-  cssClass: 'my-modal-class',
-  componentProps: { producto: producto }
-  });
-  modal.onDidDismiss().then(data=>{
-    console.log(data)
-   // this.productsSelected[this.index] = data.data;
-
-   let g = { id: data.data.id, quantity: data.data.quantity, price: data.data.precio, name: data.data.nombreProducto, time: data.data.tiempo };
-   this.productsSelected.push(g);
-    this.getAcum(); 
-  })
-  return await modal.present();
-}
 }
