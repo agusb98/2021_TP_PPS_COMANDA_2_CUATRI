@@ -46,7 +46,7 @@ export class ChatPage implements OnInit {
       console.log(data);
     });
 
-    if(this.currentUser.perfil == eRol.CLIENTE){
+   
     this.pedidosSrv.TraerMesaCliente().subscribe( data =>{ 
       this.mesasCliente = data;             
       this.currentMesaCliente = this.mesasCliente.find( x =>  x.user_uid == this.currentUid);
@@ -54,13 +54,7 @@ export class ChatPage implements OnInit {
       this.title = "Mesa "  + this.currentMesaCliente.nro_mesa;
       
     });
-    }
-    else  if(this.currentUser.ROL  == 'MOZO'){
-      this.pedidosSrv.TraerMesaCliente().subscribe( data =>{ 
-        this.mesasCliente = data;             
-         
-      });
-    }
+ 
 
     this.chatForm = this.fb.group({
       messageCtrl:['', [Validators.required]],      
