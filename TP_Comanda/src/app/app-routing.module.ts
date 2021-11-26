@@ -22,7 +22,11 @@ const routes: Routes = [
   {
     path:'juego/:id',
     component:JuegoComponent
+  },  {
+    path: 'chat-mozo',
+    loadChildren: () => import('./pages/chat-mozo/chat-mozo.module').then( m => m.ChatMozoPageModule)
   }
+
  
 
 ];
