@@ -24,6 +24,10 @@ export class LogoutPage {
       await this.authService.logout();
       localStorage.removeItem('user');
       this.vibration.vibrate([500]);
+
+      let audio = new Audio('./assets/sounds/noti.mp3');
+      audio.play();
+
       this.toastr.success('Sesión Cerrada con Exito', 'Salir');
       this.redirectTo('user/login');
     }

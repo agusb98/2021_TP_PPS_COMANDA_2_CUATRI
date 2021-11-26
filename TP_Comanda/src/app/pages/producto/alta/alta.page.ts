@@ -75,6 +75,8 @@ export class AltaPage implements OnInit {
       this.resetForm();*/
     this.prodSrv.createOne(a).then((res) => {
       console.log(res);
+      let audio = new Audio('./assets/sounds/noti.mp3');
+              audio.play();
       this.resultadoError = false;
     }).catch((err) => {
       this.resultadoError = true;

@@ -34,14 +34,14 @@ export class AltaPage implements OnInit {
     public navCtrl: NavController
   ) { }
 
- 
 
-  navigateBack(){
+
+  navigateBack() {
     this.navCtrl.back();
   }
 
   ngOnInit() {
-    this.img='';
+    this.img = '';
     this.form = this.formbuider.group({
       numero: ['', [Validators.required]],
       cantidad: ['', [Validators.required]],
@@ -61,15 +61,18 @@ export class AltaPage implements OnInit {
 
     try {
       const a = this.mesaSrv.getByNumber(model.numero).subscribe(data => {
-        
+
         if (!data) {
-          //this.qrService.createQR('mesa_' + model.id);  //  Ni idea
           this.fs.saveImage(this.img, 'mesas', new Date().getTime() + '')
             .then(url => {
               model.img = url;
-  
+
               this.mesaSrv.createOne(model);
               this.vibration.vibrate([500]);
+
+              let audio = new Audio('./assets/sounds/noti.mp3');
+              audio.play();
+
               this.toastr.success('Datos guardados con éxito!', 'Alta de Mesa');
               this.resetForm();
             });
@@ -102,11 +105,11 @@ export class AltaPage implements OnInit {
   }
 
 
-  
+
   resetForm() { this.ngOnInit(); }
 
   redirectTo(path: string) {
     this.router.navigate([path]);
   }
- 
+
 }

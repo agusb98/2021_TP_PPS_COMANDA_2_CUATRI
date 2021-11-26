@@ -64,7 +64,7 @@ export class ChatPage implements OnInit {
   }
 
   return(){
-    this.router.navigate(["home-clientes"]);
+    this.router.navigate(["home"]);
   }
 
 

@@ -87,6 +87,8 @@ export class ClientePage implements OnInit {
     localStorage.removeItem('products');
 
     this.toastr.success('Muchas gracias por tu opinion!!', 'Encuesta enviada');
+    let audio = new Audio('./assets/sounds/noti.mp3');
+    audio.play();
     setTimeout(() => {
       this.yaEnvioEncuesta = true;
       this.router.navigate(["/home"]);

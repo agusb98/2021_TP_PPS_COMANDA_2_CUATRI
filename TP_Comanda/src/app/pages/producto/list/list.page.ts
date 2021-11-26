@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Observable } from 'rxjs';
 import { Producto } from 'src/app/models/producto';
 import { PedidoService } from 'src/app/services/pedido.service';
@@ -11,6 +10,7 @@ import { ProductoService } from 'src/app/services/producto.service';
   templateUrl: './list.page.html',
   styleUrls: ['./list.page.scss'],
 })
+
 export class ListPage implements OnInit {
 
   user;

@@ -108,6 +108,9 @@ export class ListPage implements OnInit {
         this.tables.forEach(t => {
           if (t.numero == model.mesa_numero) {
             this.setStatusTable(t);
+
+            let audio = new Audio('./assets/sounds/noti.mp3');
+            audio.play();
             this.toastr.success('Datos registrados, ahora la mesa Nº ' + t.numero + ' está Disponible', 'Estado de Pedido');
           }
         });

@@ -70,6 +70,8 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    let audio = new Audio('./assets/sounds/noti.mp3');
+    audio.play();
   }
 
   getUser() {

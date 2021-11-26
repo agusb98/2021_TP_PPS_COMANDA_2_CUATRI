@@ -97,6 +97,10 @@ export class IdPage implements OnInit {
       this.toastr.error("La maquina ganó, no hay descuento", "Resultado Final");
       pedido.descuento = 'PERDIO';
       this.pedidosSrv.setOne(pedido);
+
+      let audio = new Audio('./assets/sounds/noti.mp3');
+      audio.play();
+
       this.redirectTo('home');
     }
     else if (this.triunfos >= 3) {
@@ -105,6 +109,10 @@ export class IdPage implements OnInit {
 
       this.pedidosSrv.setOne(pedido);
       this.toastr.success("!Ganaste! Se te aplicara un 10% de descuento", "Resultado Final")
+
+      let audio = new Audio('./assets/sounds/noti.mp3');
+      audio.play();
+
       this.redirectTo('home');
     }
 

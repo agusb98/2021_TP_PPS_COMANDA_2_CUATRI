@@ -82,6 +82,10 @@ export class IdPage implements OnInit {
       this.pedidoService.setOne(new_pedido);
 
       this.vibration.vibrate([500]);
+
+      let audio = new Audio('./assets/sounds/noti.mp3');
+              audio.play();
+              
       this.redirectTo('/home');
       this.toastr.success(message, 'Estado de Pedido');
     }

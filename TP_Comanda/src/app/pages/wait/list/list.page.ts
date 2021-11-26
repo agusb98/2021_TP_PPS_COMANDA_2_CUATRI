@@ -79,6 +79,8 @@ export class ListPage implements OnInit {
     let p: Pedido = this.createModelPedido(model);
     this.pedidoService.createOne(p);
 
+    let audio = new Audio('./assets/sounds/noti.mp3');
+    audio.play();
     this.toastr.success('Datos guardados con éxito! mesa Nº ' + model.numero + ' se encuentra en uso', 'Aceptación de Pedido');
     this.vibration.vibrate([500]);
     this.waitSelected = null;
@@ -104,6 +106,8 @@ export class ListPage implements OnInit {
       }
     });
 
+    let audio = new Audio('./assets/sounds/noti.mp3');
+    audio.play();
     this.toastr.success('Datos guardados con éxito!', 'Cancelación de Pedido');
     this.vibration.vibrate([500]);
     this.waitSelected = null;
