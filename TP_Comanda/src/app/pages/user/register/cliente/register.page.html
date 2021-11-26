@@ -38,7 +38,7 @@
         </ion-fab>
 
         <ion-item>
-          <ion-input type="inputText" name="name" formControlName="name"  placeholder="Nombre..">
+          <ion-input type="inputText" name="name" formControlName="name" [(ngModel)]="inputSetQr.name" placeholder="Nombre..">
             <ion-icon name="logo-reddit"></ion-icon>
           </ion-input>
         </ion-item>
@@ -51,7 +51,7 @@
         </ng-container>
 
         <ion-item>
-          <ion-input type="inputText" name="surname" formControlName="surname" placeholder="Apellido..">
+          <ion-input type="inputText" name="surname" formControlName="surname"  [(ngModel)]="inputSetQr.surname" placeholder="Apellido..">
             <ion-icon name="logo-reddit"></ion-icon>
           </ion-input>
         </ion-item>
@@ -64,7 +64,7 @@
         </ng-container>
 
         <ion-item>
-          <ion-input type="number" name="dni" formControlName="dni" placeholder="DNI..">
+          <ion-input type="number" name="dni" formControlName="dni" [(ngModel)]="inputSetQr.dni" placeholder="DNI..">
             <ion-icon name="logo-reddit"></ion-icon>
           </ion-input>
         </ion-item>
@@ -109,9 +109,9 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-fab (click)="redirectTo('user/register/anonimo')" *ngIf="!this.user" vertical="bottom" horizontal="start" slot="fixed">
+  <!-- <ion-fab (click)="redirectTo('user/register/anonimo')" *ngIf="!this.user" vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button id="anonymus"> ❓ </ion-fab-button>
-  </ion-fab>
+  </ion-fab> -->
 
   <ion-fab *ngIf="this.user" (click)="redirectTo('home')" vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button>

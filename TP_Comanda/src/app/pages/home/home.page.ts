@@ -27,41 +27,37 @@ export class HomePage implements OnInit {
     //  Supervisor
     { img: 'assets/images/empleados.png', url: 'user/register/duenio', profile: 'SUPERVISOR', title: 'Agregar Empleado' },
     { img: 'assets/images/pedido-list.png', url: 'none', profile: 'SUPERVISOR', title: 'Ver Encuestas' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'SUPERVISOR', title: 'Crear Encuesta' },
+    // { img: 'assets/images/default.jpg', url: 'none', profile: 'SUPERVISOR', title: 'Crear Encuesta' },
 
     //  Cocinero
     { img: 'assets/images/product.png', url: 'producto/alta', profile: 'COCINERO', title: 'Agregar Plato/Bebida' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'COCINERO', title: 'Tomar Pedido' },
-    { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'COCINERO', title: 'Encuesta' },
+    // { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'COCINERO', title: 'Encuesta' },
 
     //  Bartender
     { img: 'assets/images/product.png', url: 'producto/alta', profile: 'BARTENDER', title: 'Agregar Plato/Bebida' },
     { img: 'assets/images/default.jpg', url: 'none', profile: 'BARTENDER', title: 'Tomar Pedido' },
-    { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'BARTENDER', title: 'Encuesta' },
+    // { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'BARTENDER', title: 'Encuesta' },
 
     //  Repartidor
     { img: 'assets/images/default.jpg', url: 'none', profile: 'REPARTIDOR', title: 'Mapa Ruta' },
-    { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'REPARTIDOR', title: 'Encuesta' },
+    // { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'REPARTIDOR', title: 'Encuesta' },
 
     //  Mozo
     { img: 'assets/images/cliente-list.png', url: 'user/register/cliente', profile: 'MOZO', title: 'Agregar Cliente' },
     { img: 'assets/images/pedido-list.png', url: 'pedido/list', profile: 'MOZO', title: 'Listar Pedidos' },
-    { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'MOZO', title: 'Encuesta' },
+    // { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'MOZO', title: 'Encuesta' },
 
     //  Metre
     { img: 'assets/images/cliente-list.png', url: 'user/register/cliente', profile: 'METRE', title: 'Agregar Cliente' },
     { img: 'assets/images/pedido-list.png', url: 'wait/list', profile: 'METRE', title: 'Clientes en Espera' },
-    { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'METRE', title: 'Encuesta' },
+    // { img: 'assets/images/encuesta.png', url: 'encuesta/empleado', profile: 'METRE', title: 'Encuesta' },
 
     //  Cliente
-    { img: 'assets/images/default.jpg', url: 'mesa/request', profile: 'CLIENTE', title: 'Solicitar Mesa' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Ocupar Mesa' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Entrar al Local' },
-    { img: 'assets/images/1532688.png', url: 'pedidos/ordenar', profile: 'CLIENTE', title: 'Realizar Pedido' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Juegos' },
-    { img: 'assets/images/default.jpg', url: 'none', profile: 'CLIENTE', title: 'Pagar' },
-    { img: 'assets/images/encuesta.png', url: 'encuesta/cliente', profile: 'CLIENTE', title: 'Encuesta' },
-    { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'CLIENTE', title: 'Grafico' },
+    // { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'CLIENTE', title: 'Grafico' },
+
+    //  Anonimo
+    { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'ANONIMO', title: 'Grafico' },
   ];
 
   constructor(private router: Router,) {
@@ -69,11 +65,11 @@ export class HomePage implements OnInit {
     setTimeout(() => {
       $("#loadingContainer").attr("hidden", true);
     }, 2000);
+    this.user = null;
+    this.getUser();
   }
 
   ngOnInit() {
-    this.user = null;
-    this.getUser();
   }
 
   getUser() {

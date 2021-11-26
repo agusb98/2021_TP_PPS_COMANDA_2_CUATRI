@@ -60,27 +60,27 @@ export class AltaPage implements OnInit {
     // let flag;
 
     try {
-      // this.mesaSrv.getByNumber(model.numero).subscribe(data => {
-      //   if (data == undefined) { flag = true; }
-      //   else { flag = false; }
-      // }).unsubscribe();
+      const a = this.mesaSrv.getByNumber(model.numero).subscribe(data => {
+        
+        if (!data) {
+          //this.qrService.createQR('mesa_' + model.id);  //  Ni idea
+          this.fs.saveImage(this.img, 'mesas', new Date().getTime() + '')
+            .then(url => {
+              model.img = url;
+  
+              this.mesaSrv.createOne(model);
+              this.vibration.vibrate([500]);
+              this.toastr.success('Datos guardados con éxito!', 'Alta de Mesa');
+              this.resetForm();
+            });
+        }
+        else {
+          this.toastr.error('Número de mesa ya existente, por favor ingrese otro número', 'Alta de Mesa');
+          this.vibration.vibrate([500, 500, 500]);
+        }
+        a.unsubscribe();
+      })
 
-      // if (flag) {
-        //this.qrService.createQR('mesa_' + model.id);  //  Ni idea
-        this.fs.saveImage(this.img, 'mesas', new Date().getTime() + '')
-          .then(url => {
-            model.img = url;
-
-            this.mesaSrv.createOne(model);
-            this.vibration.vibrate([500]);
-            this.toastr.success('Datos guardados con éxito!', 'Alta de Mesa');
-            this.resetForm();
-          });
-      // }
-      // else {
-      //   this.toastr.error('Número de mesa ya existente, por favor ingrese otro número', 'Alta de Mesa');
-      //   this.vibration.vibrate([500, 500, 500]);
-      // }
     }
     catch (error) {
       this.toastr.error('Error al momento de registrar, por favor revise los datos ingresados!', 'Alta de Mesa');

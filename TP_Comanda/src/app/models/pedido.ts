@@ -4,6 +4,7 @@ export class Pedido {
     mesa_numero: number;
     producto_id: [{ id: string, quantity: number, price: number, name: string }] | null;
     date_created: number;
+    date_updated: number;
     estado: 'PENDIENTE' | 'CANCELADO' | 'ACEPTADO' | 'CONFIRMADO' | 'COBRAR' | 'COBRADO' | 'ENCUESTADO';
     descuento: boolean;
 }

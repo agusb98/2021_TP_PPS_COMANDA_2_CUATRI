@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { MailService } from 'src/app/services/mail.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -30,8 +31,9 @@ export class ListPage implements OnInit {
 
   constructor(
     private userService: UserService,
+    private mailService: MailService,
     private router: Router,
-    public navCtrl: NavController  
+    public navCtrl: NavController 
   ) { }
  
    
@@ -75,6 +77,7 @@ export class ListPage implements OnInit {
   setStatus($event, user) {
     user.estado = $event.target.value;
     this.userService.setOne(user);
+    this.mailService.notificationStatus(user);
   }
 
 }

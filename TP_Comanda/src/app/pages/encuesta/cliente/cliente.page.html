@@ -12,7 +12,7 @@
     </i>
   </p>
 
-  <div class="formulario">
+  <div class="formulario" *ngIf="this.request$ | async as request">
     <ion-grid>
       <ion-row>
         <ion-col col-12>
@@ -120,7 +120,7 @@
         <ion-col col-12>
           <hr />  
           <!-- <ion-button  color="dark" expand="block" [hidden]="yaSubioTodasLasFotos">Escanear Qr</ion-button> -->
-          <ion-button  color="dark" expand="block">Escanear Qr</ion-button>
+          <!-- <ion-button  color="dark" expand="block">Escanear Qr</ion-button> -->
         </ion-col>
       </ion-row>
       <ion-row>
@@ -130,7 +130,7 @@
       </ion-row>
       <ion-row>
         <ion-col col-12>
-          <ion-button (click)="enviarEncuesta()" color="dark" expand="block">Enviar</ion-button>
+          <ion-button (click)="enviarEncuesta(request)" color="dark" expand="block">Enviar</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

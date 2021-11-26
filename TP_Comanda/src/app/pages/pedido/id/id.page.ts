@@ -78,6 +78,7 @@ export class IdPage implements OnInit {
 
   private myWeirdNotification(new_pedido: Pedido, message: string) {
     try {
+      new_pedido.date_updated = new Date().getTime();
       this.pedidoService.setOne(new_pedido);
 
       this.vibration.vibrate([500]);
@@ -91,13 +92,13 @@ export class IdPage implements OnInit {
   }
 
   getAproxFinish() {
-    let seconds: number = 0;
-
+    let minutes: number = 0;
+    
     this.getProductsSelected().forEach(p => {
-      seconds += p.time;
+      minutes += p.time;
     });
 
-    return seconds;
+    return minutes;
   }
 
   getTitle(status: string) {

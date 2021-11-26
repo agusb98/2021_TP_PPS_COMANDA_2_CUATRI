@@ -78,7 +78,8 @@ export class ListPage implements OnInit {
 
   setStatus(model: Pedido, status) {
     model.estado = status;
-
+    model.date_updated = new Date().getTime();
+    
     try {
       this.reqService.setOne(model);
 

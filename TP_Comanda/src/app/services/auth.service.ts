@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,28 +7,11 @@ import { UserService } from './user.service';
 
 export class AuthService {
 
-  constructor(
-    private afAuth: AngularFireAuth,
-    private userService: UserService
-  ) { }
+  constructor(private afAuth: AngularFireAuth,) { }
 
   async login(email: string, password: string) {
-    return new Promise((res, rej) => {
-      const user = this.afAuth.signInWithEmailAndPassword(email, password);
-      const dataUser = this.userService.getByEmail(email);
-
-      if (user && dataUser) {
-        dataUser.subscribe(data => {
-          if (data.estado != 'ACEPTADO') {
-            rej(911);
-          }
-          else {
-            localStorage.setItem('user', JSON.stringify(data));
-            res(user);
-          }
-        });
-      }
-    });
+    try { return await this.afAuth.signInWithEmailAndPassword(email, password); }
+    catch (error) { console.log('jeje, te olvidate pass'); }
   }
 
   async register(email: string, password: string) {

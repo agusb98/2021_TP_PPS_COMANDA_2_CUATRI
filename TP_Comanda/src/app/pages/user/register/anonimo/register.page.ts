@@ -78,18 +78,24 @@ export class RegisterPage implements OnInit {
   }
 
   onRegister() {
-    this.email = this.name + '@anonimo.com';
+    this.email = this.name + '@anonymous.com';
     const user = this.authService.register(this.email, this.password);
     if (user) {
       const userAux = this.getDataUser();
       this.fs.saveImage(this.img, 'users', new Date().getTime() + '')
         .then(async url => {
           userAux.img = url;
-//
           await this.userService.createOne(userAux);
-          this.vibration.vibrate([500]);
-          this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
+          localStorage.setItem('user', JSON.stringify(userAux));
+
+          // await this.authService.login(this.email, this.password);
+
+          await this.onLoginAnonymous(this.email, this.password);
+          // this.vibration.vibrate([500]);
+          // this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
           this.resetForm();
+          
+          // this.redirectTo('/home');
         });
     }
     else {
@@ -108,12 +114,28 @@ export class RegisterPage implements OnInit {
       dni: '',
       img: this.img,
       estado: 'ACEPTADO',
-      correo: '',
+      correo: this.name+'@anonymous.com',
       perfil: 'ANONIMO',
       fecha_creacion: new Date().getTime()
     };
 
     return user;
+  }
+
+  async onLoginAnonymous(email: string, pass: string) {
+    try {
+      await this.authService.login(email, pass);
+      this.vibration.vibrate([500]);
+      this.toastr.success('Ingreso con Exito', 'Iniciar Sesión');
+      this.redirectTo('/home');
+    }
+    catch (error) {
+      this.vibration.vibrate([500, 500, 500]);
+      this.toastr.error('Error en registro anonymous', 'Iniciar Sesión');
+
+      // if (error == 911) { this.toastr.error('Aún no fue aceptado por Administración, sea paciente', 'Iniciar Sesión'); }
+      // else { this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión'); }
+    }
   }
 
   redirectTo(path: string) {

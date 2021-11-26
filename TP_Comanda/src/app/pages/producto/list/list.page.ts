@@ -177,8 +177,9 @@ export class ListPage implements OnInit {
     let products = this.getProductoIdAsString();
     localStorage.setItem('products', JSON.stringify(products));
 
-    this.pedido$.subscribe(data => {
+    const a = this.pedido$.subscribe(data => {
       this.redirectTo('pedido/id/' + data.id);
+      a.unsubscribe();
     });
   }
 

@@ -3,7 +3,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { MailService } from 'src/app/services/mail.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +20,7 @@ export class LoginPage implements OnInit {
   users = [
     { email: "duenio@duenio.com", password: "111111", icon: "😎" },
     { email: "supervisor@supervisor.com", password: "222222", icon: "🧐" },
+    //{ email: "anonimo@anonimo.com", password: "anonimo", icon: "❓" },
     { email: "metre@metre.com", password: "123456", icon: "💂" },
     { email: "mozo@mozo.com", password: "444444", icon: "👨‍💼" },
     { email: "cocinero@cocinero.com", password: "555555", icon: "👨‍🍳" },
@@ -40,10 +44,13 @@ export class LoginPage implements OnInit {
     private toastr: ToastrService,
     private formbuider: FormBuilder,
     private authService: AuthService,
+    private userService: UserService,
+    private mailService: MailService,
   ) { }
 
   ngOnInit() { this.validateForm(); }
 
+  
   validateForm() {
     this.form = this.formbuider.group({
       email: new FormControl('', Validators.compose([
@@ -63,24 +70,45 @@ export class LoginPage implements OnInit {
   get password() { return this.form.get('password').value; }
   set password(str: string) { this.form.controls['password'].setValue(str); }
 
+
+  imgUser: string = '';
+
   selectUser(user) {
     this.email = user.email;
     this.password = user.password;
+    this.imgUser = user.icon;
   }
 
-  async onLogin() {
-    try {
-      await this.authService.login(this.email, this.password);
-      this.vibration.vibrate([500]);
-      this.toastr.success('Ingreso con Exito', 'Iniciar Sesión');
-      this.redirectTo('/home');
-    }
-    catch (error) {
-      this.vibration.vibrate([500, 500, 500]);
+  async onAnonymous() {
+      this.redirectTo('user/register/anonimo');
+  }
+    
 
-      if (error == 911) { this.toastr.error('Aún no fue aceptado por Administración, sea paciente', 'Iniciar Sesión'); }
+  async onLogin() {
+    const auth = await this.authService.login(this.email, this.password);
+    let dataUser;
+    this.userService.getByEmail(this.email).subscribe(data => {
+      dataUser = data;
+    });
+
+    const sub = this.userService.getByEmail(this.email).subscribe(data => {
+      if (auth && data) {
+        if (data.estado == 'ACEPTADO') {
+          this.vibration.vibrate([500]);
+          localStorage.setItem('user', JSON.stringify(data));
+          this.toastr.success('Ingreso con éxito', 'Iniciar Sesión');
+          this.redirectTo('/home');
+        }
+        else {
+          this.vibration.vibrate([500, 500, 500]);
+          this.toastr.error('Aún no fue habilitado por administración, sea paciente', 'Iniciar Sesión');
+        }
+      }
       else { this.toastr.error('Email/Contraseña Incorrecto', 'Iniciar Sesión'); }
-    }
+      sub.unsubscribe();
+    });
+
+
   }
 
   redirectTo(path: string) {

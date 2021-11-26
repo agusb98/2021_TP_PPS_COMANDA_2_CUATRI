@@ -8,8 +8,11 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FirestorageService } from 'src/app/services/firestore.service';
 import { UserService } from 'src/app/services/user.service';
 import { CameraService } from 'src/app/services/camera.service';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { MailService } from 'src/app/services/mail.service';
 import { NavController } from '@ionic/angular';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'; 
+
+declare let window: any;
 
 @Component({
   selector: 'app-register-cliente',
@@ -69,9 +72,11 @@ export class RegisterPage implements OnInit {
     private toastr: ToastrService,
     private fs: FirestorageService,
     private userService: UserService,
+    private mailService: MailService,
     private cameraService: CameraService,
-    public navCtrl: NavController ,
-    private barcodeScanner: BarcodeScanner
+    private qrDni: BarcodeScanner,
+    private barcodeScanner: BarcodeScanner,
+    public navCtrl: NavController 
   ) { }
  
  
@@ -91,14 +96,46 @@ export class RegisterPage implements OnInit {
     if (a) { this.user = a; }
   }
 
-  async scannQR() {
-    this.barcodeScanner.scan(this.options).then(barcodeData => {
+  public flag: boolean = false;
+
+  scannQR() {
+    const options = {
+      prompt: "Escaneá el DNI",
+      formats: 'PDF_417, QR_CODE',
+      showTorchButton: true,
+      resultDisplayDuration: 2,
+    };
+
+    this.qrDni.scan(options).then(barcodeData => {
       const datos = barcodeData.text.split('@');
-      this.surname = datos[1];
-      this.name = datos[2];
-      this.dni = + datos[4];
+
+      this.inputSetQr.surname = datos[1];
+      this.inputSetQr.name = datos[2];
+      this.inputSetQr.dni = datos[4];
+
+    }).catch(err => {
+      console.log(err);
+      this.toastr.error("Error al escanear el DNI");
     });
+
   }
+
+  inputSetQr = {
+    name: '',
+    surname: '',
+    dni: '',
+  };
+
+  // async scannQR() {
+  //   let data: any = await this.qrService.scannDNI();
+
+  //   if (data) {
+  //     this.surname = data.name;
+  //     this.name = data.surname;
+  //     this.dni = data.dni;
+  //   }
+  //   else { this.toastr.error("Error al escanear el DNI", "QR"); }
+  // }
 
   validateForm() {
     this.form = this.formbuider.group({
@@ -149,6 +186,7 @@ export class RegisterPage implements OnInit {
 
           await this.userService.createOne(userAux);
           this.vibration.vibrate([500]);
+          this.mailService.notificationWelcome(userAux);
           this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
           this.resetForm();
         });

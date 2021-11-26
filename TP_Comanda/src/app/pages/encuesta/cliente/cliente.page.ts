@@ -4,6 +4,8 @@ import { FirestorageService } from 'src/app/services/firestore.service';
 import { ToastrService } from 'ngx-toastr';
 import { NavController } from '@ionic/angular';
 import { PedidoService } from 'src/app/services/pedido.service';
+import { Observable } from 'rxjs';
+import { Pedido } from 'src/app/models/pedido';
 
 
 
@@ -16,7 +18,7 @@ export class ClientePage implements OnInit {
 
   opinion: string = "";
   protocoloCovid: boolean;
-  requestId: string;
+  request$: Observable<any>;
 
   yaEnvioEncuesta: boolean = false;
   user;
@@ -33,17 +35,13 @@ export class ClientePage implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
-    console.log(this.user.id);
-
     this.yaEnvioEncuesta = false;
 
     this.getLastPedido();
   }
 
   getLastPedido() {
-    this.pedidoService.getLastByUser(this.user.correo).subscribe(data => {
-      this.requestId = data.id;
-    });
+    this.request$ = this.pedidoService.getLastByUser(this.user.correo);
   }
 
   redirectTo(path: string) {
@@ -57,7 +55,7 @@ export class ClientePage implements OnInit {
 
 
 
-  enviarEncuesta() {
+  enviarEncuesta(request: Pedido) {
     var rangoSatisfecho = (<HTMLIonRangeElement>document.getElementById("rango")).value;
     var protocoloCovid = (<HTMLIonRadioGroupElement>document.getElementById("grupo")).value == "true";
     var selectString = (<HTMLIonSelectElement>document.getElementById("select")).value;
@@ -70,7 +68,7 @@ export class ClientePage implements OnInit {
 
     var json = {
       "id_cliente": id_cliente,
-      "id_pedido": this.requestId,
+      "id_pedido": request.id,
       "cliente": clienteNombre,
       "rangoSatisfecho": rangoSatisfecho,
       "protocoloCovid": protocoloCovid,
@@ -80,8 +78,14 @@ export class ClientePage implements OnInit {
       "mesaConServilletas": mesaConServilletas,
       "mesaConAderezos": mesaConAderezos,
     }
-    console.log(json);
+
     this.db.addData('encuestasCliente', json);
+
+    request.estado = 'ENCUESTADO';
+    request.date_updated = new Date().getTime();
+    this.pedidoService.setOne(request);
+    localStorage.removeItem('products');
+
     this.toastr.success('Muchas gracias por tu opinion!!', 'Encuesta enviada');
     setTimeout(() => {
       this.yaEnvioEncuesta = true;
