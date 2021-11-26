@@ -1,16 +1,15 @@
 <ion-header>
   <ion-toolbar>
-    <ion-back-button (click)="navigateBack()" slot="start"></ion-back-button>
-    <ion-title size="small">Listado Clientes en Espera</ion-title>
+    <ion-title size="small">Listado Clientes en Espera ({{ this.kyndSelected.val }})</ion-title>
     <p *ngIf="this.waitSelected"> ( Seleccione Mesa )</p>
   </ion-toolbar>
 </ion-header>
- 
- 
- 
+
+
+
 <ion-content>
   <div *ngIf="!this.waitSelected" id="container-users" class="container-cards">
-    <div style="all:unset;" *ngFor="let w of this.waits$ | async">
+    <div *ngFor="let w of this.waits$ | async as waits">
       <ion-card class="card-shadow">
 
         <div class="details">
@@ -20,15 +19,17 @@
         </div>
 
         <div class="buttons">
-          <ion-button (click)="clickWait(w)" *ngIf="w.estado == 'PENDIENTE'">
+          <ion-button (click)="clickRequest(w)" *ngIf="w.estado == 'PENDIENTE'">
             Reservar
           </ion-button>
-          <ion-button id="btn-cancel" (click)="clickCancel(w)" *ngIf="w.estado == 'PENDIENTE'">
+          <ion-button color="danger" (click)="clickCancel(w)" *ngIf="w.estado == 'PENDIENTE' || w.estado == 'EN USO'">
             Cancelar
           </ion-button>
         </div>
 
       </ion-card>
+
+      <p *ngIf="!waits">No hay clientes en espera por aquí</p>
     </div>
   </div>
 

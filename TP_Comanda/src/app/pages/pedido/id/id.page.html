@@ -2,9 +2,7 @@
 
   <ion-header>
     <ion-toolbar>
-      <ion-back-button (click)="navigateBack()" slot="start"></ion-back-button>
       <ion-title size="small">{{ this.getTitle(pedido.estado) }}</ion-title>
-      <ion-icon slot="end" name="qr-code-outline" (click)="ScanQr()" style="font-size: 2em; margin-right: 0.5em;"></ion-icon>
     </ion-toolbar>
   </ion-header>
 
@@ -16,16 +14,13 @@
           <tbody>
             <tr *ngFor="let product of getProductsSelected()">
               <td>
-                <p>{{ product.name }}</p>
+                <p>{{ product.nombreProducto }}</p>
               </td>
               <td>
-                <p>{{ product.price | currency }} x {{ product.quantity }} :</p>
+                <p>{{ product.precio | currency }} x {{ product.quantity }} :</p>
               </td>
               <td>
-                <ion-icon name="remove-outline"(click)="RemoveProducto(item.nombre,index)" class="remove"></ion-icon>
-                <p>{{ product.price * product.quantity | currency }}</p>
-                <ion-icon name="add-outline" (click)="AddProducto(index)" class="add"></ion-icon>
-
+                <p>{{ product.precio * product.quantity | currency }}</p>
               </td>
             </tr>
           </tbody>
@@ -34,9 +29,9 @@
 
       <div class="container-cards container-resume">
         <ion-card>
-          <p>MONTO TOTAL: ( {{ this.getAcum() | currency }} )</p>
-          <p>TIEMPO ESTIMADO: {{ this.getAproxFinish() }} minutos</p>
-
+          <p *ngIf="pedido.descuento != 'GANO'">MONTO TOTAL: ( {{ this.getAcum() | currency }} )</p>
+          <p *ngIf="pedido.descuento == 'GANO'">MONTO TOTAL:  {{ this.getAcum(pedido) | currency }} (con descuento)</p>
+          <p>TIEMPO ESTIMADO: {{ this.getAproxFinish(pedido) }} minutos</p>
 
           <div *ngIf="pedido.estado == 'PENDIENTE'">
             <ion-button (click)="redirectTo('producto/list')">EDITAR</ion-button>
@@ -47,9 +42,9 @@
             <ion-button (click)="clickRecibido(pedido)">RECIBIDO</ion-button>
           </div>
 
-          <div *ngIf="pedido.estado == 'ACEPTADO' && !pedido.descuento">
+          <div *ngIf="pedido.estado == 'ACEPTADO' && pedido.descuento == 'NO JUGO'">
             <br>
-            <p>¿Le interesa ganar un descuento?</p>
+            <p>¿Le interesa ganar un descuento del 10% en su pedido? haz click aquí:</p>
             <ion-button (click)="clickJuego(pedido)">JUGAR</ion-button>
           </div>
 

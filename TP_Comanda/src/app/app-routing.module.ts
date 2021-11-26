@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { JuegoComponent } from './components/juego/juego.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ClienteGuard } from './guards/cliente.guard';
 import { MozoGuard } from './guards/mozo.guard';
@@ -14,18 +13,16 @@ const routes: Routes = [
   { path: 'wait', loadChildren: () => import('./pages/wait/wait.module').then(m => m.WaitModule) },
   { path: 'pedido', loadChildren: () => import('./pages/pedido/pedido.module').then(m => m.PedidoModule) },
   { path: 'encuesta', loadChildren: () => import('./pages/encuesta/encuesta.module').then(m => m.EncuestaModule) },
+  { path: 'game/:id', loadChildren: () => import('./pages/game/id/id.module').then(m => m.IdPageModule) },
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule), canActivate: [AuthGuard]
-  },   {
+  }, {
     path: 'chat',
     loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule),
     canActivate:[ClienteGuard]
   },
-  {
-    path:'juego/:id',
-    component:JuegoComponent
-  },
+   
   {
     path: 'chat-mozo',
     loadChildren: () => import('./pages/chat-mozo/chat-mozo.module').then( m => m.ChatMozoPageModule),
@@ -41,4 +38,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 
-export class AppRoutingModule {  }
+export class AppRoutingModule { }

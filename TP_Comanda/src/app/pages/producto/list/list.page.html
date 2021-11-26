@@ -29,13 +29,15 @@
             <td><p>{{product.precio | currency }}</p></td>
 
             <td> 
-              <ion-row> 
-              <ion-input (change)="setQuantity(product, $event, '')" type="number" min-value="0" name="cantidad" value="{{ hasToSet(product) }}"></ion-input>
- 
-            </ion-row> 
+              <div class="container-btn">
+                <ion-button id="btn-add" (click)="setQuantity(product, '+')">+</ion-button>
+                <p>{{ getQuantity(product) }}</p>
+                <ion-button id="btn-less" (click)="setQuantity(product, '-')">-</ion-button>
+              </div>
             </td>
           </tr>
         </tbody>
+
       </table>
     </ion-card>
   </div>
@@ -47,13 +49,13 @@
     </ion-card>
   </div>
 
-  <ion-fab (click)="redirectTo('home')" vertical="bottom" horizontal="start" slot="fixed">
+  <ion-fab (click)="redirectTo('home')" vertical="bottom" horizontal="start">
     <ion-fab-button>
       <ion-icon name="home"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="end">
     <ion-fab-button>{{ this.kyndSelected.val }}</ion-fab-button>
     <ion-fab-list side="top">
       <ion-fab-button *ngFor="let p of this.kynds" (click)="setFilter(p)">

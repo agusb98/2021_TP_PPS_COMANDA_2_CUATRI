@@ -60,13 +60,13 @@ export class IdPage implements OnInit {
     this.myWeirdNotification(pedido, 'Gracias por informar, en breves se le acercará un mozo!');
   }
 
-  getAcum() {
+  getAcum(pedido?: Pedido) {
     let a = 0;
-
-    if (this.getProductsSelected()) {
-      this.getProductsSelected().forEach(p => {
-        a += (p.quantity * p.price);
-      });
+    
+    this.getProductsSelected().forEach(p => { a += (p.quantity * p.precio) });
+    
+    if(pedido && pedido.descuento == 'GANO'){
+      a = a - (a * 0.1);
     }
 
     return a;
@@ -93,11 +93,7 @@ export class IdPage implements OnInit {
 
   getAproxFinish() {
     let minutes: number = 0;
-    
-    this.getProductsSelected().forEach(p => {
-      minutes += p.time;
-    });
-
+    this.getProductsSelected().forEach(p => { minutes += p.tiempo; });
     return minutes;
   }
 
@@ -147,41 +143,42 @@ export class IdPage implements OnInit {
       }
    }*/
 
-   navigateBack(){
+  navigateBack() {
     this.navCtrl.back();
   }
 
-   ScanQr() { 
-    const options = { 
-      prompt: "Escaneá el producto", 
+  ScanQr() {
+    const options = {
+      prompt: "Escaneá el producto",
       formats: 'QR_CODE',
-      showTorchButton: true, 
-      resultDisplayDuration: 2,};
+      showTorchButton: true,
+      resultDisplayDuration: 2,
+    };
 
-    this.qrProducto.scan(options).then(data =>{
+    this.qrProducto.scan(options).then(data => {
       this.AgregarConQr(data.text);
-    }).catch(err => { 
-      console.log(err); 
-    });  
- }
+    }).catch(err => {
+      console.log(err);
+    });
+  }
 
- AgregarConQr(textqr:string){
-    
- /* let obj = this.productos.findIndex( x => x.doc_id == textqr);
-  if (obj !== -1) {
-    console.log(obj)
-    this.saveProdIndex = obj;
-    console.log(this.saveProdIndex)
-    this.openModal(this.productos[obj])
-  } else {
-    this.toastSrv.error("No se encontro el producto buscado..",'Pedir producto');
-   alert("No se encontro el producto buscado..");
-  }*/
-}
+  AgregarConQr(textqr: string) {
 
-clickJuego(pedido:Pedido){
-  this.redirectTo('/juego/'+pedido.id);
-}
+    /* let obj = this.productos.findIndex( x => x.doc_id == textqr);
+     if (obj !== -1) {
+       console.log(obj)
+       this.saveProdIndex = obj;
+       console.log(this.saveProdIndex)
+       this.openModal(this.productos[obj])
+     } else {
+       this.toastSrv.error("No se encontro el producto buscado..",'Pedir producto');
+      alert("No se encontro el producto buscado..");
+     }*/
+  }
+
+  clickJuego(pedido: Pedido) {
+    this.redirectTo('/game/' + pedido.id);
+  }
 
 
 }

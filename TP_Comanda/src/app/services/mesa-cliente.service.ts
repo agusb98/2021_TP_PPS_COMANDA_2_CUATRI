@@ -6,8 +6,9 @@ import { eEstadoMesaCliente } from '../enums/eEstadoMesaCliente';
 @Injectable({
   providedIn: 'root'
 })
-export class PedidosService {
- 
+export class MesaClienteService {
+
+
   public dbRefmesacliente: AngularFirestoreCollection<any>;
   constructor(public afStore: AngularFirestore) { 
     this.dbRefmesacliente = this.afStore.collection("mesaCliente");
@@ -44,7 +45,4 @@ export class PedidosService {
   ActualizarEstadoJuego(doc_id:string){
     this.afStore.doc(`mesaCliente/${doc_id}`).update({ganoJuego: true});
   }
-
-  
-  
 }

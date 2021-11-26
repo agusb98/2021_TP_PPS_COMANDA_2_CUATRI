@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 import { eRol } from 'src/app/enums/eRol';
 import { Message } from 'src/app/models/mensaje';
 import { AuthService } from 'src/app/services/auth.service';
-import { ChatService } from 'src/app/services/chat.service';
-import { PedidosService } from 'src/app/services/pedidos.service';
+import { ChatService } from 'src/app/services/chat.service'; 
 
 @Component({
   selector: 'app-chat-mozo',
@@ -25,7 +24,7 @@ export class ChatMozoPage implements OnInit {
   mensajes:Message[];
   showSpinner:boolean;  
   bgSala:string;    
-  constructor(private pedidosSrv:PedidosService, 
+  constructor( 
     private authService:AuthService,
     private router:Router ,
     private mjeService: ChatService,  

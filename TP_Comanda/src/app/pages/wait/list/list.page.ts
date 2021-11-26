@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -35,15 +34,8 @@ export class ListPage implements OnInit {
     private toastr: ToastrService,
     private tableService: MesaService,
     private waitService: WaitListService,
-    public navCtrl: NavController , 
     private pedidoService: PedidoService,
   ) { }
- 
- 
-  navigateBack(){
-    this.navCtrl.back();
-  }
-
 
   ngOnInit() {
     this.kyndSelected = this.kynds[0];
@@ -73,35 +65,48 @@ export class ListPage implements OnInit {
     }
   }
 
-  clickWait(model: WaitList) {
+  clickRequest(model: WaitList) {
     this.waitSelected = model;
   }
 
   clickConfirm(model: Mesa) {
-    try {
-      this.waitSelected.estado = 'EN USO';
-      this.waitService.setOne(this.waitSelected);
+    this.waitSelected.estado = 'EN USO';
+    this.waitService.setOne(this.waitSelected);
 
-      model.estado = 'RESERVADO';
-      this.tableService.setOne(model);
+    model.estado = 'RESERVADO';
+    this.tableService.setOne(model);
 
-      let p: Pedido = this.createModelPedido(model);
-      this.pedidoService.createOne(p);
+    let p: Pedido = this.createModelPedido(model);
+    this.pedidoService.createOne(p);
 
-      this.vibration.vibrate([500]);
-      this.toastr.success('Datos guardados con éxito!', 'Registro de Usuario');
-    }
-    catch (error) {
-      this.vibration.vibrate([500, 500, 500]);
-      this.toastr.error("Datos ingresados incorrectos", 'Registro de Usuario');
-    }
-
+    this.toastr.success('Datos guardados con éxito! mesa Nº ' + model.numero + ' se encuentra en uso', 'Aceptación de Pedido');
+    this.vibration.vibrate([500]);
     this.waitSelected = null;
   }
 
   clickCancel(model: WaitList) {
     model.estado = 'CANCELADO';
     this.waitService.setOne(model);
+
+    const a = this.pedidoService.getLastByUser(model.correo).subscribe((data: Pedido) => {
+      if (data) {
+        data.date_updated = new Date().getTime();
+        data.estado = 'CANCELADO';
+
+        const b = this.tableService.getByNumber(data.mesa_numero).subscribe((mesa: Mesa) => {
+          mesa.estado = 'DISPONIBLE';
+          this.tableService.setOne(mesa);
+          b.unsubscribe();
+        });
+
+        this.pedidoService.setOne(data);
+        a.unsubscribe();
+      }
+    });
+
+    this.toastr.success('Datos guardados con éxito!', 'Cancelación de Pedido');
+    this.vibration.vibrate([500]);
+    this.waitSelected = null;
   }
 
   clickBack() {
@@ -121,7 +126,7 @@ export class ListPage implements OnInit {
       date_created: new Date().getTime(),
       date_updated: new Date().getTime(),
       estado: 'PENDIENTE',
-      descuento: false
+      descuento: 'NO JUGO'
     }
     return m;
   }

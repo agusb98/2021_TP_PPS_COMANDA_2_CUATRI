@@ -5,7 +5,8 @@ import { eRol } from 'src/app/enums/eRol';
 import { Message } from 'src/app/models/mensaje'; 
 import { AuthService } from 'src/app/services/auth.service';
 import { ChatService } from 'src/app/services/chat.service'; 
-import { PedidosService } from 'src/app/services/pedidos.service';
+import { MesaClienteService } from 'src/app/services/mesa-cliente.service';
+import { PedidoService } from 'src/app/services/pedido.service';
 
 @Component({
   selector: 'app-chat',
@@ -24,7 +25,8 @@ export class ChatPage implements OnInit {
   mensajes:Message[];
   showSpinner:boolean;  
   bgSala:string;    
-  constructor(private pedidosSrv:PedidosService, 
+  constructor(private pedidosSrv:PedidoService,
+    private mesaCliente:MesaClienteService, 
     private authService:AuthService,
     private router:Router ,
     private mjeService: ChatService,  
@@ -47,7 +49,7 @@ export class ChatPage implements OnInit {
     });
 
    
-    this.pedidosSrv.TraerMesaCliente().subscribe( data =>{ 
+    this.mesaCliente.TraerMesaCliente().subscribe( data =>{ 
       this.mesasCliente = data;             
       this.currentMesaCliente = this.mesasCliente.find( x =>  x.user_uid == this.currentUid);
       console.log('mesa cliente: '+this.currentMesaCliente);        

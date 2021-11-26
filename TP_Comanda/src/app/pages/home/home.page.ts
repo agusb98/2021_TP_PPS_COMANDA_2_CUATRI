@@ -21,7 +21,7 @@ export class HomePage implements OnInit {
     { img: 'assets/images/duenio-super.png', url: 'user/register/duenio', profile: 'DUENIO', title: 'Agregar Dueño/Supervisor' },
     { img: 'assets/images/table.png', url: 'mesa/alta', profile: 'DUENIO', title: 'Alta Mesa' },
     { img: 'assets/images/empleados.png', url: 'user/register/empleado', profile: 'DUENIO', title: 'Agregar Empleado' },
-    { img: 'assets/images/cliente-list.png', url: 'user/list', profile: 'DUENIO', title: 'Listado Clientes' },
+    { img: 'assets/images/cliente-list.png', url: 'user/list', profile: 'DUENIO', title: 'Listado de Usuarios' },
     { img: 'assets/images/mesa-list.png', url: 'mesa/list', profile: 'DUENIO', title: 'Listado de Mesas' },
 
     //  Supervisor
@@ -57,7 +57,7 @@ export class HomePage implements OnInit {
     // { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'CLIENTE', title: 'Grafico' },
 
     //  Anonimo
-    { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'ANONIMO', title: 'Grafico' },
+    // { img: 'assets/images/grafico.jpg', url: 'encuesta/cliente/grafico', profile: 'ANONIMO', title: 'Grafico' },
   ];
 
   constructor(private router: Router,) {
