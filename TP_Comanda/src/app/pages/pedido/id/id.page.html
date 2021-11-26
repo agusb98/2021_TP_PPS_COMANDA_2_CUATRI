@@ -47,6 +47,12 @@
             <ion-button (click)="clickRecibido(pedido)">RECIBIDO</ion-button>
           </div>
 
+          <div *ngIf="pedido.estado == 'ACEPTADO' && !pedido.descuento">
+            <br>
+            <p>¿Le interesa ganar un descuento?</p>
+            <ion-button (click)="clickJuego(pedido)">JUGAR</ion-button>
+          </div>
+
           <div *ngIf="pedido.estado == 'CONFIRMADO'">
             <ion-button (click)="clickCobrar(pedido)">PAGAR</ion-button>
           </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { ProductoService } from 'src/app/services/producto.service';
 
@@ -22,12 +23,19 @@ export class IdPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private prodService: ProductoService,
+  public navCtrl: NavController 
+
   ) { }
 
   ngOnInit() {
     this.getProduct();
   }
 
+       
+
+  navigateBack(){
+    this.navCtrl.back();
+  }
   getProduct() {
     const id = this.route.snapshot.paramMap.get('id');
     this.product$ = this.prodService.getById(id);

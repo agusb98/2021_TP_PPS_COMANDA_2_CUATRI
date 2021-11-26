@@ -119,7 +119,8 @@ export class ListPage implements OnInit {
       mesa_numero: mesa.numero,
       producto_id: null,
       date_created: new Date().getTime(),
-      estado: 'PENDIENTE'
+      estado: 'PENDIENTE',
+      descuento: false
     }
     return m;
   }

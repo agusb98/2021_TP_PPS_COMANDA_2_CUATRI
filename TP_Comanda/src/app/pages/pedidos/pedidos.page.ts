@@ -46,7 +46,7 @@ export class PedidosPage implements OnInit {
     this.currentUser = JSON.parse(localStorage.getItem('userData'));
     this.mesaActual = this.route.snapshot.paramMap.get('mesa')
     //Traigo productos
-    this.prodSrv.TraerProductos().subscribe( data => {
+    /*this.prodSrv.TraerProductos().subscribe( data => {
       console.log(data)
       this.productos = data;
       this.productos.forEach( x => {
@@ -56,7 +56,7 @@ export class PedidosPage implements OnInit {
         x.listoParaServir = false;
         x.estado = eEstadoProducto.PENDIENTE
       })
-    });
+    });*/
     //Traigo mesa-cliente
     //
     this.pedidosSrv.TraerMesaCliente().subscribe( mesas => {
@@ -91,36 +91,7 @@ export class PedidosPage implements OnInit {
   }
   
 
-  AddProducto(index:number){
-    this.productos[index].selected = true;
-    this.productos[index].cantidad++;
-    this.total += this.productos[index].precio;
-    this.CalcularDemora();
-  }
-  RemoveProducto(nombre:string,index:number){
-     if(this.productos[index].cantidad > 0){
-       this.productos[index].cantidad--;
-       if(this.productos[index].cantidad == 0){
-        this.productos[index].selected = false;
-       }
-       this.total -= this.productos[index].precio;
-       this.CalcularDemora();
-     }
-  }
 
-  ScanQr() { 
-    const options = { 
-      prompt: "Escaneá el producto", 
-      formats: 'QR_CODE',
-      showTorchButton: true, 
-      resultDisplayDuration: 2,};
-
-    this.qrProducto.scan(options).then(data =>{
-      this.AgregarConQr(data.text);
-    }).catch(err => { 
-      console.log(err); 
-    });  
- }
 
 
   CalcularDemora(){
@@ -131,19 +102,8 @@ export class PedidosPage implements OnInit {
     this.demoraEstimada = prodSelected > 0 ? Math.max.apply(Math, this.productos.map( x => { return (x.selected ? x.tiempo : null)})) : 0
   }
 
-  AgregarConQr(textqr:string){
-    
-    let obj = this.productos.findIndex( x => x.doc_id == textqr);
-    if (obj !== -1) {
-      console.log(obj)
-      this.saveProdIndex = obj;
-      console.log(this.saveProdIndex)
-      this.openModal(this.productos[obj])
-    } else {
-      this.toastSrv.error("No se encontro el producto buscado..",'Pedir producto');
-     alert("No se encontro el producto buscado..");
-    }
-  }
+
+  
 
   EnviarPedido(){
     let prodSelected = 0;

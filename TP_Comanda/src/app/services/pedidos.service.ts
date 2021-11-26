@@ -40,5 +40,11 @@ export class PedidosService {
     return this.afStore.doc(`mesaCliente/${doc_id}`).delete();
   }
 
+
+  ActualizarEstadoJuego(doc_id:string){
+    this.afStore.doc(`mesaCliente/${doc_id}`).update({ganoJuego: true});
+  }
+
+  
   
 }

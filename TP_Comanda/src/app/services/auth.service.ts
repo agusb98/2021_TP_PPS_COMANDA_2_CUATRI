@@ -44,4 +44,14 @@ export class AuthService {
     }
     catch (error) { }
   }
+
+  getCurrentUser(): any{
+    let user = JSON.parse(localStorage.getItem("user"));
+    return user;
+  }
+
+  getUid(): string{
+    let user = JSON.parse(localStorage.getItem("user"));
+    return user.id;
+  }
 }

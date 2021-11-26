@@ -5,6 +5,7 @@ export class Pedido {
     producto_id: [{ id: string, quantity: number, price: number, name: string }] | null;
     date_created: number;
     estado: 'PENDIENTE' | 'CANCELADO' | 'ACEPTADO' | 'CONFIRMADO' | 'COBRAR' | 'COBRADO' | 'ENCUESTADO';
+    descuento: boolean;
 }
 
 //  PENDIENTE: metre es quien asignará este estado

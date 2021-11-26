@@ -3,8 +3,7 @@
   <ion-toolbar>
     <ion-back-button (click)="navigateBack()" slot="start"></ion-back-button>
     <ion-title>Pedidos</ion-title>
-    <ion-icon slot="end" name="qr-code-outline" (click)="ScanQr()" style="font-size: 2em; margin-right: 0.5em;"></ion-icon>
-  </ion-toolbar>
+   </ion-toolbar>
 </ion-header>
 
 
@@ -24,9 +23,8 @@
             <h2 style="margin-left:1em"><ion-icon name="timer-outline"></ion-icon>{{item.tiempo}} min</h2>
           </ion-row>
         </ion-label>
-        <ion-icon name="remove-outline"(click)="RemoveProducto(item.nombre,index)" class="remove"></ion-icon>
+     
         <strong>{{item.cantidad}}</strong>
-        <ion-icon name="add-outline" (click)="AddProducto(index)" class="add"></ion-icon>
       </ion-item>
     </ion-list>
 

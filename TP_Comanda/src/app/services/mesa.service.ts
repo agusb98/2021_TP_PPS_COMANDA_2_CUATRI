@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { map } from 'rxjs/operators';
 import { Mesa } from '../models/mesa';
 import { Observable } from 'rxjs';
+import { eEstadoMesaCliente } from '../enums/eEstadoMesaCliente';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,13 @@ export class MesaService {
 
   pathOfCollection = 'mesas';
   referenceToCollection: AngularFirestoreCollection;
-
+  public dbRefMesaCliente: AngularFirestoreCollection<any>;
   constructor(private bd: AngularFirestore) {
     this.referenceToCollection =
       this.bd.collection<Mesa>
         (this.pathOfCollection, ref => ref.orderBy('numero', 'asc'));
+
+        this.dbRefMesaCliente = this.bd.collection("mesaCliente");
   }
 
   public async createOne(model: Mesa) {
@@ -28,8 +31,15 @@ export class MesaService {
   }
 
   public async setOne(model: Mesa) {
-    try { return this.referenceToCollection.doc(model.id).set({ ...model }); }
+    try {
+      this.AsignarMesaCliente(model.numero, model.id, '', model.estado); 
+      return this.referenceToCollection.doc(model.id).set({ ...model }); 
+  } 
     catch (err) { console.log(err); }
+  }
+
+  AsignarMesaCliente( nro_Mesa:number, id_mesa:string, id_usuario:string, estado:string){
+    this.dbRefMesaCliente.add(Object.assign({user_uid: id_usuario, id_mesa: id_mesa ,nro_mesa:nro_Mesa, estado:estado}));
   }
 
   getComunes() {

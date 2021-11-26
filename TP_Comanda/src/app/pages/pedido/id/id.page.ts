@@ -178,5 +178,9 @@ export class IdPage implements OnInit {
   }*/
 }
 
+clickJuego(pedido:Pedido){
+  this.redirectTo('/juego/'+pedido.id);
+}
+
 
 }

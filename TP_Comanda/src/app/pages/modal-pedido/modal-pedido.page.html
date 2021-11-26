@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="medium">
-    <ion-title>{{producto.nombre}}</ion-title>
+    <ion-title>{{producto.nombreProducto}}</ion-title>
     <ion-icon slot="end" (click)="dismiss()" name="close-circle-outline"></ion-icon>
   </ion-toolbar>
 </ion-header>
@@ -15,7 +15,7 @@
     <ion-label>
       <ion-row>
         <h2>${{producto.precio}}</h2>
-        <h2 style="margin-left:1em"><ion-icon name="timer-outline"></ion-icon>{{producto.tiempo_elaboracion}} min</h2>
+        <h2 style="margin-left:1em"><ion-icon name="timer-outline"></ion-icon>{{producto.tiempo}} min</h2>
       </ion-row>
       <ion-row>
         <p>{{producto.descripcion}}</p>
@@ -23,7 +23,7 @@
     </ion-label>
     <div class="buttons">
       <ion-icon name="remove-outline"(click)="RemoveProducto()" class="remove"></ion-icon>
-      <strong>{{producto.cantidad}}</strong>
+      <strong>{{producto.quantity}}</strong>
       <ion-icon name="add-outline" (click)="AddProducto()" class="add"></ion-icon>
     </div>
     <ion-row style="margin-top: 0em">

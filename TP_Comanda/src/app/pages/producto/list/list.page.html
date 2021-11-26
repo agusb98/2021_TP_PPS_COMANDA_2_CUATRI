@@ -1,6 +1,10 @@
 <ion-header>
   <ion-toolbar>
+    
+    <ion-back-button (click)="navigateBack()" slot="start"></ion-back-button>
     <ion-title size="small">Listado de Productos</ion-title>
+    <ion-icon slot="end" name="qr-code-outline" (click)="ScanQr()" style="font-size: 2em; margin-right: 0.5em;"></ion-icon>
+  
   </ion-toolbar>
 </ion-header>
 
@@ -24,8 +28,11 @@
             <td><p>{{ product.nombreProducto }}</p></td>
             <td><p>{{product.precio | currency }}</p></td>
 
-            <td>
-              <ion-input (change)="setQuantity(product, $event)" type="number" min-value="0" name="cantidad" value="{{ hasToSet(product) }}"></ion-input>
+            <td> 
+              <ion-row> 
+              <ion-input (change)="setQuantity(product, $event, '')" type="number" min-value="0" name="cantidad" value="{{ hasToSet(product) }}"></ion-input>
+ 
+            </ion-row> 
             </td>
           </tr>
         </tbody>
