@@ -1,8 +1,7 @@
 <ion-header>
   <ion-toolbar color="medium">
     <ion-back-button (click)="return()" slot="start"></ion-back-button>
-    <ion-title>Chat mozo</ion-title>
-    <!-- <ion-icon class="logout-icon" slot="end" name="log-out-outline" size="large" (click)="logout()"></ion-icon> -->
+    <ion-title>Chat mozo</ion-title> 
   </ion-toolbar>
 </ion-header>
 
@@ -14,12 +13,12 @@
            
           <div class="row m-1" >
             <div class="col">
-              <div class="alert alert-success p-1 text-end" *ngIf="mje.uid == uid">
+              <div class="alert alert-success p-1 text-end"  >
                 <p class="mb-0"><small>{{mje.fecha | date:'short'  }}</small></p>
                 <p class="mb-0"> {{mje.message}}</p> 
               </div>
     
-              <div class="alert alert-secondary p-1" *ngIf="mje.uid != uid">
+              <div class="alert alert-secondary p-1" >
                 <p class="mb-0"><strong>{{mje.userName}}({{mje.rol}}): </strong><small>{{mje.fecha | date:'short'}}</small></p>
                 <p class="mb-0"> {{mje.message}}</p>
               </div>

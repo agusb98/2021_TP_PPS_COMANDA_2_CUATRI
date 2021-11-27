@@ -31,7 +31,7 @@
         <ion-card>
           <p *ngIf="pedido.descuento != 'GANO'">MONTO TOTAL: ( {{ this.getAcum() | currency }} )</p>
           <p *ngIf="pedido.descuento == 'GANO'">MONTO TOTAL:  {{ this.getAcum(pedido) | currency }} (con descuento)</p>
-          <p>TIEMPO ESTIMADO: {{ this.getAproxFinish(pedido) }} minutos</p>
+          <p>TIEMPO ESTIMADO: {{ this.getAproxFinish() }} minutos</p>
 
           <div *ngIf="pedido.estado == 'PENDIENTE'">
             <ion-button (click)="redirectTo('producto/list')">EDITAR</ion-button>

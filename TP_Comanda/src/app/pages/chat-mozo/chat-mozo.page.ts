@@ -53,10 +53,7 @@ export class ChatMozoPage implements OnInit {
     }); 
  
   }
-
-  return(){
-    this.router.navigate(["home"]);
-  }
+ 
 
 
   enviarMje(){         
@@ -86,5 +83,10 @@ export class ChatMozoPage implements OnInit {
   getMessageCtrl(){
     return this.chatForm.controls["messageCtrl"];
   }
+
+  return(){
+    this.router.navigate(["home"]);
+  }
+
 
 }
