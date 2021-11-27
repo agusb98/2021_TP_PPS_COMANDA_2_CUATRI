@@ -193,7 +193,7 @@
 ### Beta - Rocio 
 
 **JUEGOS:** 
-- Juego 10% de descuento. :question:
+- Juego 10% de descuento. :white_check_mark:
 - Juego para un 20% de descuento. :question:
 
 
