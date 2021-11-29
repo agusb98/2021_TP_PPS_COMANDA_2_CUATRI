@@ -146,13 +146,13 @@
 ### Beta - Rocio 
 
 - Lectura Codio QR's de propina. :question: 
-- Encuesta Clientes :question:
+- Encuesta Clientes :white_check_mark:
 
 
 ### Gamma - Matías
 
-- Encuesta Empleados :question:
-- Encuesta Supervisor :question:
+- Encuesta Empleados :white_check_mark:
+- Encuesta Supervisor :white_check_mark:
 
 <h4></h4>
 
@@ -169,14 +169,14 @@
 ### Beta - Rocio 
 
 **GESTIÓN:** 
-- Realizar pedidos. :question:
-- Confirmar pedidos. :question:
+- Realizar pedidos. :white_check_mark:
+- Confirmar pedidos. :white_check_mark:
 - Generar reservas agendadas. :question:
 
 
 ### Gamma - Matías
 
-- **PUSH NOTIFICATION:** :question:
+- **PUSH NOTIFICATION:** :white_check_mark:
 
 <h4></h4>
 
@@ -193,7 +193,7 @@
 ### Beta - Rocio 
 
 **JUEGOS:** 
-- Juego 10% de descuento. :question:
+- Juego 10% de descuento. :white_check_mark:
 - Juego para un 20% de descuento. :question:
 
 
